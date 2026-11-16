@@ -1,0 +1,1920 @@
+{
+  "available": true,
+  "schema_version": 1,
+  "run_id": "federation-demo-s42",
+  "status": "completed",
+  "site_order": [
+    "NYU",
+    "UM",
+    "USM",
+    "UCLA",
+    "KKI",
+    "Yale"
+  ],
+  "total_rounds": 8,
+  "completed_rounds": 8,
+  "current_round": 8,
+  "current_phase": "ready",
+  "current_site": null,
+  "metadata": {
+    "sites": {
+      "NYU": {
+        "train_subject_count": 109,
+        "train_window_count": 15805,
+        "probe_window_count": 128,
+        "private_parameter_count": 18
+      },
+      "UM": {
+        "train_subject_count": 56,
+        "train_window_count": 14840,
+        "probe_window_count": 128,
+        "private_parameter_count": 18
+      },
+      "USM": {
+        "train_subject_count": 42,
+        "train_window_count": 8606,
+        "probe_window_count": 128,
+        "private_parameter_count": 18
+      },
+      "UCLA": {
+        "train_subject_count": 40,
+        "train_window_count": 3400,
+        "probe_window_count": 128,
+        "private_parameter_count": 18
+      },
+      "KKI": {
+        "train_subject_count": 20,
+        "train_window_count": 2420,
+        "probe_window_count": 128,
+        "private_parameter_count": 18
+      },
+      "Yale": {
+        "train_subject_count": 25,
+        "train_window_count": 4125,
+        "probe_window_count": 128,
+        "private_parameter_count": 18
+      }
+    },
+    "shared_parameter_count": 4113,
+    "shared_parameter_names": [
+      "encoder.0.weight",
+      "encoder.0.bias",
+      "global_head.weight",
+      "global_head.bias"
+    ],
+    "private_parameter_count": 18,
+    "selected_feature_count": 512,
+    "sketch": {
+      "size": 64,
+      "space": "shared_model_parameters",
+      "coordinates": [
+        {
+          "flat_index": 0,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            0,
+            0
+          ]
+        },
+        {
+          "flat_index": 65,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            0,
+            65
+          ]
+        },
+        {
+          "flat_index": 130,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            0,
+            130
+          ]
+        },
+        {
+          "flat_index": 195,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            0,
+            195
+          ]
+        },
+        {
+          "flat_index": 261,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            0,
+            261
+          ]
+        },
+        {
+          "flat_index": 326,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            0,
+            326
+          ]
+        },
+        {
+          "flat_index": 391,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            0,
+            391
+          ]
+        },
+        {
+          "flat_index": 456,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            0,
+            456
+          ]
+        },
+        {
+          "flat_index": 522,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            1,
+            10
+          ]
+        },
+        {
+          "flat_index": 587,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            1,
+            75
+          ]
+        },
+        {
+          "flat_index": 652,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            1,
+            140
+          ]
+        },
+        {
+          "flat_index": 717,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            1,
+            205
+          ]
+        },
+        {
+          "flat_index": 783,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            1,
+            271
+          ]
+        },
+        {
+          "flat_index": 848,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            1,
+            336
+          ]
+        },
+        {
+          "flat_index": 913,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            1,
+            401
+          ]
+        },
+        {
+          "flat_index": 979,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            1,
+            467
+          ]
+        },
+        {
+          "flat_index": 1044,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            2,
+            20
+          ]
+        },
+        {
+          "flat_index": 1109,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            2,
+            85
+          ]
+        },
+        {
+          "flat_index": 1174,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            2,
+            150
+          ]
+        },
+        {
+          "flat_index": 1240,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            2,
+            216
+          ]
+        },
+        {
+          "flat_index": 1305,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            2,
+            281
+          ]
+        },
+        {
+          "flat_index": 1370,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            2,
+            346
+          ]
+        },
+        {
+          "flat_index": 1435,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            2,
+            411
+          ]
+        },
+        {
+          "flat_index": 1501,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            2,
+            477
+          ]
+        },
+        {
+          "flat_index": 1566,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            3,
+            30
+          ]
+        },
+        {
+          "flat_index": 1631,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            3,
+            95
+          ]
+        },
+        {
+          "flat_index": 1697,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            3,
+            161
+          ]
+        },
+        {
+          "flat_index": 1762,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            3,
+            226
+          ]
+        },
+        {
+          "flat_index": 1827,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            3,
+            291
+          ]
+        },
+        {
+          "flat_index": 1892,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            3,
+            356
+          ]
+        },
+        {
+          "flat_index": 1958,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            3,
+            422
+          ]
+        },
+        {
+          "flat_index": 2023,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            3,
+            487
+          ]
+        },
+        {
+          "flat_index": 2088,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            4,
+            40
+          ]
+        },
+        {
+          "flat_index": 2153,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            4,
+            105
+          ]
+        },
+        {
+          "flat_index": 2219,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            4,
+            171
+          ]
+        },
+        {
+          "flat_index": 2284,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            4,
+            236
+          ]
+        },
+        {
+          "flat_index": 2349,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            4,
+            301
+          ]
+        },
+        {
+          "flat_index": 2414,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            4,
+            366
+          ]
+        },
+        {
+          "flat_index": 2480,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            4,
+            432
+          ]
+        },
+        {
+          "flat_index": 2545,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            4,
+            497
+          ]
+        },
+        {
+          "flat_index": 2610,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            5,
+            50
+          ]
+        },
+        {
+          "flat_index": 2676,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            5,
+            116
+          ]
+        },
+        {
+          "flat_index": 2741,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            5,
+            181
+          ]
+        },
+        {
+          "flat_index": 2806,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            5,
+            246
+          ]
+        },
+        {
+          "flat_index": 2871,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            5,
+            311
+          ]
+        },
+        {
+          "flat_index": 2937,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            5,
+            377
+          ]
+        },
+        {
+          "flat_index": 3002,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            5,
+            442
+          ]
+        },
+        {
+          "flat_index": 3067,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            5,
+            507
+          ]
+        },
+        {
+          "flat_index": 3132,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            6,
+            60
+          ]
+        },
+        {
+          "flat_index": 3198,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            6,
+            126
+          ]
+        },
+        {
+          "flat_index": 3263,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            6,
+            191
+          ]
+        },
+        {
+          "flat_index": 3328,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            6,
+            256
+          ]
+        },
+        {
+          "flat_index": 3394,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            6,
+            322
+          ]
+        },
+        {
+          "flat_index": 3459,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            6,
+            387
+          ]
+        },
+        {
+          "flat_index": 3524,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            6,
+            452
+          ]
+        },
+        {
+          "flat_index": 3589,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            7,
+            5
+          ]
+        },
+        {
+          "flat_index": 3655,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            7,
+            71
+          ]
+        },
+        {
+          "flat_index": 3720,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            7,
+            136
+          ]
+        },
+        {
+          "flat_index": 3785,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            7,
+            201
+          ]
+        },
+        {
+          "flat_index": 3850,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            7,
+            266
+          ]
+        },
+        {
+          "flat_index": 3916,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            7,
+            332
+          ]
+        },
+        {
+          "flat_index": 3981,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            7,
+            397
+          ]
+        },
+        {
+          "flat_index": 4046,
+          "parameter": "encoder.0.weight",
+          "parameter_index": [
+            7,
+            462
+          ]
+        },
+        {
+          "flat_index": 4112,
+          "parameter": "global_head.bias",
+          "parameter_index": [
+            0
+          ]
+        }
+      ]
+    },
+    "projection": {
+      "method": "PCA",
+      "fixed": true,
+      "fit_scope": "initial_training_probe_hidden_only",
+      "n_components": 2,
+      "explained_variance_ratio": [
+        0.2046311948579943,
+        0.15490320457416945
+      ],
+      "center": [
+        0.26296981576403294,
+        0.24812361315465145,
+        0.2520857964166983,
+        0.20322296397595588,
+        0.21255040798375072,
+        0.24992963773062607,
+        0.2007294024466925,
+        0.20806293570300718
+      ],
+      "components": [
+        [
+          0.7229629073751855,
+          0.14350402790738026,
+          -0.42410729856415963,
+          0.11399630058465139,
+          0.20242583182312937,
+          0.013783327185591603,
+          0.40902624457846803,
+          -0.23537290634235183
+        ],
+        [
+          -0.18585919038245252,
+          0.6640885136458065,
+          -0.2266636364099274,
+          0.02933060919323273,
+          -0.11401784875274429,
+          0.5593998901248234,
+          0.10201410900001334,
+          0.36860674620376954
+        ]
+      ],
+      "probe_limit_per_site": 128
+    },
+    "upload_bytes_measurement": "shared_tensor_payload_before_optional_HE_packing_excludes_protocol_overhead",
+    "aggregation_distance_source": "actual_uploaded_shared_states",
+    "representation_interpretation": "local-post-training versus actual post-broadcast; not an isolated MMD causal effect",
+    "privacy": "aggregate train-probe summaries only; private weights never exported; no formal DP claim",
+    "checkpoint_selection": "final",
+    "checkpoint_selected_round": 8
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "timestamp": "2026-11-13T09:08:26.686361+00:00",
+      "monotonic_ns": 199638171000000,
+      "round": 0,
+      "phase": "ready",
+      "site": null,
+      "event": "recorder_initialized"
+    },
+    {
+      "sequence": 2,
+      "timestamp": "2026-11-13T09:08:26.695497+00:00",
+      "monotonic_ns": 199638187000000,
+      "round": 1,
+      "phase": "local_train",
+      "site": null,
+      "event": "round_started"
+    },
+    {
+      "sequence": 3,
+      "timestamp": "2026-11-13T09:08:26.698475+00:00",
+      "monotonic_ns": 199638187000000,
+      "round": 1,
+      "phase": "local_train",
+      "site": "NYU",
+      "event": "client_started"
+    },
+    {
+      "sequence": 4,
+      "timestamp": "2026-11-13T09:08:28.237244+00:00",
+      "monotonic_ns": 199639718000000,
+      "round": 1,
+      "phase": "upload",
+      "site": "NYU",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 5,
+      "timestamp": "2026-11-13T09:08:28.240346+00:00",
+      "monotonic_ns": 199639734000000,
+      "round": 1,
+      "phase": "local_train",
+      "site": "UM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 6,
+      "timestamp": "2026-11-13T09:08:28.659025+00:00",
+      "monotonic_ns": 199640140000000,
+      "round": 1,
+      "phase": "upload",
+      "site": "UM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 7,
+      "timestamp": "2026-11-13T09:08:28.661824+00:00",
+      "monotonic_ns": 199640156000000,
+      "round": 1,
+      "phase": "local_train",
+      "site": "USM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 8,
+      "timestamp": "2026-11-13T09:08:28.934203+00:00",
+      "monotonic_ns": 199640421000000,
+      "round": 1,
+      "phase": "upload",
+      "site": "USM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 9,
+      "timestamp": "2026-11-13T09:08:28.938204+00:00",
+      "monotonic_ns": 199640421000000,
+      "round": 1,
+      "phase": "local_train",
+      "site": "UCLA",
+      "event": "client_started"
+    },
+    {
+      "sequence": 10,
+      "timestamp": "2026-11-13T09:08:29.042145+00:00",
+      "monotonic_ns": 199640531000000,
+      "round": 1,
+      "phase": "upload",
+      "site": "UCLA",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 11,
+      "timestamp": "2026-11-13T09:08:29.047146+00:00",
+      "monotonic_ns": 199640531000000,
+      "round": 1,
+      "phase": "local_train",
+      "site": "KKI",
+      "event": "client_started"
+    },
+    {
+      "sequence": 12,
+      "timestamp": "2026-11-13T09:08:29.134927+00:00",
+      "monotonic_ns": 199640625000000,
+      "round": 1,
+      "phase": "upload",
+      "site": "KKI",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 13,
+      "timestamp": "2026-11-13T09:08:29.138854+00:00",
+      "monotonic_ns": 199640625000000,
+      "round": 1,
+      "phase": "local_train",
+      "site": "Yale",
+      "event": "client_started"
+    },
+    {
+      "sequence": 14,
+      "timestamp": "2026-11-13T09:08:29.277207+00:00",
+      "monotonic_ns": 199640765000000,
+      "round": 1,
+      "phase": "upload",
+      "site": "Yale",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 15,
+      "timestamp": "2026-11-13T09:08:29.284207+00:00",
+      "monotonic_ns": 199640765000000,
+      "round": 1,
+      "phase": "aggregate",
+      "site": null,
+      "event": "shared_aggregated"
+    },
+    {
+      "sequence": 16,
+      "timestamp": "2026-11-13T09:08:29.288200+00:00",
+      "monotonic_ns": 199640781000000,
+      "round": 1,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_pending"
+    },
+    {
+      "sequence": 17,
+      "timestamp": "2026-11-13T09:08:29.305099+00:00",
+      "monotonic_ns": 199640796000000,
+      "round": 1,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_verified"
+    },
+    {
+      "sequence": 18,
+      "timestamp": "2026-11-13T09:08:29.311097+00:00",
+      "monotonic_ns": 199640796000000,
+      "round": 1,
+      "phase": "ready",
+      "site": null,
+      "event": "round_completed"
+    },
+    {
+      "sequence": 19,
+      "timestamp": "2026-11-13T09:08:29.393344+00:00",
+      "monotonic_ns": 199640875000000,
+      "round": 2,
+      "phase": "local_train",
+      "site": null,
+      "event": "round_started"
+    },
+    {
+      "sequence": 20,
+      "timestamp": "2026-11-13T09:08:29.396343+00:00",
+      "monotonic_ns": 199640890000000,
+      "round": 2,
+      "phase": "local_train",
+      "site": "NYU",
+      "event": "client_started"
+    },
+    {
+      "sequence": 21,
+      "timestamp": "2026-11-13T09:08:29.876229+00:00",
+      "monotonic_ns": 199641359000000,
+      "round": 2,
+      "phase": "upload",
+      "site": "NYU",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 22,
+      "timestamp": "2026-11-13T09:08:29.879238+00:00",
+      "monotonic_ns": 199641375000000,
+      "round": 2,
+      "phase": "local_train",
+      "site": "UM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 23,
+      "timestamp": "2026-11-13T09:08:30.455268+00:00",
+      "monotonic_ns": 199641937000000,
+      "round": 2,
+      "phase": "upload",
+      "site": "UM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 24,
+      "timestamp": "2026-11-13T09:08:30.460269+00:00",
+      "monotonic_ns": 199641953000000,
+      "round": 2,
+      "phase": "local_train",
+      "site": "USM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 25,
+      "timestamp": "2026-11-13T09:08:30.718541+00:00",
+      "monotonic_ns": 199642203000000,
+      "round": 2,
+      "phase": "upload",
+      "site": "USM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 26,
+      "timestamp": "2026-11-13T09:08:30.722541+00:00",
+      "monotonic_ns": 199642218000000,
+      "round": 2,
+      "phase": "local_train",
+      "site": "UCLA",
+      "event": "client_started"
+    },
+    {
+      "sequence": 27,
+      "timestamp": "2026-11-13T09:08:30.842714+00:00",
+      "monotonic_ns": 199642328000000,
+      "round": 2,
+      "phase": "upload",
+      "site": "UCLA",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 28,
+      "timestamp": "2026-11-13T09:08:30.845720+00:00",
+      "monotonic_ns": 199642328000000,
+      "round": 2,
+      "phase": "local_train",
+      "site": "KKI",
+      "event": "client_started"
+    },
+    {
+      "sequence": 29,
+      "timestamp": "2026-11-13T09:08:30.920415+00:00",
+      "monotonic_ns": 199642406000000,
+      "round": 2,
+      "phase": "upload",
+      "site": "KKI",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 30,
+      "timestamp": "2026-11-13T09:08:30.924407+00:00",
+      "monotonic_ns": 199642406000000,
+      "round": 2,
+      "phase": "local_train",
+      "site": "Yale",
+      "event": "client_started"
+    },
+    {
+      "sequence": 31,
+      "timestamp": "2026-11-13T09:08:31.042486+00:00",
+      "monotonic_ns": 199642531000000,
+      "round": 2,
+      "phase": "upload",
+      "site": "Yale",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 32,
+      "timestamp": "2026-11-13T09:08:31.048491+00:00",
+      "monotonic_ns": 199642531000000,
+      "round": 2,
+      "phase": "aggregate",
+      "site": null,
+      "event": "shared_aggregated"
+    },
+    {
+      "sequence": 33,
+      "timestamp": "2026-11-13T09:08:31.052494+00:00",
+      "monotonic_ns": 199642546000000,
+      "round": 2,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_pending"
+    },
+    {
+      "sequence": 34,
+      "timestamp": "2026-11-13T09:08:31.066486+00:00",
+      "monotonic_ns": 199642562000000,
+      "round": 2,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_verified"
+    },
+    {
+      "sequence": 35,
+      "timestamp": "2026-11-13T09:08:31.070497+00:00",
+      "monotonic_ns": 199642562000000,
+      "round": 2,
+      "phase": "ready",
+      "site": null,
+      "event": "round_completed"
+    },
+    {
+      "sequence": 36,
+      "timestamp": "2026-11-13T09:08:31.163025+00:00",
+      "monotonic_ns": 199642656000000,
+      "round": 3,
+      "phase": "local_train",
+      "site": null,
+      "event": "round_started"
+    },
+    {
+      "sequence": 37,
+      "timestamp": "2026-11-13T09:08:31.166031+00:00",
+      "monotonic_ns": 199642656000000,
+      "round": 3,
+      "phase": "local_train",
+      "site": "NYU",
+      "event": "client_started"
+    },
+    {
+      "sequence": 38,
+      "timestamp": "2026-11-13T09:08:31.603382+00:00",
+      "monotonic_ns": 199643093000000,
+      "round": 3,
+      "phase": "upload",
+      "site": "NYU",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 39,
+      "timestamp": "2026-11-13T09:08:31.606358+00:00",
+      "monotonic_ns": 199643093000000,
+      "round": 3,
+      "phase": "local_train",
+      "site": "UM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 40,
+      "timestamp": "2026-11-13T09:08:32.033187+00:00",
+      "monotonic_ns": 199643515000000,
+      "round": 3,
+      "phase": "upload",
+      "site": "UM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 41,
+      "timestamp": "2026-11-13T09:08:32.036179+00:00",
+      "monotonic_ns": 199643531000000,
+      "round": 3,
+      "phase": "local_train",
+      "site": "USM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 42,
+      "timestamp": "2026-11-13T09:08:32.308018+00:00",
+      "monotonic_ns": 199643796000000,
+      "round": 3,
+      "phase": "upload",
+      "site": "USM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 43,
+      "timestamp": "2026-11-13T09:08:32.312089+00:00",
+      "monotonic_ns": 199643796000000,
+      "round": 3,
+      "phase": "local_train",
+      "site": "UCLA",
+      "event": "client_started"
+    },
+    {
+      "sequence": 44,
+      "timestamp": "2026-11-13T09:08:32.408376+00:00",
+      "monotonic_ns": 199643890000000,
+      "round": 3,
+      "phase": "upload",
+      "site": "UCLA",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 45,
+      "timestamp": "2026-11-13T09:08:32.412383+00:00",
+      "monotonic_ns": 199643906000000,
+      "round": 3,
+      "phase": "local_train",
+      "site": "KKI",
+      "event": "client_started"
+    },
+    {
+      "sequence": 46,
+      "timestamp": "2026-11-13T09:08:32.488276+00:00",
+      "monotonic_ns": 199643984000000,
+      "round": 3,
+      "phase": "upload",
+      "site": "KKI",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 47,
+      "timestamp": "2026-11-13T09:08:32.493278+00:00",
+      "monotonic_ns": 199643984000000,
+      "round": 3,
+      "phase": "local_train",
+      "site": "Yale",
+      "event": "client_started"
+    },
+    {
+      "sequence": 48,
+      "timestamp": "2026-11-13T09:08:32.630965+00:00",
+      "monotonic_ns": 199644125000000,
+      "round": 3,
+      "phase": "upload",
+      "site": "Yale",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 49,
+      "timestamp": "2026-11-13T09:08:32.635991+00:00",
+      "monotonic_ns": 199644125000000,
+      "round": 3,
+      "phase": "aggregate",
+      "site": null,
+      "event": "shared_aggregated"
+    },
+    {
+      "sequence": 50,
+      "timestamp": "2026-11-13T09:08:32.638992+00:00",
+      "monotonic_ns": 199644125000000,
+      "round": 3,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_pending"
+    },
+    {
+      "sequence": 51,
+      "timestamp": "2026-11-13T09:08:32.659967+00:00",
+      "monotonic_ns": 199644156000000,
+      "round": 3,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_verified"
+    },
+    {
+      "sequence": 52,
+      "timestamp": "2026-11-13T09:08:32.665520+00:00",
+      "monotonic_ns": 199644156000000,
+      "round": 3,
+      "phase": "ready",
+      "site": null,
+      "event": "round_completed"
+    },
+    {
+      "sequence": 53,
+      "timestamp": "2026-11-13T09:08:32.754717+00:00",
+      "monotonic_ns": 199644250000000,
+      "round": 4,
+      "phase": "local_train",
+      "site": null,
+      "event": "round_started"
+    },
+    {
+      "sequence": 54,
+      "timestamp": "2026-11-13T09:08:32.758694+00:00",
+      "monotonic_ns": 199644250000000,
+      "round": 4,
+      "phase": "local_train",
+      "site": "NYU",
+      "event": "client_started"
+    },
+    {
+      "sequence": 55,
+      "timestamp": "2026-11-13T09:08:33.245719+00:00",
+      "monotonic_ns": 199644734000000,
+      "round": 4,
+      "phase": "upload",
+      "site": "NYU",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 56,
+      "timestamp": "2026-11-13T09:08:33.248719+00:00",
+      "monotonic_ns": 199644734000000,
+      "round": 4,
+      "phase": "local_train",
+      "site": "UM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 57,
+      "timestamp": "2026-11-13T09:08:33.671610+00:00",
+      "monotonic_ns": 199645156000000,
+      "round": 4,
+      "phase": "upload",
+      "site": "UM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 58,
+      "timestamp": "2026-11-13T09:08:33.674533+00:00",
+      "monotonic_ns": 199645156000000,
+      "round": 4,
+      "phase": "local_train",
+      "site": "USM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 59,
+      "timestamp": "2026-11-13T09:08:33.936997+00:00",
+      "monotonic_ns": 199645421000000,
+      "round": 4,
+      "phase": "upload",
+      "site": "USM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 60,
+      "timestamp": "2026-11-13T09:08:33.940990+00:00",
+      "monotonic_ns": 199645421000000,
+      "round": 4,
+      "phase": "local_train",
+      "site": "UCLA",
+      "event": "client_started"
+    },
+    {
+      "sequence": 61,
+      "timestamp": "2026-11-13T09:08:34.070526+00:00",
+      "monotonic_ns": 199645562000000,
+      "round": 4,
+      "phase": "upload",
+      "site": "UCLA",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 62,
+      "timestamp": "2026-11-13T09:08:34.074171+00:00",
+      "monotonic_ns": 199645562000000,
+      "round": 4,
+      "phase": "local_train",
+      "site": "KKI",
+      "event": "client_started"
+    },
+    {
+      "sequence": 63,
+      "timestamp": "2026-11-13T09:08:34.145993+00:00",
+      "monotonic_ns": 199645640000000,
+      "round": 4,
+      "phase": "upload",
+      "site": "KKI",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 64,
+      "timestamp": "2026-11-13T09:08:34.150500+00:00",
+      "monotonic_ns": 199645640000000,
+      "round": 4,
+      "phase": "local_train",
+      "site": "Yale",
+      "event": "client_started"
+    },
+    {
+      "sequence": 65,
+      "timestamp": "2026-11-13T09:08:34.276010+00:00",
+      "monotonic_ns": 199645765000000,
+      "round": 4,
+      "phase": "upload",
+      "site": "Yale",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 66,
+      "timestamp": "2026-11-13T09:08:34.283058+00:00",
+      "monotonic_ns": 199645765000000,
+      "round": 4,
+      "phase": "aggregate",
+      "site": null,
+      "event": "shared_aggregated"
+    },
+    {
+      "sequence": 67,
+      "timestamp": "2026-11-13T09:08:34.286049+00:00",
+      "monotonic_ns": 199645781000000,
+      "round": 4,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_pending"
+    },
+    {
+      "sequence": 68,
+      "timestamp": "2026-11-13T09:08:34.307089+00:00",
+      "monotonic_ns": 199645796000000,
+      "round": 4,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_verified"
+    },
+    {
+      "sequence": 69,
+      "timestamp": "2026-11-13T09:08:34.312081+00:00",
+      "monotonic_ns": 199645796000000,
+      "round": 4,
+      "phase": "ready",
+      "site": null,
+      "event": "round_completed"
+    },
+    {
+      "sequence": 70,
+      "timestamp": "2026-11-13T09:08:34.391613+00:00",
+      "monotonic_ns": 199645875000000,
+      "round": 5,
+      "phase": "local_train",
+      "site": null,
+      "event": "round_started"
+    },
+    {
+      "sequence": 71,
+      "timestamp": "2026-11-13T09:08:34.393612+00:00",
+      "monotonic_ns": 199645875000000,
+      "round": 5,
+      "phase": "local_train",
+      "site": "NYU",
+      "event": "client_started"
+    },
+    {
+      "sequence": 72,
+      "timestamp": "2026-11-13T09:08:34.852192+00:00",
+      "monotonic_ns": 199646343000000,
+      "round": 5,
+      "phase": "upload",
+      "site": "NYU",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 73,
+      "timestamp": "2026-11-13T09:08:34.855190+00:00",
+      "monotonic_ns": 199646343000000,
+      "round": 5,
+      "phase": "local_train",
+      "site": "UM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 74,
+      "timestamp": "2026-11-13T09:08:35.327394+00:00",
+      "monotonic_ns": 199646812000000,
+      "round": 5,
+      "phase": "upload",
+      "site": "UM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 75,
+      "timestamp": "2026-11-13T09:08:35.331509+00:00",
+      "monotonic_ns": 199646812000000,
+      "round": 5,
+      "phase": "local_train",
+      "site": "USM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 76,
+      "timestamp": "2026-11-13T09:08:35.755480+00:00",
+      "monotonic_ns": 199647250000000,
+      "round": 5,
+      "phase": "upload",
+      "site": "USM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 77,
+      "timestamp": "2026-11-13T09:08:35.760481+00:00",
+      "monotonic_ns": 199647250000000,
+      "round": 5,
+      "phase": "local_train",
+      "site": "UCLA",
+      "event": "client_started"
+    },
+    {
+      "sequence": 78,
+      "timestamp": "2026-11-13T09:08:35.880558+00:00",
+      "monotonic_ns": 199647375000000,
+      "round": 5,
+      "phase": "upload",
+      "site": "UCLA",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 79,
+      "timestamp": "2026-11-13T09:08:35.884561+00:00",
+      "monotonic_ns": 199647375000000,
+      "round": 5,
+      "phase": "local_train",
+      "site": "KKI",
+      "event": "client_started"
+    },
+    {
+      "sequence": 80,
+      "timestamp": "2026-11-13T09:08:35.964169+00:00",
+      "monotonic_ns": 199647453000000,
+      "round": 5,
+      "phase": "upload",
+      "site": "KKI",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 81,
+      "timestamp": "2026-11-13T09:08:35.968168+00:00",
+      "monotonic_ns": 199647453000000,
+      "round": 5,
+      "phase": "local_train",
+      "site": "Yale",
+      "event": "client_started"
+    },
+    {
+      "sequence": 82,
+      "timestamp": "2026-11-13T09:08:36.091323+00:00",
+      "monotonic_ns": 199647578000000,
+      "round": 5,
+      "phase": "upload",
+      "site": "Yale",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 83,
+      "timestamp": "2026-11-13T09:08:36.099429+00:00",
+      "monotonic_ns": 199647593000000,
+      "round": 5,
+      "phase": "aggregate",
+      "site": null,
+      "event": "shared_aggregated"
+    },
+    {
+      "sequence": 84,
+      "timestamp": "2026-11-13T09:08:36.103406+00:00",
+      "monotonic_ns": 199647593000000,
+      "round": 5,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_pending"
+    },
+    {
+      "sequence": 85,
+      "timestamp": "2026-11-13T09:08:36.118084+00:00",
+      "monotonic_ns": 199647609000000,
+      "round": 5,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_verified"
+    },
+    {
+      "sequence": 86,
+      "timestamp": "2026-11-13T09:08:36.122188+00:00",
+      "monotonic_ns": 199647609000000,
+      "round": 5,
+      "phase": "ready",
+      "site": null,
+      "event": "round_completed"
+    },
+    {
+      "sequence": 87,
+      "timestamp": "2026-11-13T09:08:36.204850+00:00",
+      "monotonic_ns": 199647687000000,
+      "round": 6,
+      "phase": "local_train",
+      "site": null,
+      "event": "round_started"
+    },
+    {
+      "sequence": 88,
+      "timestamp": "2026-11-13T09:08:36.209833+00:00",
+      "monotonic_ns": 199647703000000,
+      "round": 6,
+      "phase": "local_train",
+      "site": "NYU",
+      "event": "client_started"
+    },
+    {
+      "sequence": 89,
+      "timestamp": "2026-11-13T09:08:36.644244+00:00",
+      "monotonic_ns": 199648140000000,
+      "round": 6,
+      "phase": "upload",
+      "site": "NYU",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 90,
+      "timestamp": "2026-11-13T09:08:36.647279+00:00",
+      "monotonic_ns": 199648140000000,
+      "round": 6,
+      "phase": "local_train",
+      "site": "UM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 91,
+      "timestamp": "2026-11-13T09:08:37.054288+00:00",
+      "monotonic_ns": 199648546000000,
+      "round": 6,
+      "phase": "upload",
+      "site": "UM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 92,
+      "timestamp": "2026-11-13T09:08:37.058287+00:00",
+      "monotonic_ns": 199648546000000,
+      "round": 6,
+      "phase": "local_train",
+      "site": "USM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 93,
+      "timestamp": "2026-11-13T09:08:37.313167+00:00",
+      "monotonic_ns": 199648796000000,
+      "round": 6,
+      "phase": "upload",
+      "site": "USM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 94,
+      "timestamp": "2026-11-13T09:08:37.317012+00:00",
+      "monotonic_ns": 199648812000000,
+      "round": 6,
+      "phase": "local_train",
+      "site": "UCLA",
+      "event": "client_started"
+    },
+    {
+      "sequence": 95,
+      "timestamp": "2026-11-13T09:08:37.422130+00:00",
+      "monotonic_ns": 199648906000000,
+      "round": 6,
+      "phase": "upload",
+      "site": "UCLA",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 96,
+      "timestamp": "2026-11-13T09:08:37.426128+00:00",
+      "monotonic_ns": 199648921000000,
+      "round": 6,
+      "phase": "local_train",
+      "site": "KKI",
+      "event": "client_started"
+    },
+    {
+      "sequence": 97,
+      "timestamp": "2026-11-13T09:08:37.510775+00:00",
+      "monotonic_ns": 199649000000000,
+      "round": 6,
+      "phase": "upload",
+      "site": "KKI",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 98,
+      "timestamp": "2026-11-13T09:08:37.515814+00:00",
+      "monotonic_ns": 199649000000000,
+      "round": 6,
+      "phase": "local_train",
+      "site": "Yale",
+      "event": "client_started"
+    },
+    {
+      "sequence": 99,
+      "timestamp": "2026-11-13T09:08:37.639094+00:00",
+      "monotonic_ns": 199649125000000,
+      "round": 6,
+      "phase": "upload",
+      "site": "Yale",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 100,
+      "timestamp": "2026-11-13T09:08:37.648094+00:00",
+      "monotonic_ns": 199649140000000,
+      "round": 6,
+      "phase": "aggregate",
+      "site": null,
+      "event": "shared_aggregated"
+    },
+    {
+      "sequence": 101,
+      "timestamp": "2026-11-13T09:08:37.652103+00:00",
+      "monotonic_ns": 199649140000000,
+      "round": 6,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_pending"
+    },
+    {
+      "sequence": 102,
+      "timestamp": "2026-11-13T09:08:37.671103+00:00",
+      "monotonic_ns": 199649156000000,
+      "round": 6,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_verified"
+    },
+    {
+      "sequence": 103,
+      "timestamp": "2026-11-13T09:08:37.675109+00:00",
+      "monotonic_ns": 199649156000000,
+      "round": 6,
+      "phase": "ready",
+      "site": null,
+      "event": "round_completed"
+    },
+    {
+      "sequence": 104,
+      "timestamp": "2026-11-13T09:08:37.761791+00:00",
+      "monotonic_ns": 199649250000000,
+      "round": 7,
+      "phase": "local_train",
+      "site": null,
+      "event": "round_started"
+    },
+    {
+      "sequence": 105,
+      "timestamp": "2026-11-13T09:08:37.767738+00:00",
+      "monotonic_ns": 199649250000000,
+      "round": 7,
+      "phase": "local_train",
+      "site": "NYU",
+      "event": "client_started"
+    },
+    {
+      "sequence": 106,
+      "timestamp": "2026-11-13T09:08:38.340181+00:00",
+      "monotonic_ns": 199649828000000,
+      "round": 7,
+      "phase": "upload",
+      "site": "NYU",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 107,
+      "timestamp": "2026-11-13T09:08:38.344180+00:00",
+      "monotonic_ns": 199649828000000,
+      "round": 7,
+      "phase": "local_train",
+      "site": "UM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 108,
+      "timestamp": "2026-11-13T09:08:38.730355+00:00",
+      "monotonic_ns": 199650218000000,
+      "round": 7,
+      "phase": "upload",
+      "site": "UM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 109,
+      "timestamp": "2026-11-13T09:08:38.733283+00:00",
+      "monotonic_ns": 199650218000000,
+      "round": 7,
+      "phase": "local_train",
+      "site": "USM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 110,
+      "timestamp": "2026-11-13T09:08:38.956227+00:00",
+      "monotonic_ns": 199650437000000,
+      "round": 7,
+      "phase": "upload",
+      "site": "USM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 111,
+      "timestamp": "2026-11-13T09:08:38.960294+00:00",
+      "monotonic_ns": 199650453000000,
+      "round": 7,
+      "phase": "local_train",
+      "site": "UCLA",
+      "event": "client_started"
+    },
+    {
+      "sequence": 112,
+      "timestamp": "2026-11-13T09:08:39.060886+00:00",
+      "monotonic_ns": 199650546000000,
+      "round": 7,
+      "phase": "upload",
+      "site": "UCLA",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 113,
+      "timestamp": "2026-11-13T09:08:39.064925+00:00",
+      "monotonic_ns": 199650546000000,
+      "round": 7,
+      "phase": "local_train",
+      "site": "KKI",
+      "event": "client_started"
+    },
+    {
+      "sequence": 114,
+      "timestamp": "2026-11-13T09:08:39.137150+00:00",
+      "monotonic_ns": 199650625000000,
+      "round": 7,
+      "phase": "upload",
+      "site": "KKI",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 115,
+      "timestamp": "2026-11-13T09:08:39.141232+00:00",
+      "monotonic_ns": 199650625000000,
+      "round": 7,
+      "phase": "local_train",
+      "site": "Yale",
+      "event": "client_started"
+    },
+    {
+      "sequence": 116,
+      "timestamp": "2026-11-13T09:08:39.284527+00:00",
+      "monotonic_ns": 199650765000000,
+      "round": 7,
+      "phase": "upload",
+      "site": "Yale",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 117,
+      "timestamp": "2026-11-13T09:08:39.291082+00:00",
+      "monotonic_ns": 199650781000000,
+      "round": 7,
+      "phase": "aggregate",
+      "site": null,
+      "event": "shared_aggregated"
+    },
+    {
+      "sequence": 118,
+      "timestamp": "2026-11-13T09:08:39.296083+00:00",
+      "monotonic_ns": 199650781000000,
+      "round": 7,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_pending"
+    },
+    {
+      "sequence": 119,
+      "timestamp": "2026-11-13T09:08:39.309623+00:00",
+      "monotonic_ns": 199650796000000,
+      "round": 7,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_verified"
+    },
+    {
+      "sequence": 120,
+      "timestamp": "2026-11-13T09:08:39.313949+00:00",
+      "monotonic_ns": 199650796000000,
+      "round": 7,
+      "phase": "ready",
+      "site": null,
+      "event": "round_completed"
+    },
+    {
+      "sequence": 121,
+      "timestamp": "2026-11-13T09:08:39.399189+00:00",
+      "monotonic_ns": 199650890000000,
+      "round": 8,
+      "phase": "local_train",
+      "site": null,
+      "event": "round_started"
+    },
+    {
+      "sequence": 122,
+      "timestamp": "2026-11-13T09:08:39.403154+00:00",
+      "monotonic_ns": 199650890000000,
+      "round": 8,
+      "phase": "local_train",
+      "site": "NYU",
+      "event": "client_started"
+    },
+    {
+      "sequence": 123,
+      "timestamp": "2026-11-13T09:08:39.855254+00:00",
+      "monotonic_ns": 199651343000000,
+      "round": 8,
+      "phase": "upload",
+      "site": "NYU",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 124,
+      "timestamp": "2026-11-13T09:08:39.859281+00:00",
+      "monotonic_ns": 199651343000000,
+      "round": 8,
+      "phase": "local_train",
+      "site": "UM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 125,
+      "timestamp": "2026-11-13T09:08:40.412818+00:00",
+      "monotonic_ns": 199651906000000,
+      "round": 8,
+      "phase": "upload",
+      "site": "UM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 126,
+      "timestamp": "2026-11-13T09:08:40.416817+00:00",
+      "monotonic_ns": 199651906000000,
+      "round": 8,
+      "phase": "local_train",
+      "site": "USM",
+      "event": "client_started"
+    },
+    {
+      "sequence": 127,
+      "timestamp": "2026-11-13T09:08:40.650142+00:00",
+      "monotonic_ns": 199652140000000,
+      "round": 8,
+      "phase": "upload",
+      "site": "USM",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 128,
+      "timestamp": "2026-11-13T09:08:40.654110+00:00",
+      "monotonic_ns": 199652140000000,
+      "round": 8,
+      "phase": "local_train",
+      "site": "UCLA",
+      "event": "client_started"
+    },
+    {
+      "sequence": 129,
+      "timestamp": "2026-11-13T09:08:40.747151+00:00",
+      "monotonic_ns": 199652234000000,
+      "round": 8,
+      "phase": "upload",
+      "site": "UCLA",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 130,
+      "timestamp": "2026-11-13T09:08:40.752005+00:00",
+      "monotonic_ns": 199652234000000,
+      "round": 8,
+      "phase": "local_train",
+      "site": "KKI",
+      "event": "client_started"
+    },
+    {
+      "sequence": 131,
+      "timestamp": "2026-11-13T09:08:40.826980+00:00",
+      "monotonic_ns": 199652312000000,
+      "round": 8,
+      "phase": "upload",
+      "site": "KKI",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 132,
+      "timestamp": "2026-11-13T09:08:40.832069+00:00",
+      "monotonic_ns": 199652328000000,
+      "round": 8,
+      "phase": "local_train",
+      "site": "Yale",
+      "event": "client_started"
+    },
+    {
+      "sequence": 133,
+      "timestamp": "2026-11-13T09:08:40.963098+00:00",
+      "monotonic_ns": 199652453000000,
+      "round": 8,
+      "phase": "upload",
+      "site": "Yale",
+      "event": "client_uploaded"
+    },
+    {
+      "sequence": 134,
+      "timestamp": "2026-11-13T09:08:40.971027+00:00",
+      "monotonic_ns": 199652453000000,
+      "round": 8,
+      "phase": "aggregate",
+      "site": null,
+      "event": "shared_aggregated"
+    },
+    {
+      "sequence": 135,
+      "timestamp": "2026-11-13T09:08:40.975026+00:00",
+      "monotonic_ns": 199652468000000,
+      "round": 8,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_pending"
+    },
+    {
+      "sequence": 136,
+      "timestamp": "2026-11-13T09:08:40.990061+00:00",
+      "monotonic_ns": 199652484000000,
+      "round": 8,
+      "phase": "broadcast",
+      "site": null,
+      "event": "broadcast_verified"
+    },
+    {
+      "sequence": 137,
+      "timestamp": "2026-11-13T09:08:40.995147+00:00",
+      "monotonic_ns": 199652484000000,
+      "round": 8,
+      "phase": "ready",
+      "site": null,
+      "event": "round_completed"
+    },
+    {
+      "sequence": 138,
+      "timestamp": "2026-11-13T09:08:41.401196+00:00",
+      "monotonic_ns": 199652890000000,
+      "round": 8,
+      "phase": "ready",
+      "site": null,
+      "event": "recorder_finished"
+    }
+  ],
+  "rounds": [
+    {
+      "round": 1,
+      "status": "completed",
+      "path": "round-0001.json"
+    },
+    {
+      "round": 2,
+      "status": "completed",
+      "path": "round-0002.json"
+    },
+    {
+      "round": 3,
+      "status": "completed",
+      "path": "round-0003.json"
+    },
+    {
+      "round": 4,
+      "status": "completed",
+      "path": "round-0004.json"
+    },
+    {
+      "round": 5,
+      "status": "completed",
+      "path": "round-0005.json"
+    },
+    {
+      "round": 6,
+      "status": "completed",
+      "path": "round-0006.json"
+    },
+    {
+      "round": 7,
+      "status": "completed",
+      "path": "round-0007.json"
+    },
+    {
+      "round": 8,
+      "status": "completed",
+      "path": "round-0008.json"
+    }
+  ]
+}

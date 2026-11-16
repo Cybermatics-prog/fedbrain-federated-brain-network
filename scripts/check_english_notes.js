@@ -1,0 +1,15 @@
+'use strict';
+const fs = require('fs');
+const path = require('path');
+const assert = require('assert');
+global.window = {};
+require('../web/english.js');
+const root = path.resolve(__dirname, '..');
+const originals = Object.keys(JSON.parse(fs.readFileSync(path.join(root,'artifacts','english','api-text.json'),'utf8')));
+const translated = window.EnglishUI.translate(originals);
+const remaining = translated.filter(value => /[\u3400-\u9fff]/.test(value));
+assert.deepStrictEqual(remaining, [], 'Recorded API notes must all be English');
+const fixture = { floats:[0.5521,-0.001,null], enabled:false, count:465, nested:{coordinates:[0,64,4113]} };
+assert.deepStrictEqual(window.EnglishUI.translate(fixture),fixture,'Language translation must preserve numeric values and keys');
+assert.strictEqual(window.EnglishUI.message('未知错误','Request failed.'),'Request failed.');
+console.log(JSON.stringify({translated_api_notes:translated.length,remaining_cjk:remaining.length,numerical_payload_unchanged:true}));

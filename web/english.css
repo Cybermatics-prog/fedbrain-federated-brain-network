@@ -1,0 +1,32 @@
+/* Keep longer English labels readable without changing the data visualization. */
+html[lang=en] .brand-sub { letter-spacing: .25px; }
+html[lang=en] .nav-item { gap: 9px; font-size: 12px; }
+html[lang=en] .df-heading { flex-wrap: wrap; }
+html[lang=en] .df-toolbar { flex-wrap: wrap; }
+html[lang=en] #df-preview-scope { min-width: 0; }
+html[lang=en] .df-domain-label { align-items: flex-start; flex-wrap: wrap; }
+html[lang=en] .df-domain-label > span { flex: 1 1 240px; text-align: right; }
+html[lang=en] .df-site-heading { min-height: 22px; }
+html[lang=en] .df-local-tag { max-width: 50px; line-height: 1.35; text-align: right; }
+html[lang=en] .df-example-id, html[lang=en] .df-coordinate-label > small { overflow-wrap: anywhere; }
+html[lang=en] .df-mechanisms, html[lang=en] .df-record-notes { overflow-wrap: anywhere; }
+html[lang=en] .health-group button { min-width: 0; white-space: normal; }
+html[lang=en] .health-edge-controls { flex-wrap: wrap; }
+html[lang=en] .health-modes { flex-wrap: wrap; }
+html[lang=en] .health-case-actions { flex-wrap: wrap; }
+html[lang=en] .training-status-top { flex-wrap: wrap; }
+html[lang=en] .manifest-grid dd, html[lang=en] .protocol-item, html[lang=en] .evidence-grid > div { overflow-wrap: anywhere; min-width: 0; }
+html[lang=en] .fed-playback { flex-wrap: wrap; }
+html[lang=en] .fed-boundary { flex-wrap: wrap; }
+@media (max-width:620px) {
+  html[lang=en] .df-domain-label > span { text-align: left; flex-basis: 100%; }
+  html[lang=en] .df-modes { flex-wrap: wrap; }
+  html[lang=en] .df-modes button { padding: 7px 9px; }
+  html[lang=en] .health-group { width: 100%; }
+  html[lang=en] .health-group button { padding-left: 7px; padding-right: 7px; }
+  html[lang=en] .health-edge-controls input { max-width: 145px; }
+  html[lang=en] .health-count-strip > div { min-width: 0; }
+  html[lang=en] .df-site-heading { gap: 4px; flex-wrap: wrap; }
+  html[lang=en] .df-local-tag { max-width: 44px; }
+  html[lang=en] .df-example-id { font-size: 9px; }
+}

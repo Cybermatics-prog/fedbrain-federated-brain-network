@@ -1,0 +1,815 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#142c2e">
+  <meta name="description" content="Explore real ABIDE brain-health data: HC/ASD functional connectivity, 116-ROI networks, age and site distributions, and individual BOLD signals.">
+  <title>FedBrain · Brain Health Data</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23142c2e'/%3E%3Cpath d='M17 32h30M32 17v30M21 21l22 22M21 43l22-22' stroke='%237fd8c6' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%237fd8c6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/styles.css?v=en2">
+  <link rel="stylesheet" href="/federation.css?v=en2">
+  <script src="/english.js?v=en2" defer>
+</script>
+  <script src="/federation.js?v=en2" defer>
+</script>
+  <link rel="stylesheet" href="/health.css?v=en2">
+  <script src="/health.js?v=en2" defer>
+</script>
+  <link rel="stylesheet" href="/protection.css?v=en2">
+  <script src="/protection.js?v=en2" defer>
+</script>
+  <link rel="stylesheet" href="/english.css?v=en2">
+  <script src="/app.js?v=en2" defer>
+</script>
+</head>
+<body class="health-overview">
+<svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="i-grid" viewBox="0 0 24 24">
+<rect x="3" y="3" width="7" height="7" rx="1.5"/>
+<rect x="14" y="3" width="7" height="7" rx="1.5"/>
+<rect x="3" y="14" width="7" height="7" rx="1.5"/>
+<rect x="14" y="14" width="7" height="7" rx="1.5"/>
+</symbol>
+  <symbol id="i-pulse" viewBox="0 0 24 24">
+<path d="M2 12h5l3-8 4 16 3-8h5"/>
+</symbol>
+  <symbol id="i-brain" viewBox="0 0 24 24">
+<path d="M12 4C8 0 4 4 5 7c-4 1-4 7-1 8-1 5 5 7 8 4V4Zm0 0c4-4 8 0 7 3 4 1 4 7 1 8 1 5-5 7-8 4M6 9c3 0 3 3 3 3m9-3c-3 0-3 3-3 3M5 16c2-2 4-1 4 0m10 0c-2-2-4-1-4 0"/>
+</symbol>
+  <symbol id="i-book" viewBox="0 0 24 24">
+<path d="M12 5C9 3 5 3 2 4v15c4-1 7-1 10 1 3-2 6-2 10-1V4c-3-1-7-1-10 1Zm0 0v15"/>
+</symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24">
+<path d="M5 12h14m-5-5 5 5-5 5"/>
+</symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24">
+<path d="M20 7v5h-5M4 17v-5h5M5 8a8 8 0 0 1 13-3l2 3M4 16l2 3a8 8 0 0 0 13-3"/>
+</symbol>
+  <symbol id="i-server" viewBox="0 0 24 24">
+<rect x="3" y="3" width="18" height="7" rx="2"/>
+<rect x="3" y="14" width="18" height="7" rx="2"/>
+<path d="M7 6.5h.01M7 17.5h.01M12 6.5h5M12 17.5h5"/>
+</symbol>
+  <symbol id="i-people" viewBox="0 0 24 24">
+<circle cx="9" cy="7" r="3"/>
+<path d="M3 21v-3a6 6 0 0 1 12 0v3m1-17a3 3 0 0 1 0 6m2 5c3 0 4 3 4 6"/>
+</symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24">
+<path d="m12 3 10 5-10 5L2 8l10-5Zm-10 9 10 5 10-5M2 16l10 5 10-5"/>
+</symbol>
+  <symbol id="i-target" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="9"/>
+<circle cx="12" cy="12" r="5"/>
+<circle cx="12" cy="12" r="1"/>
+</symbol>
+  <symbol id="i-check" viewBox="0 0 24 24">
+<path d="m5 12 4 4L19 6"/>
+</symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="9"/>
+<path d="M12 7v5l3 2"/>
+</symbol>
+  <symbol id="i-play" viewBox="0 0 24 24">
+<path d="m8 4 12 8-12 8V4Z"/>
+</symbol>
+  <symbol id="i-stop" viewBox="0 0 24 24">
+<rect x="5" y="5" width="14" height="14" rx="2"/>
+</symbol>
+  <symbol id="i-info" viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="9"/>
+<path d="M12 11v6m0-10v.5"/>
+</symbol>
+  <symbol id="i-link" viewBox="0 0 24 24">
+<path d="M10 14 14 10m-5 6-2 2a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0m0 2 2-2a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0"/>
+</symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24">
+<path d="M4 6h16M4 12h16M4 18h16"/>
+</symbol>
+  <symbol id="i-search" viewBox="0 0 24 24">
+<circle cx="10.5" cy="10.5" r="6.5"/>
+<path d="m16 16 5 5"/>
+</symbol>
+  <symbol id="i-download" viewBox="0 0 24 24">
+<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>
+</symbol>
+</svg>
+<a href="#main-content" class="skip-link">Skip to main content</a>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar" aria-label="Main navigation">
+    <a class="brand" href="#overview" aria-label="FedBrain Brain Health Data">
+      <span class="brand-mark">
+<svg>
+<use href="#i-brain"/>
+</svg>
+</span>
+      <span>FedBrain<span class="brand-sub">Brain Health Data Atlas</span>
+</span>
+    </a>
+    <div class="workspace-label">RESEARCH WORKSPACE <span>01</span>
+</div>
+    <nav class="nav-list" aria-label="Workspace sections">
+      <button class="nav-item active" data-view="overview" aria-current="page">
+<svg>
+<use href="#i-grid"/>
+</svg>
+<span>Health Data</span>
+<span class="nav-index">01</span>
+</button>
+      <button class="nav-item" data-view="train">
+<svg>
+<use href="#i-pulse"/>
+</svg>
+<span>Training</span>
+<span class="nav-index">02</span>
+</button>
+      <button class="nav-item" data-view="inference">
+<svg>
+<use href="#i-brain"/>
+</svg>
+<span>Model Inference</span>
+<span class="nav-index">03</span>
+</button>
+      <button class="nav-item" data-view="protocol">
+<svg>
+<use href="#i-book"/>
+</svg>
+<span>Study Protocol</span>
+<span class="nav-index">04</span>
+</button>
+    </nav>
+    <div class="health-sidebar-note">
+<span class="status-dot">
+</span> ABIDE I · Open research data<p>Connectivity and BOLD time series<br>For research use only</p>
+</div>
+    <div class="sidebar-note">
+      <div class="sidebar-note-head">
+<span class="status-dot">
+</span> Six-client single-process simulation</div>
+      <svg class="mini-federation" viewBox="0 0 180 94" role="img" aria-label="Diagram of six local sites connected to one federated aggregator">
+<g stroke="#3d5a58" stroke-width="1" stroke-dasharray="3 4">
+<path d="M90 47 26 18M90 47 90 12M90 47 154 18M90 47 26 76M90 47 90 83M90 47 154 76"/>
+</g>
+<g fill="#203b3c" stroke="#6caaa0">
+<circle cx="26" cy="18" r="8"/>
+<circle cx="90" cy="12" r="8"/>
+<circle cx="154" cy="18" r="8"/>
+<circle cx="26" cy="76" r="8"/>
+<circle cx="90" cy="83" r="8"/>
+<circle cx="154" cy="76" r="8"/>
+</g>
+<circle cx="90" cy="47" r="16" fill="#82d6c1"/>
+<path d="M82 47h16M90 39v16" stroke="#1b3b38" stroke-width="2"/>
+</svg>
+      <p>Share model parameters<br>Keep data local</p>
+    </div>
+    <div class="sidebar-bottom">
+<div class="lab-avatar">F</div>
+<div>Brain Imaging Analysis<small>ABIDE I · AAL116</small>
+</div>
+<span class="version">v1.0</span>
+</div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar">
+      <div class="breadcrumb">
+<button id="menu-toggle" class="icon-button mobile-menu" aria-label="Open navigation" aria-expanded="false">
+<svg>
+<use href="#i-menu"/>
+</svg>
+</button>
+<span class="breadcrumb-root">Research Workspace</span>
+<span class="slash">/</span>
+<span id="breadcrumb-current">Brain Health Data</span>
+</div>
+      <div class="topbar-right">
+<span class="device-chip" id="device-chip">
+<span class="status-dot gray">
+</span>
+<span>Connecting to compute environment</span>
+</span>
+<button class="icon-button" id="refresh-button" title="Refresh experiment data" aria-label="Refresh experiment data">
+<svg>
+<use href="#i-refresh"/>
+</svg>
+</button>
+</div>
+    </header>
+    <main id="main-content" tabindex="-1">
+      <div id="global-notice" class="notice error hidden" role="alert">
+</div>
+      <div class="page-heading">
+<div>
+<div class="eyebrow">
+<span class="tiny-square">
+</span> ABIDE I · BRAIN IMAGING</div>
+<h1 id="page-title">Brain Health Data<span class="title-dot">.</span>
+</h1>
+<p id="page-description">Explore ABIDE I connectivity, BOLD time series, group differences, and federated data flow.</p>
+</div>
+<button class="button primary heading-action" data-navigate="train">
+<svg>
+<use href="#i-play"/>
+</svg>New Experiment</button>
+</div>
+      <div class="run-toolbar">
+<div class="run-select-wrap">
+<span class="label-icon">
+<svg>
+<use href="#i-layers"/>
+</svg>
+</span>
+<label for="run-select">Selected run</label>
+<select id="run-select" disabled aria-label="Select a run">
+<option value="">Loading runs…</option>
+</select>
+<span id="run-status" class="badge neutral" aria-live="polite">Connecting</span>
+</div>
+<div class="toolbar-meta">
+<span id="run-method">Run records</span>
+<span class="toolbar-divider">
+</span>
+<span id="updated-at">Not synchronized</span>
+</div>
+</div>
+      <section id="view-overview" class="view active" aria-label="Brain Health Data">
+        <div id="health-root" aria-label="Real brain-health data visualization">
+</div>
+        <details class="score-aux" id="score-aux">
+<summary>Model results · not a brain-health score <span id="aux-run-context">Selected-run measurements · full records linked separately</span>
+</summary>
+<div class="score-aux-content">
+<div class="compact-score-grid">
+<dl>
+<dt>Pooled accuracy</dt>
+<dd id="aux-pooled">—</dd>
+</dl>
+<dl>
+<dt>Site macro average</dt>
+<dd id="aux-macro">—</dd>
+</dl>
+<dl>
+<dt>AUC</dt>
+<dd id="aux-auc">—</dd>
+</dl>
+<dl>
+<dt>Evaluated subjects N</dt>
+<dd id="aux-n">—</dd>
+</dl>
+</div>
+<div class="compact-score-links">
+<a id="aux-evaluation-link" href="/api/status" target="_blank" rel="noopener">Full evaluation JSON ↗</a>
+<a href="/api/optimization" target="_blank" rel="noopener">Full optimization comparison JSON ↗</a>
+<small>Only selected-run measurements; the process demo is not chosen by test performance.</small>
+</div>
+<div class="legacy-results" hidden aria-hidden="true">
+        <div class="metrics-grid" id="overview-metrics">
+          <article class="metric-card">
+<div class="metric-top">
+<span>Test accuracy</span>
+<span class="metric-icon teal">
+<svg>
+<use href="#i-target"/>
+</svg>
+</span>
+</div>
+<div class="metric-value" id="metric-accuracy">—<span>%</span>
+</div>
+<div class="metric-foot">
+<span class="micro-dot">
+</span>
+<span id="metric-accuracy-note">Awaiting measured evaluation results</span>
+</div>
+</article>
+          <article class="metric-card">
+<div class="metric-top">
+<span>Available subjects</span>
+<span class="metric-icon violet">
+<svg>
+<use href="#i-people"/>
+</svg>
+</span>
+</div>
+<div class="metric-value" id="metric-subjects">—<span> subjects</span>
+</div>
+<div class="metric-foot" id="metric-subjects-note">Reading ABIDE data status</div>
+</article>
+          <article class="metric-card">
+<div class="metric-top">
+<span>Participating sites</span>
+<span class="metric-icon amber">
+<svg>
+<use href="#i-server"/>
+</svg>
+</span>
+</div>
+<div class="metric-value" id="metric-sites">—<span>/ 6</span>
+</div>
+<div class="metric-foot" id="metric-sites-note">Data from six sites</div>
+</article>
+          <article class="metric-card">
+<div class="metric-top">
+<span>Selected connections</span>
+<span class="metric-icon rose">
+<svg>
+<use href="#i-layers"/>
+</svg>
+</span>
+</div>
+<div class="metric-value" id="metric-features">—<span> connections</span>
+</div>
+<div class="metric-foot" id="metric-features-note">L₁ sparse selection · 6,670 input features</div>
+</article>
+        </div>
+        <article class="card optimization-card" id="optimization-panel" aria-labelledby="optimization-heading">
+<div class="card-heading">
+<div>
+<div class="section-kicker">VALIDATION-LOCKED OPTIMIZATION</div>
+<h2 id="optimization-heading">Optimization comparison</h2>
+</div>
+<span id="optimization-status" class="badge neutral" aria-live="polite">Awaiting evidence</span>
+</div>
+<div id="optimization-content" aria-live="polite">
+<div class="optimization-pending">
+<svg aria-hidden="true">
+<use href="#i-clock"/>
+</svg>
+<div>
+<strong>Optimization evidence is not ready</strong>
+<p>Show measured test results only after validation-based selection; do not prefill improvements.</p>
+</div>
+</div>
+</div>
+</article>
+        <div class="overview-upper">
+          <article class="card curve-card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">EXPERIMENT MONITOR</div>
+<h2>Round-by-round measurements</h2>
+</div>
+<div class="checkpoint-badges">
+<span class="badge violet-outline hidden" id="checkpoint-badge">
+</span>
+<span class="badge teal-outline" id="round-badge">Not started</span>
+</div>
+</div>
+<div class="chart-legend">
+<span>
+<i class="legend-line teal">
+</i>Validation accuracy · site macro average</span>
+<span class="chart-legend-note">Validation · Not a test-set metric</span>
+</div>
+<div id="overview-chart" class="chart-container" aria-live="polite">
+</div>
+<div class="chart-footer">
+<span>
+<svg>
+<use href="#i-clock"/>
+</svg>
+<span id="elapsed-label">Training time —</span>
+</span>
+<span id="communication-label">Communication —</span>
+</div>
+</article>
+          <article class="card pipeline-card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">FROM SIGNAL TO INSIGHT</div>
+<h2>Research workflow</h2>
+</div>
+<span class="small-mono">01—04</span>
+</div>
+<div class="pipeline-steps">
+<div class="pipeline-step">
+<span class="pipeline-number">01</span>
+<div>
+<h3>Multi-site data preparation</h3>
+<p>CPAC · Band-pass filtering · No global signal regression</p>
+</div>
+<span class="pipeline-state" id="pipeline-data">Pending</span>
+</div>
+<div class="pipeline-step">
+<span class="pipeline-number">02</span>
+<div>
+<h3>Dynamic functional connectivity</h3>
+<p>AAL116 · Sliding-window correlation · Fisher transform</p>
+</div>
+</div>
+<div class="pipeline-step">
+<span class="pipeline-number">03</span>
+<div>
+<h3>Sparse selection and domain alignment</h3>
+<p>L₁ regularization · MMD · Federated aggregation</p>
+</div>
+</div>
+<div class="pipeline-step">
+<span class="pipeline-number">04</span>
+<div>
+<h3>Global and private experts</h3>
+<p>Gated fusion · subject-level ASD / HC inference</p>
+</div>
+</div>
+</div>
+<button class="text-button" data-navigate="protocol">View the full study protocol <svg>
+<use href="#i-arrow"/>
+</svg>
+</button>
+</article>
+        </div>
+        <div class="section-title">
+<div>
+<h2>Site data summary</h2>
+<p>Training data remain at each protocol site. Counts below reflect locally available public subjects.</p>
+</div>
+<div class="site-legend">
+<span>
+<i class="legend-dot teal">
+</i>ASD</span>
+<span>
+<i class="legend-dot violet">
+</i>HC</span>
+</div>
+</div>
+        <div class="sites-grid" id="sites-grid" aria-live="polite">
+</div>
+        <div class="overview-lower">
+<article class="card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">HELD-OUT EVALUATION</div>
+<h2>Site-level test results</h2>
+</div>
+<span class="badge neutral">Held-out test set</span>
+</div>
+<div id="site-results" class="table-scroll">
+</div>
+</article>
+<article class="card evaluation-card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">CLASSIFICATION DETAILS</div>
+<h2>Confusion matrix</h2>
+</div>
+<span class="small-mono">True label × predicted label</span>
+</div>
+<div id="confusion-matrix">
+</div>
+<div class="evaluation-minis" id="evaluation-minis">
+</div>
+</article>
+</div>
+        <div class="integrity-strip">
+<svg>
+<use href="#i-info"/>
+</svg>
+<p>All metrics are measured from actual runs. Published results are cited separately in Study Protocol, not substituted for local results.</p>
+<button class="text-button" data-navigate="protocol">Evaluation definitions <svg>
+<use href="#i-arrow"/>
+</svg>
+</button>
+</div>
+        </div>
+</div>
+</details>
+      </section>
+      <section id="view-train" class="view" aria-label="Federated Training" hidden>
+        <details class="training-method-record">
+<summary>Method details · federated collaboration</summary>
+<div id="federation-root" aria-label="Recorded federated collaboration and changes">
+</div>
+</details>
+        <div class="train-layout">
+<article class="card train-config">
+<div class="card-heading">
+<div>
+<div class="section-kicker">EXPERIMENT CONFIGURATION</div>
+<h2>Training configuration</h2>
+</div>
+<svg class="heading-icon">
+<use href="#i-pulse"/>
+</svg>
+</div>
+<form id="train-form">
+<fieldset id="train-fields">
+<legend class="sr-only">Training configuration</legend>
+<label for="method">Method</label>
+<select id="method" name="method">
+<option value="fedbrain">FedBrain · sparse selection + alignment + personalization</option>
+<option value="fedavg">FedAvg · federated averaging baseline</option>
+</select>
+<div class="form-row">
+<div>
+<label for="rounds">Communication rounds</label>
+<input id="rounds" name="rounds" type="number" value="50" min="1" max="500" required>
+<small>The paper uses 50 rounds</small>
+</div>
+<div>
+<label for="seed">Random seed</label>
+<input id="seed" name="seed" type="number" value="42" min="0" max="2147483647" required>
+<small>Fixes splits and initialization</small>
+</div>
+</div>
+<label for="max-per-site">Subjects per site</label>
+<input id="max-per-site" name="max_per_site" type="number" value="0" min="0" max="10000" required>
+<small>0 = all cached subjects; use a smaller value for a smoke test</small>
+<div class="form-row">
+<div>
+<label for="noise-scale">Noise scale λ<sub>M</sub>
+</label>
+<input id="noise-scale" name="noise_scale" type="number" value="0.01" min="0" max="1" step="0.001" required>
+</div>
+<div>
+<label for="alignment-weight">Alignment weight</label>
+<input id="alignment-weight" name="alignment_weight" type="number" value="0.1" min="0" max="100" step="0.01" required>
+</div>
+</div>
+</fieldset>
+<div class="form-note">
+<svg>
+<use href="#i-info"/>
+</svg>
+<p>Training uses real locally cached ABIDE data. The service reports a specific reason if data are not ready.</p>
+</div>
+<div id="train-notice" class="notice hidden" role="status">
+</div>
+<button class="button primary full-width" id="start-train" type="submit">
+<svg>
+<use href="#i-play"/>
+</svg>Start Federated Training</button>
+</form>
+</article>
+<div class="train-monitor">
+<article class="card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">LIVE TRAINING</div>
+<h2>Training progress and loss</h2>
+</div>
+<button class="button danger subtle" id="stop-train" disabled>
+<svg>
+<use href="#i-stop"/>
+</svg>Stop Training</button>
+</div>
+<div class="training-status" id="training-status">
+</div>
+<div class="chart-legend">
+<span>
+<i class="legend-line teal">
+</i>Training loss</span>
+<span>
+<i class="legend-line violet">
+</i>Alignment loss</span>
+</div>
+<div id="loss-chart" class="chart-container">
+</div>
+</article>
+<article class="card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">RUN MANIFEST</div>
+<h2>Run Records</h2>
+</div>
+<button class="text-button" id="export-run" disabled>
+<svg>
+<use href="#i-download"/>
+</svg>Export JSON</button>
+</div>
+<dl id="run-manifest" class="manifest-grid">
+</dl>
+</article>
+</div>
+</div>
+        <article class="card round-table-card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">ROUND-BY-ROUND</div>
+<h2>Round log</h2>
+</div>
+<span class="small-mono">Recorded measurements only · latest 50 rounds</span>
+</div>
+<div id="round-history" class="table-scroll" tabindex="0" aria-label="Scrollable log of the latest 50 recorded rounds">
+</div>
+</article>
+      </section>
+      <section id="view-inference" class="view" aria-label="Model Inference" hidden>
+        <div class="inference-layout">
+<article class="card subjects-panel">
+<div class="card-heading">
+<div>
+<div class="section-kicker">SUBJECT EXPLORER</div>
+<h2>Select a research subject</h2>
+</div>
+<span class="badge neutral" id="subjects-count">—</span>
+</div>
+<label class="search-input" for="subject-search">
+<svg>
+<use href="#i-search"/>
+</svg>
+<input id="subject-search" placeholder="Search subject ID / site" autocomplete="off" type="search">
+</label>
+<label for="site-filter" class="sr-only">Filter subjects by site</label>
+<select id="site-filter">
+<option value="">All sites</option>
+</select>
+<div class="subject-list" id="subject-list" aria-label="Subject list">
+</div>
+</article>
+<div class="subject-detail">
+<div id="subject-notice" class="notice hidden" role="alert">
+</div>
+<article class="card subject-summary">
+<div>
+<div class="section-kicker">INDIVIDUAL INFERENCE</div>
+<h2 id="subject-heading">Select a subject</h2>
+<div class="subject-meta" id="subject-meta">Select a subject on the left to inspect connectivity and model outputs.</div>
+</div>
+<div id="prediction-result" class="prediction-result" aria-live="polite">
+</div>
+</article>
+<div class="connectivity-layout">
+<article class="card heatmap-card">
+<div class="card-heading">
+<div>
+<h2>Functional connectivity matrix</h2>
+<p>AAL116 · Pearson correlation</p>
+</div>
+<span class="badge neutral">116 × 116</span>
+</div>
+<div class="heatmap-frame">
+<span class="heatmap-y">Brain ROI</span>
+<div class="canvas-wrap" id="canvas-wrap">
+<canvas id="fc-canvas" width="464" height="464" aria-label="Subject 116-by-116 functional connectivity matrix" role="img">
+</canvas>
+<div class="canvas-empty" id="heatmap-empty">
+<svg>
+<use href="#i-layers"/>
+</svg>
+<strong>Awaiting connectivity data</strong>
+<span>Select a subject to load the measured matrix</span>
+</div>
+</div>
+<span class="heatmap-x">Brain ROI</span>
+</div>
+<div class="heatmap-legend">
+<span>−1 Negative</span>
+<div class="color-scale">
+</div>
+<span>+1 Positive</span>
+</div>
+<p class="heatmap-readout" id="heatmap-readout">Hover over the matrix to inspect connectivity</p>
+</article>
+<article class="card network-card">
+<div class="card-heading">
+<div>
+<h2>Strongest connections</h2>
+<p>Circular ROI layout · not anatomical coordinates</p>
+</div>
+<span class="badge violet-outline">Schematic</span>
+</div>
+<div id="roi-network" class="network-container">
+</div>
+<div class="network-caption">
+<span>
+<i class="legend-line teal">
+</i>Positive</span>
+<span>
+<i class="legend-line violet">
+</i>Negative</span>
+<span id="network-count">Awaiting connections</span>
+</div>
+<p class="small-note">ROIs follow their file-column order in a circle. Only API-provided strong connections are shown; this layout does not represent anatomy or causality.</p>
+</article>
+</div>
+<article class="card experts-card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">MIXTURE OF EXPERTS</div>
+<h2>Global and Private Experts</h2>
+</div>
+<span class="badge teal-outline">ASD probability</span>
+</div>
+<div id="expert-content">
+</div>
+</article>
+<div class="inference-footnote" id="inference-note">Model outputs are for research, not clinical diagnosis.</div>
+</div>
+</div>
+      </section>
+      <section id="view-protocol" class="view" aria-label="Study Protocol" hidden>
+        <article class="paper-reference">
+<div class="paper-reference-main">
+<div class="eyebrow">PAPER REFERENCE · Not local experiment results</div>
+<h2>FedBrain: A robust multi-site brain network analysis framework based on federated learning for brain disease diagnosis</h2>
+<p>Chang Zhang et al. · Neurocomputing 559 (2023), 126791</p>
+<a id="paper-link" href="https://doi.org/10.1016/j.neucom.2023.126791" target="_blank" rel="noopener noreferrer">Read the Paper <svg>
+<use href="#i-arrow"/>
+</svg>
+</a>
+</div>
+<div class="reference-number">
+<span>Published mean accuracy</span>
+<strong id="paper-accuracy">79<span>%</span>
+</strong>
+<small>Reference result ≠ this reproduction</small>
+</div>
+</article>
+        <div class="protocol-grid">
+<article class="card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">REPRODUCTION RECIPE</div>
+<h2>Data processing and evaluation</h2>
+</div>
+<span class="badge neutral">Based on paper §5</span>
+</div>
+<ol class="recipe">
+<li>
+<span>01</span>
+<div>
+<h3>Data and site selection</h3>
+<p>ABIDE I preprocessed data: KKI, NYU, UCLA_1, UM_1, USM, and YALE. Paper Table 1 counts are references; actual cohorts follow local data and run manifests.</p>
+</div>
+</li>
+<li>
+<span>02</span>
+<div>
+<h3>Consistent preprocessing</h3>
+<p>CPAC / filt_noglobal / AAL116; 0.01–0.1 Hz band-pass filtering without global signal regression. Connectivity matrices contain 116 ROIs.</p>
+</div>
+</li>
+<li>
+<span>03</span>
+<div>
+<h3>Windows and connectivity features</h3>
+<p>32-frame windows with stride 1; Pearson correlations and Fisher z transformation; 6,670 upper-triangle connectivity features.</p>
+</div>
+</li>
+<li>
+<span>04</span>
+<div>
+<h3>Federated training and personalized fusion</h3>
+<p>L₁ sparse selection, MMD alignment, and gated global/private experts; 50 rounds by default. Select FedAvg for the federated averaging baseline.</p>
+</div>
+</li>
+<li>
+<span>05</span>
+<div>
+<h3>Subject-level splitting and evaluation</h3>
+<p>Split subjects before generating windows; no subject crosses train, validation, or test sets. Fit learned selection and scaling on training data only; report test results separately.</p>
+</div>
+</li>
+</ol>
+</article>
+<div class="protocol-aside">
+<article class="card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">IMPLEMENTATION TRANSPARENCY</div>
+<h2>Implementation notes</h2>
+</div>
+</div>
+<div id="protocol-details">
+</div>
+</article>
+<article class="card paper-note">
+<svg>
+<use href="#i-book"/>
+</svg>
+<h3>A hyperparameter inconsistency in the paper</h3>
+<p>The noise analysis in §5.5.1 uses λ<sub>M</sub> = 0.01, while a later summary uses 0.1. The local default is 0.01; saved run configurations are authoritative.</p>
+</article>
+</div>
+</div>
+        <article class="card">
+<div class="card-heading">
+<div>
+<div class="section-kicker">EVIDENCE & PROVENANCE</div>
+<h2>Run provenance</h2>
+</div>
+<button class="text-button" id="export-protocol">
+<svg>
+<use href="#i-download"/>
+</svg>Export Status Snapshot</button>
+</div>
+<div id="protocol-evidence" class="evidence-grid">
+</div>
+</article>
+      </section>
+      <footer class="footer">
+<span>
+<strong>FedBrain</strong> / Open Research Workspace</span>
+<span>ABIDE I · Local experiments</span>
+<span>ABIDE I <i>
+</i> Research demonstration</span>
+</footer>
+    </main>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite">
+</div>
+<noscript>
+<div class="noscript">Enable JavaScript to read real experiment data.</div>
+</noscript>
+</body>
+</html>

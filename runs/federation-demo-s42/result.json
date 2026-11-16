@@ -1,0 +1,640 @@
+{
+  "id": "federation-demo-s42",
+  "status": "completed",
+  "created_at": "2026-11-13T09:08:11.114959+00:00",
+  "config": {
+    "method": "fedbrain",
+    "rounds": 8,
+    "seed": 42,
+    "learning_rate": 0.001,
+    "local_epochs": 1,
+    "batch_size": 256,
+    "hidden_dim": 8,
+    "noise_scale": 0.01,
+    "alignment_weight": 0.1,
+    "max_per_site": 0,
+    "max_windows": 0,
+    "max_features": 512,
+    "sparse_max_iter": 40,
+    "sparse_windows_per_subject": 8,
+    "lambda_aug": 0.01,
+    "coupling": 1.0,
+    "homomorphic": false,
+    "paillier_bits": 2048,
+    "clip_norm": 10.0,
+    "fold": null,
+    "n_splits": 5,
+    "test_size": 0.2,
+    "validation_fraction": 0.2,
+    "device": "auto",
+    "data_dir": "D:\\cluade_code\\taobo\\paper-reproduction\\data\\abide",
+    "run_root": "D:\\cluade_code\\taobo\\paper-reproduction\\runs",
+    "feature_run_id": "full-fedbrain-s42",
+    "checkpoint_selection": "final",
+    "defer_test": false,
+    "alignment_normalization": "legacy",
+    "alignment_reference": "legacy",
+    "weight_decay": 0.0,
+    "experiment_tag": "federation-process-demo",
+    "record_federation": true
+  },
+  "history": [
+    {
+      "round": 1,
+      "train_loss": 0.6862057196788299,
+      "alignment_loss": 2.584089211928539,
+      "weighted_alignment_loss": 0.2584089253193293,
+      "val_accuracy": 0.49152236652236647,
+      "val_auc": 0.4162162162162163,
+      "site_accuracy": {
+        "KKI": 0.6666666666666666,
+        "NYU": 0.6071428571428571,
+        "UCLA": 0.45454545454545453,
+        "UM": 0.42857142857142855,
+        "USM": 0.36363636363636365,
+        "Yale": 0.42857142857142855
+      },
+      "elapsed_seconds": 18.263850000017555,
+      "communication_bytes": 198576
+    },
+    {
+      "round": 2,
+      "train_loss": 0.6794973966402885,
+      "alignment_loss": 1.8862439815814678,
+      "weighted_alignment_loss": 0.18862440150517684,
+      "val_accuracy": 0.5034271284271284,
+      "val_auc": 0.5114864864864865,
+      "site_accuracy": {
+        "KKI": 0.6666666666666666,
+        "NYU": 0.6071428571428571,
+        "UCLA": 0.45454545454545453,
+        "UM": 0.5,
+        "USM": 0.36363636363636365,
+        "Yale": 0.42857142857142855
+      },
+      "elapsed_seconds": 20.03682470001513,
+      "communication_bytes": 397152
+    },
+    {
+      "round": 3,
+      "train_loss": 0.6663441593830403,
+      "alignment_loss": 1.7086645046869913,
+      "weighted_alignment_loss": 0.17086645307449194,
+      "val_accuracy": 0.5212842712842712,
+      "val_auc": 0.568918918918919,
+      "site_accuracy": {
+        "KKI": 0.6666666666666666,
+        "NYU": 0.5714285714285714,
+        "UCLA": 0.45454545454545453,
+        "UM": 0.6428571428571429,
+        "USM": 0.36363636363636365,
+        "Yale": 0.42857142857142855
+      },
+      "elapsed_seconds": 21.62950360000832,
+      "communication_bytes": 595728
+    },
+    {
+      "round": 4,
+      "train_loss": 0.6512691137118217,
+      "alignment_loss": 1.7895118199861966,
+      "weighted_alignment_loss": 0.1789511848718692,
+      "val_accuracy": 0.4855699855699856,
+      "val_auc": 0.6128378378378379,
+      "site_accuracy": {
+        "KKI": 0.6666666666666666,
+        "NYU": 0.6428571428571429,
+        "UCLA": 0.45454545454545453,
+        "UM": 0.5,
+        "USM": 0.36363636363636365,
+        "Yale": 0.2857142857142857
+      },
+      "elapsed_seconds": 23.261632400011877,
+      "communication_bytes": 794304
+    },
+    {
+      "round": 5,
+      "train_loss": 0.6362757404645284,
+      "alignment_loss": 1.8069630659543552,
+      "weighted_alignment_loss": 0.1806963094151937,
+      "val_accuracy": 0.5304834054834054,
+      "val_auc": 0.6263513513513513,
+      "site_accuracy": {
+        "KKI": 0.6666666666666666,
+        "NYU": 0.5357142857142857,
+        "UCLA": 0.5454545454545454,
+        "UM": 0.6428571428571429,
+        "USM": 0.36363636363636365,
+        "Yale": 0.42857142857142855
+      },
+      "elapsed_seconds": 25.079403200012166,
+      "communication_bytes": 992880
+    },
+    {
+      "round": 6,
+      "train_loss": 0.6222013828081963,
+      "alignment_loss": 1.8148943106333415,
+      "weighted_alignment_loss": 0.18148943437979773,
+      "val_accuracy": 0.5845959595959596,
+      "val_auc": 0.6790540540540542,
+      "site_accuracy": {
+        "KKI": 0.6666666666666666,
+        "NYU": 0.6071428571428571,
+        "UCLA": 0.6363636363636364,
+        "UM": 0.7142857142857143,
+        "USM": 0.45454545454545453,
+        "Yale": 0.42857142857142855
+      },
+      "elapsed_seconds": 26.627611500007333,
+      "communication_bytes": 1191456
+    },
+    {
+      "round": 7,
+      "train_loss": 0.601702090104421,
+      "alignment_loss": 1.7864197345880362,
+      "weighted_alignment_loss": 0.1786419764543191,
+      "val_accuracy": 0.5753968253968254,
+      "val_auc": 0.7202702702702704,
+      "site_accuracy": {
+        "KKI": 0.6666666666666666,
+        "NYU": 0.6428571428571429,
+        "UCLA": 0.5454545454545454,
+        "UM": 0.7142857142857143,
+        "USM": 0.45454545454545453,
+        "Yale": 0.42857142857142855
+      },
+      "elapsed_seconds": 28.27404530000058,
+      "communication_bytes": 1390032
+    },
+    {
+      "round": 8,
+      "train_loss": 0.579797227260394,
+      "alignment_loss": 1.790001548253573,
+      "weighted_alignment_loss": 0.17900015742350847,
+      "val_accuracy": 0.5694444444444444,
+      "val_auc": 0.7317567567567568,
+      "site_accuracy": {
+        "KKI": 0.6666666666666666,
+        "NYU": 0.6071428571428571,
+        "UCLA": 0.5454545454545454,
+        "UM": 0.7142857142857143,
+        "USM": 0.45454545454545453,
+        "Yale": 0.42857142857142855
+      },
+      "elapsed_seconds": 29.939179900015006,
+      "communication_bytes": 1588608
+    }
+  ],
+  "round": 8,
+  "total_rounds": 8,
+  "process_id": 24684,
+  "privacy": {
+    "noise_scale": 0.01,
+    "homomorphic": false,
+    "formal_dp": false,
+    "threat_model": "single-process simulator"
+  },
+  "test_policy": "test evaluated once after fixed training budget and configured checkpoint selection",
+  "test_evaluated": true,
+  "checkpoint_selection": "final",
+  "metrics": {
+    "accuracy": 0.5520833333333334,
+    "balanced_accuracy": 0.5434216239687364,
+    "auc": 0.7377333912288319,
+    "sensitivity": 0.1276595744680851,
+    "specificity": 0.9591836734693877,
+    "confusion_matrix": [
+      [
+        47,
+        2
+      ],
+      [
+        41,
+        6
+      ]
+    ],
+    "n_test_subjects": 96,
+    "per_site": {
+      "KKI": {
+        "accuracy": 0.5714285714285714,
+        "balanced_accuracy": 0.5,
+        "auc": 0.41666666666666663,
+        "sensitivity": 0.0,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            4,
+            0
+          ],
+          [
+            3,
+            0
+          ]
+        ],
+        "n_test_subjects": 7
+      },
+      "NYU": {
+        "accuracy": 0.6,
+        "balanced_accuracy": 0.5333333333333333,
+        "auc": 0.7533333333333334,
+        "sensitivity": 0.06666666666666667,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            20,
+            0
+          ],
+          [
+            14,
+            1
+          ]
+        ],
+        "n_test_subjects": 35
+      },
+      "UCLA": {
+        "accuracy": 0.46153846153846156,
+        "balanced_accuracy": 0.5625,
+        "auc": 0.75,
+        "sensitivity": 0.125,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            5,
+            0
+          ],
+          [
+            7,
+            1
+          ]
+        ],
+        "n_test_subjects": 13
+      },
+      "UM": {
+        "accuracy": 0.5555555555555556,
+        "balanced_accuracy": 0.48051948051948057,
+        "auc": 0.7532467532467532,
+        "sensitivity": 0.14285714285714285,
+        "specificity": 0.8181818181818182,
+        "confusion_matrix": [
+          [
+            9,
+            2
+          ],
+          [
+            6,
+            1
+          ]
+        ],
+        "n_test_subjects": 18
+      },
+      "USM": {
+        "accuracy": 0.5714285714285714,
+        "balanced_accuracy": 0.6666666666666666,
+        "auc": 0.8,
+        "sensitivity": 0.3333333333333333,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            5,
+            0
+          ],
+          [
+            6,
+            3
+          ]
+        ],
+        "n_test_subjects": 14
+      },
+      "Yale": {
+        "accuracy": 0.4444444444444444,
+        "balanced_accuracy": 0.5,
+        "auc": 0.5,
+        "sensitivity": 0.0,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            4,
+            0
+          ],
+          [
+            5,
+            0
+          ]
+        ],
+        "n_test_subjects": 9
+      }
+    },
+    "site_mean_accuracy": 0.5340659340659341,
+    "aggregation": "subject probability = mean window probabilities; macro-site mean reported separately"
+  },
+  "stage": "completed",
+  "environment": {
+    "torch": "2.11.0+cu128",
+    "numpy": "1.26.4"
+  },
+  "source_hashes": {
+    "runner.py": "a37a235b7d779f5a2856d4dfcdd4609f572c71a2f0be1943ca0be150ea35d841",
+    "model.py": "e858997e713283aa5f6163855fb509102976d1b05929c8015b0edbaf36e615c3",
+    "sparse.py": "174a3a65a8e70e7497a51b8476edeeed4c1eaf7863e1b84d7cf91e9c47ec2745",
+    "selection.py": "97420ec7650d361e033f56306e79ffe32843f7003c53eb797f5f812676bf2477",
+    "privacy.py": "090ee9cdc03acbb8f9a84fae382817cd0456b1dad7714f77775ea3d4fe922a1d",
+    "federation.py": "63f298c1bbf427755d57e80e4de8a012a125aae3c1f0bb9e3f8ca2a696c855f9"
+  },
+  "updated_at": "2026-11-13T09:08:41.408109+00:00",
+  "evaluator_self_check": {
+    "gold_accuracy": 1.0,
+    "shuffled_accuracy": 0.501,
+    "passed": true
+  },
+  "split_counts": {
+    "train": 292,
+    "val": 77,
+    "test": 96
+  },
+  "data_subjects": 465,
+  "progress_detail": "第8轮 · 共享模型已广播，私有专家保留在本站点",
+  "selection": {
+    "n_selected": 512,
+    "total_features": 6670,
+    "max_features": 512,
+    "diagnostics": {
+      "reused_from": "full-fedbrain-s42",
+      "train_only": true
+    },
+    "sparse_windows_per_subject": 8,
+    "segment_grid": "relative-time evenly spaced bins; explicit sparse-stage approximation",
+    "subject_cap": null
+  },
+  "device": "cuda",
+  "federation": {
+    "available": true,
+    "schema_version": 1,
+    "current_round": 8,
+    "current_phase": "completed",
+    "current_site": null,
+    "completed_rounds": 8
+  },
+  "selected_round": 8,
+  "train_metrics": {
+    "accuracy": 0.6917808219178082,
+    "balanced_accuracy": 0.6791353383458647,
+    "auc": 0.8710056390977443,
+    "sensitivity": 0.37142857142857144,
+    "specificity": 0.9868421052631579,
+    "confusion_matrix": [
+      [
+        150,
+        2
+      ],
+      [
+        88,
+        52
+      ]
+    ],
+    "n_test_subjects": 292,
+    "per_site": {
+      "KKI": {
+        "accuracy": 0.75,
+        "balanced_accuracy": 0.6428571428571428,
+        "auc": 0.8571428571428571,
+        "sensitivity": 0.2857142857142857,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            13,
+            0
+          ],
+          [
+            5,
+            2
+          ]
+        ],
+        "n_test_subjects": 20
+      },
+      "NYU": {
+        "accuracy": 0.6697247706422018,
+        "balanced_accuracy": 0.6221688400823611,
+        "auc": 0.8558682223747427,
+        "sensitivity": 0.2765957446808511,
+        "specificity": 0.967741935483871,
+        "confusion_matrix": [
+          [
+            60,
+            2
+          ],
+          [
+            34,
+            13
+          ]
+        ],
+        "n_test_subjects": 109
+      },
+      "UCLA": {
+        "accuracy": 0.675,
+        "balanced_accuracy": 0.717391304347826,
+        "auc": 0.8107416879795396,
+        "sensitivity": 0.43478260869565216,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            17,
+            0
+          ],
+          [
+            13,
+            10
+          ]
+        ],
+        "n_test_subjects": 40
+      },
+      "UM": {
+        "accuracy": 0.8928571428571429,
+        "balanced_accuracy": 0.8695652173913043,
+        "auc": 0.9486166007905138,
+        "sensitivity": 0.7391304347826086,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            33,
+            0
+          ],
+          [
+            6,
+            17
+          ]
+        ],
+        "n_test_subjects": 56
+      },
+      "USM": {
+        "accuracy": 0.5714285714285714,
+        "balanced_accuracy": 0.6666666666666666,
+        "auc": 0.9037037037037037,
+        "sensitivity": 0.3333333333333333,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            15,
+            0
+          ],
+          [
+            18,
+            9
+          ]
+        ],
+        "n_test_subjects": 42
+      },
+      "Yale": {
+        "accuracy": 0.52,
+        "balanced_accuracy": 0.5384615384615384,
+        "auc": 0.891025641025641,
+        "sensitivity": 0.07692307692307693,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            12,
+            0
+          ],
+          [
+            12,
+            1
+          ]
+        ],
+        "n_test_subjects": 25
+      }
+    },
+    "site_mean_accuracy": 0.6798350808213195,
+    "aggregation": "subject probability = mean window probabilities; macro-site mean reported separately"
+  },
+  "validation_metrics": {
+    "accuracy": 0.5844155844155844,
+    "balanced_accuracy": 0.5695945945945946,
+    "auc": 0.7317567567567568,
+    "sensitivity": 0.1891891891891892,
+    "specificity": 0.95,
+    "confusion_matrix": [
+      [
+        38,
+        2
+      ],
+      [
+        30,
+        7
+      ]
+    ],
+    "n_test_subjects": 77,
+    "per_site": {
+      "KKI": {
+        "accuracy": 0.6666666666666666,
+        "balanced_accuracy": 0.5,
+        "auc": 0.75,
+        "sensitivity": 0.0,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            4,
+            0
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        "n_test_subjects": 6
+      },
+      "NYU": {
+        "accuracy": 0.6071428571428571,
+        "balanced_accuracy": 0.5520833333333334,
+        "auc": 0.7916666666666667,
+        "sensitivity": 0.16666666666666666,
+        "specificity": 0.9375,
+        "confusion_matrix": [
+          [
+            15,
+            1
+          ],
+          [
+            10,
+            2
+          ]
+        ],
+        "n_test_subjects": 28
+      },
+      "UCLA": {
+        "accuracy": 0.5454545454545454,
+        "balanced_accuracy": 0.5666666666666667,
+        "auc": 0.7,
+        "sensitivity": 0.3333333333333333,
+        "specificity": 0.8,
+        "confusion_matrix": [
+          [
+            4,
+            1
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "n_test_subjects": 11
+      },
+      "UM": {
+        "accuracy": 0.7142857142857143,
+        "balanced_accuracy": 0.6666666666666666,
+        "auc": 0.7916666666666667,
+        "sensitivity": 0.3333333333333333,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            8,
+            0
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "n_test_subjects": 14
+      },
+      "USM": {
+        "accuracy": 0.45454545454545453,
+        "balanced_accuracy": 0.5714285714285714,
+        "auc": 0.75,
+        "sensitivity": 0.14285714285714285,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            4,
+            0
+          ],
+          [
+            6,
+            1
+          ]
+        ],
+        "n_test_subjects": 11
+      },
+      "Yale": {
+        "accuracy": 0.42857142857142855,
+        "balanced_accuracy": 0.5,
+        "auc": 0.41666666666666663,
+        "sensitivity": 0.0,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            3,
+            0
+          ],
+          [
+            4,
+            0
+          ]
+        ],
+        "n_test_subjects": 7
+      }
+    },
+    "site_mean_accuracy": 0.5694444444444444,
+    "aggregation": "subject probability = mean window probabilities; macro-site mean reported separately"
+  },
+  "generalization_gap": 0.13969748858447484,
+  "elapsed_seconds": 30.2859746000031,
+  "communication_bytes": 1588608
+}

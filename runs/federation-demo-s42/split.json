@@ -1,0 +1,2333 @@
+{
+  "train": [
+    {
+      "id": "51077",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51156",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51086",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51155",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51027",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51028",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50994",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51153",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50952",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51021",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50995",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51114",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51063",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50961",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51056",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50973",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51075",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51019",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51118",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51093",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50967",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51150",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51097",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51053",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51010",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51054",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51079",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51087",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50955",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51069",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51131",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51106",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51122",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51113",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51083",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51029",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51001",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51082",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51026",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50982",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51002",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51048",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51124",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51084",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51072",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50987",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51042",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51051",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51062",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51024",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50966",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51055",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51070",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51018",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51104",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51081",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51073",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50981",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51066",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51065",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51011",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51074",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50985",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51096",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51088",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51047",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51045",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50999",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51041",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50977",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51130",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50964",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51040",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51009",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51078",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51020",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51129",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50968",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51154",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51060",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51107",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51030",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51006",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51000",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50958",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51057",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51109",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50954",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51017",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51111",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51102",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51089",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51023",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51016",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51035",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51025",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51117",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50962",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51148",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50972",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51050",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51085",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51046",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50983",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50996",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51012",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51013",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51008",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51049",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50292",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50272",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50352",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50304",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50300",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50319",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50293",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50354",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50362",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50374",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50332",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50341",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50372",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50360",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50285",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50349",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50351",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50320",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50336",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50289",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50333",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50325",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50345",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50308",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50361",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50278",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50355",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50302",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50369",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50274",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50334",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50330",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50298",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50340",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50301",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50337",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50357",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50379",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50343",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50315",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50276",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50329",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50275",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50364",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50365",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50286",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50363",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50368",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50339",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50373",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50321",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50380",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50376",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50291",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50294",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50359",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50516",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50463",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50437",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50519",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50500",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50445",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50490",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50480",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50530",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50507",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50518",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50531",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50504",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50520",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50435",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50493",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50524",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50444",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50494",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50523",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50528",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50526",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50438",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50436",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50470",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50527",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50477",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50502",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50487",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50521",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50532",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50483",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50467",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50433",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50434",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50441",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50448",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50501",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50499",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50491",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50468",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50446",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "51221",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51212",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51264",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51279",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51249",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51226",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51216",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51250",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51241",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51272",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51278",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51215",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51266",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51220",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51225",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51281",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51234",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51206",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51201",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51276",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51265",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51208",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51207",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51204",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51214",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51202",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51229",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51210",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51224",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51255",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51280",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51261",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51251",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51260",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51253",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51240",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51219",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51248",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51252",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51254",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "50822",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50801",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50773",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50786",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50818",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50803",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50823",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50774",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50800",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50820",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50796",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50780",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50797",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50782",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50777",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50790",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50772",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50775",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50776",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50824",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50603",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50575",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50615",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50606",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50557",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50626",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50621",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50573",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50614",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50571",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50604",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50620",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50558",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50622",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50561",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50577",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50613",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50555",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50578",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50572",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50624",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50607",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50568",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50623",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50551",
+      "site": "Yale",
+      "label": 0
+    }
+  ],
+  "val": [
+    {
+      "id": "51126",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51094",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50993",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51033",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50976",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51080",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51159",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51064",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51101",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50986",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50988",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50992",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51068",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51110",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50974",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51003",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51123",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50970",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51105",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51099",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50956",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51015",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51095",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51127",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51098",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50969",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51044",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51036",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50353",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50344",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50367",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50327",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50295",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50347",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50331",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50324",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50358",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50310",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50284",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50290",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50375",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50318",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50453",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50510",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50485",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50529",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50469",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50482",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50525",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50488",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50442",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50449",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50498",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "51277",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51268",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51223",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51222",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51203",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51236",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51275",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51211",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51271",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51205",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51269",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "50817",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50807",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50812",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50799",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50781",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50816",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50552",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50628",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50612",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50619",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50608",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50569",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50576",
+      "site": "Yale",
+      "label": 0
+    }
+  ],
+  "test": [
+    {
+      "id": "50957",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50959",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50960",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50965",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50978",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50979",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50984",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50989",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50990",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50991",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "50997",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51007",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51014",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51032",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51034",
+      "site": "NYU",
+      "label": 1
+    },
+    {
+      "id": "51038",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51039",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51052",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51058",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51059",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51061",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51067",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51076",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51090",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51091",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51100",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51103",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51112",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51116",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51128",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51146",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51147",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51149",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51151",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "51152",
+      "site": "NYU",
+      "label": 0
+    },
+    {
+      "id": "50273",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50279",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50282",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50287",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50297",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50312",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50314",
+      "site": "UM",
+      "label": 1
+    },
+    {
+      "id": "50335",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50338",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50342",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50346",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50348",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50350",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50356",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50366",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50370",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50377",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50381",
+      "site": "UM",
+      "label": 0
+    },
+    {
+      "id": "50439",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50440",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50443",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50447",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50466",
+      "site": "USM",
+      "label": 0
+    },
+    {
+      "id": "50481",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50486",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50492",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50496",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50497",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50503",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50509",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50514",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "50515",
+      "site": "USM",
+      "label": 1
+    },
+    {
+      "id": "51217",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51218",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51228",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51230",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51231",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51235",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51237",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51239",
+      "site": "UCLA",
+      "label": 1
+    },
+    {
+      "id": "51256",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51257",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51262",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51267",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "51273",
+      "site": "UCLA",
+      "label": 0
+    },
+    {
+      "id": "50778",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50783",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50791",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50792",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50798",
+      "site": "KKI",
+      "label": 1
+    },
+    {
+      "id": "50814",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50821",
+      "site": "KKI",
+      "label": 0
+    },
+    {
+      "id": "50563",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50565",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50570",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50574",
+      "site": "Yale",
+      "label": 0
+    },
+    {
+      "id": "50601",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50602",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50616",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50625",
+      "site": "Yale",
+      "label": 1
+    },
+    {
+      "id": "50627",
+      "site": "Yale",
+      "label": 1
+    }
+  ]
+}

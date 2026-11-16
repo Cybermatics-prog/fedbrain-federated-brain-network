@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+
+# ABIDE inputs and derived caches: rebuild with `python -m fedbrain.runner download`
+# and `python scripts/build_health_data.py`
+data/
+artifacts/
+
+# Local model checkpoints and downloaded binaries
+*.pt
+tools/
+
+# Run outputs are large and machine-specific. Only the recorded demo trace is kept,
+# because the interface replays it without training.
+runs/*
+!runs/federation-demo-s42/
+runs/federation-demo-s42/*
+!runs/federation-demo-s42/result.json
+!runs/federation-demo-s42/split.json
+!runs/federation-demo-s42/federation/
+
+# Third-party article text is not redistributed
+docs/paper.txt
+docs/paper.pdf
+
+# Browser QA output and the older single-view smoke scripts (superseded by scripts/check_*.py;
+# README images live in docs/images)
+web/qa/
+web/ui_*.py
+
+# Local editors and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,17 @@
+{
+  "rounds": 2,
+  "max_per_site": 20,
+  "max_windows": 8,
+  "max_features": 64,
+  "sparse_max_iter": 8,
+  "seed": 42,
+  "noise_scale": 0.01,
+  "alignment_weight": 1.0,
+  "alignment_normalization": "batch",
+  "alignment_reference": "post_aggregation",
+  "checkpoint_selection": "best_val",
+  "defer_test": true,
+  "weight_decay": 0.01,
+  "homomorphic": false,
+  "experiment_tag": "validation-only-smoke"
+}
