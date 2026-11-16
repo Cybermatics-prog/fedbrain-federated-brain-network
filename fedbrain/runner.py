@@ -269,7 +269,7 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
             obj['segments'].extend(np.arange(len(idx)).tolist())
             obj['subject_ids'].extend([s['id']] * len(idx))
             if index % 20 == 0:
-                status['progress_detail'] = f'训练受试者连接矩阵 {index+1}/{len(split["train"])}'
+                status['progress_detail'] = f'Training-subject connectivity matrices {index+1}/{len(split["train"])}'
                 save()
         mean = sums / count
         std = np.sqrt(np.maximum(sums2 / count - mean**2, 1e-6))
@@ -310,7 +310,7 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
             x = _subject_features(s, config)
             matrices[s['id']] = np.asarray((x[:, indices] - mean[indices]) / std[indices], dtype=np.float32)
             if i % 30 == 0:
-                status['progress_detail'] = f'选定特征转换 {i+1}/{len(subjects)}'
+                status['progress_detail'] = f'Selected feature transforms {i+1}/{len(subjects)}'
                 save()
         train_data = {}
         for site in SITE_ORDER:
@@ -358,7 +358,7 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
                 if recorder is not None:
                     recorder.client_started(site)
                     status['federation'].update(current_phase='local_train', current_site=site)
-                    status['progress_detail'] = f'第{round_index}轮 · {site} 本地训练（数据留在本站点）'
+                    status['progress_detail'] = f'Round {round_index} · {site} local training (data stays at this site)'
                     save()
                 site_loss_start = len(losses)
                 model.train()
@@ -403,7 +403,7 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
                     save()
             if recorder is not None:
                 status['federation'].update(current_phase='aggregate', current_site=None)
-                status['progress_detail'] = f'第{round_index}轮 · 服务器聚合六站点共享参数'
+                status['progress_detail'] = f'Round {round_index} · server aggregates the six sites\' shared parameters'
                 save()
             shared = average_shared_states(states, encrypted=encryptor)
             if recorder is not None:
@@ -421,7 +421,7 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
                 recorder.broadcast(models)
                 status['federation'].update(current_phase='broadcast', current_site=None,
                                             completed_rounds=round_index)
-                status['progress_detail'] = f'第{round_index}轮 · 共享模型已广播，私有专家保留在本站点'
+                status['progress_detail'] = f'Round {round_index} · shared model broadcast; private experts retained at this site'
             if config.alignment_reference == 'post_aggregation' and use_align:
                 next_reference = _reference_moments(models, train_data, device)
             reference = next_reference
@@ -521,8 +521,8 @@ def infer_subject(run_dir, subject_id, subjects=None):
             'top_connections': [{'source': int(rows[i]), 'target': int(cols[i]), 'value': float(fc[rows[i], cols[i]])}
                                 for i in top],
             'roi_labels': [f'AAL-{i+1:03d}' for i in range(116)],
-            'note': '真实ABIDE受试者。FC为全时序Pearson相关；预测使用32帧滑窗Fisher-z特征。'
-                    'AAL编号按文件列顺序，网络坐标是示意布局，不是解剖定位。仅科研演示，不用于临床诊断。'}
+            'note': 'Real ABIDE subject. FC is full-series Pearson correlation; prediction uses 32-frame sliding-window Fisher-z features. '
+                    'AAL indices follow file column order and the network coordinates are an illustrative layout, not anatomical positions. Research demo only; not for clinical diagnosis.'}
 
 
 def main():

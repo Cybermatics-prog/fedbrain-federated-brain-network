@@ -1,30 +1,30 @@
-# 联邦过程主视觉重构与真实性验收
+# Federation-Process Main Visual Rebuild and Authenticity Acceptance
 
-用户纠正：界面应可视化联邦协作的过程和效果，准确率只作为小辅助板块。
+User correction: the interface should visualize the process and effect of federated collaboration, with accuracy only as a small auxiliary panel.
 
-## 主视觉必须回答
-1. 六站点各自拿什么数据训练？哪些数据不离开本站点？
-2. 本地模型在本轮更新了多少？共享参数和私有专家/门控如何区分？
-3. 服务器实际收到了什么、如何平均聚合、再向谁广播？
-4. 广播后共享参数是否真的一致，私有参数是否真的未被聚合覆盖？
-5. 同一训练诊断投影坐标中，本地训练后的表示与聚合广播后的表示发生什么变化？不把这种对比冒充隔离的MMD因果收益。
+## What the Main Visual Must Answer
+1. What data does each of the six sites train on? Which data never leaves its site?
+2. How much did the local model update this round? How are shared parameters distinguished from private experts/gates?
+3. What did the server actually receive, how is it averaged and aggregated, and to whom is it broadcast?
+4. After broadcast, are the shared parameters really identical, and were the private parameters really not overwritten by aggregation?
+5. In the same training-diagnostic projection coordinates, what happens to the representation after local training versus after aggregate broadcast? Do not pass this comparison off as an isolated causal MMD gain.
 
-## 数据与呈现
-- 每轮记录真实local_train/upload/aggregate/broadcast事件、时间戳和站点；动画是这些真实记录的可控回放，不重建旧实验不存在的事件。
-- 参数图是64个固定共享模型参数坐标，不是脑连接/ROI图；显示实际local delta、上传扰动、聚合值和广播一致性。
-- 表示图只用固定训练窗口探针的站点均值/协方差/分类均值，PCA坐标在训练开始时拟合并全程固定；不导出个体窗口/原始FC。
-- 单机诊断记录可观察本地清洁参数与上传后参数；这不表示真实服务器能看到未上传的私有权重。
-- 历史无记录运行明确显示不可回放，保留原实测指标与推理；新联邦演示默认按trace存在性选择，不按准确率选择。
-- 准确率/消融/优化报告全部收进默认折叠的辅助结果区，不占首屏。
+## Data and Presentation
+- Record real local_train/upload/aggregate/broadcast events, timestamps, and sites each round; the animation is a controllable replay of these real records and does not reconstruct events that do not exist in old experiments.
+- The parameter plot uses 64 fixed shared-model parameter coordinates, not a brain-connectivity/ROI map; it shows the actual local delta, upload perturbation, aggregate value, and broadcast consistency.
+- The representation plot uses only site means/covariances/class means from fixed training-window probes; PCA coordinates are fit at training start and fixed throughout; no individual windows/raw FC are exported.
+- The single-machine diagnostic record can observe both the local clean parameters and the uploaded parameters; this does not mean a real server could see private weights that were never uploaded.
+- Historical runs without records are explicitly shown as not replayable, preserving the original measured metrics and inference; the new federation demo is selected by trace existence by default, not by accuracy.
+- Accuracy/ablation/optimization reports are all placed in the default-collapsed auxiliary results area and do not occupy the first screen.
 
-## 开跑前验收门槛
-- 先执行原smoke同配置两轮，新观测功能开关不能改变原模型输出：与smoke-six-sites-v2相同测试受试者，概率最大绝对差<=1e-6；不追求更高accuracy。
-- 单元测试保证观测前后模型参数、模块train/eval标志、NumPy/PyTorch随机数状态不变。
-- 每完整轮必须有六次client_started、六次client_uploaded、一次aggregate和一次broadcast操作（开始pending与验证完成verified两条事件），时间戳及序号真实有序。
-- 真实上传状态等权平均与实际聚合最大误差<=1e-6（明文）；广播后共享参数max差=0；本轮聚合前后每站点私有参数hash完全相同。
-- 所有记录值有限、每轮64坐标固定、固定PCA只读训练数据，残缺/停止运行如实显示部分状态。
-- 闸门通过后仅执行一个8轮全465人队列的流程演示，ID=federation-demo-s42，沿用原seed42 train-only512mask、hidden8/noise0.01；选最终轮，避免回放末轮与推理选轮混淆。不把8轮演示当作主性能实验。
-- 实际桌面1440和移动390检查：六节点+服务器、上传/广播方向、播放暂停/逐步/选轮、点击站点、前后表示/参数图、旧运行缺失记录提示、默认折叠准确率区、0JS错误/无横向溢出。
+## Pre-Run Acceptance Gates
+- First run two rounds with the same configuration as the original smoke; the new observation feature toggle must not change the original model output: same test subjects as smoke-six-sites-v2, max absolute probability difference <=1e-6; higher accuracy is not the goal.
+- Unit tests guarantee that model parameters, module train/eval flags, and NumPy/PyTorch random-number state are unchanged before and after observation.
+- Every complete round must have six client_started, six client_uploaded, one aggregate, and one broadcast operation (two events: pending at start and verified on completion), with timestamps and sequence numbers genuinely ordered.
+- The max error between the equal-weight mean of real upload statuses and the actual aggregate <=1e-6 (plaintext); shared-parameter max difference after broadcast = 0; each site's private parameter hash is exactly identical before and after that round's aggregation.
+- All recorded values are finite, the 64 coordinates are fixed per round, the fixed PCA reads only training data, and incomplete/stopped runs honestly show partial status.
+- After the gates pass, run exactly one 8-round process demo on the full 465-subject cohort, ID=federation-demo-s42, reusing the original seed42 train-only512mask, hidden8/noise0.01; select the final round to avoid confusing replay's last round with the inference-selected round. Do not treat the 8-round demo as the main performance experiment.
+- Actual checks at desktop 1440 and mobile 390: six nodes + server, upload/broadcast direction, play/pause/step/round selection, site clicks, before/after representation/parameter plots, missing-record notice for old runs, default-collapsed accuracy area, 0 JS errors/no horizontal overflow.
 
-## 冒烟审计验尸
-两轮真实训练已完成，但首版审计将广播开始/验证完成两条事件误计为应只有一条，触发断言；训练与记录本身没有失败。已排除聚合/训练错误：失败行仅为事件计数。修正审计为一条pending加一条verified且顺序正确，直接重审已有记录，不重训、不改原始事件。只有审计及输出非侵入性闸门通过后才启动8轮流程演示。
+## Smoke Audit Autopsy
+Two rounds of real training had completed, but the first audit version wrongly expected a single event for broadcast start/verified completion instead of the two that occur, tripping the assertion; training and recording themselves did not fail. Aggregation/training errors were ruled out: the failing line was only the event count. The audit was fixed to one pending plus one verified in correct order, and the existing records were re-audited directly, without retraining or changing the original events. The 8-round process demo was started only after the audit and the non-intrusive output gates passed.

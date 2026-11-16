@@ -1,29 +1,29 @@
-# FedBrain 复现预注册（2026-11-13）
+# FedBrain Reproduction Pre-registration (2026-11-13)
 
-## 可检验目标
-在公开 ABIDE-I / PCP / CPAC `filt_noglobal` / AAL116 的六个站点，建立不含受试者泄漏的 FedBrain 训练、受试者级评测及真实推理演示。论文 DOI：https://doi.org/10.1016/j.neucom.2023.126791。
+## Testable Goals
+On the six sites of the public ABIDE-I / PCP / CPAC `filt_noglobal` / AAL116 data, establish FedBrain training, subject-level evaluation, and a real inference demo without subject leakage. Paper DOI: https://doi.org/10.1016/j.neucom.2023.126791.
 
-## 顺序及预算
-1. 评测器金标与随机标签自检；动态 FC、分组划分、MoE、稀疏和加密聚合单元测试。
-2. 真实六站点小样本、2 communication rounds 冒烟测试。WIN：端到端完成，loss 和预测有限，六站点均有独立训练/测试受试者。KILL：存在交叉集合或非有限值，禁止全量训练直到修复。
-3. 全部下载成功且有效的六站点受试者；先做固定种子42的50轮 held-out 实验并保存完整配置、划分、概率、模型和逐轮指标。按受试者切分在先、滑窗在后；受试者窗口的预测概率取均值。
-4. 同一划分的 FedAvg 对照；如预算允许执行重复分层5折（论文为5次重复×5折）。至少3个种子才将差异称为稳定结果；否则仅称当前配置观察。
+## Order and Budget
+1. Evaluator gold-label and random-label self-checks; unit tests for dynamic FC, grouped splits, MoE, sparsity, and encrypted aggregation.
+2. Real six-site small-sample smoke test with 2 communication rounds. WIN: end-to-end completion, finite loss and predictions, independent train/test subjects at all six sites. KILL: any cross-set overlap or non-finite value; full training is forbidden until fixed.
+3. All six-site subjects that downloaded successfully and are valid; first run a fixed-seed-42 50-round held-out experiment and save the full config, split, probabilities, model, and per-round metrics. Split by subject first, sliding windows afterward; average the predicted probabilities of a subject's windows.
+4. A FedAvg control on the same split; run repeated stratified 5-fold if the budget allows (the paper uses 5 repeats×5 folds). Call a difference stable only with at least 3 seeds; otherwise call it an observation under the current configuration.
 
-## 有效性闸门（不可事后调整）
-- 评分器输入金标时 accuracy=1.0；固定10000条均衡随机标签对照 accuracy 在[0.47,0.53]。
-- 训练/验证/测试受试者 ID 集合两两不交；窗口不得在不同集合间分配；稀疏筛选和标准化只能使用训练集。
-- 真实小样本训练的正对照可在训练集达到 accuracy>=0.95；不满足时仅调试实现，不据此否定论文。
-- 主实验性能 WIN：六站点受试者级平均准确率>=0.79 且通过上述闸门；未达到只报告实测，不宣称已复现论文79%。
-- 比较 FedBrain 与 FedAvg 时必须使用相同受试者划分、窗口、隐藏宽度、稀疏掩码及通信轮数；FedAvg 不启用域对齐/私有专家。不得用测试集选择超参数或轮数。
+## Validity Gates (not adjustable after the fact)
+- When the scorer is given gold labels, accuracy=1.0; with 10000 fixed balanced random labels, the control accuracy is within [0.47,0.53].
+- The train/validation/test subject ID sets are pairwise disjoint; windows must not be assigned across sets; sparse screening and standardization may use only the training set.
+- The positive control for real small-sample training can reach accuracy>=0.95 on the training set; if not, only debug the implementation and do not use that to reject the paper.
+- Main-experiment performance WIN: six-site subject-level mean accuracy>=0.79 and the above gates passed; if not reached, report only the measured value and do not claim the paper's 79% has been reproduced.
+- Comparing FedBrain with FedAvg must use the same subject split, windows, hidden width, sparse mask, and number of communication rounds; FedAvg does not enable domain alignment/private experts. Test sets must not be used to select hyperparameters or rounds.
 
-## 已核实的论文设置和实现缺口
-- 六站点：NYU、UM_1、USM、UCLA_1、KKI、YALE；论文数目分别167/88/52/63/48/56，当前公开下载的有效数量将另外记录。
-- AAL116、Pearson→Fisher-z、上三角6670维、窗口32、步长1、MLP隐藏宽度8、50通信轮。
-- Eq11 稀疏全局/时间段系数采用交替近端/梯度优化；跨站点掩码合并。论文未给出完整优化超参数、站点合并细则、训练批量和DP预算会计。
-- Eq12–14 对齐使用线性核MMD的边际及按类别隐表示均值；通过训练集的聚合统计量交换，不跨站点汇集原始窗口。
-- Eq15 使用共享编码器/全局头及每站点私有头/门控的 logit 混合。
-- 论文正文在 λ_M=0.01 与0.1之间存在不一致：默认明确选0.01，可配置，记录在每次运行中；参数加噪不声称具有未经会计证明的epsilon-DP。
-- 加密聚合提供实际 Paillier 同态算术验证，可选择用于共享模型聚合；单机模拟不等于部署到独立医院的安全系统。
+## Verified Paper Settings and Implementation Gaps
+- Six sites: NYU, UM_1, USM, UCLA_1, KKI, YALE; the paper's counts are 167/88/52/63/48/56, and the currently valid public download counts will be recorded separately.
+- AAL116, Pearson→Fisher-z, upper triangle 6670 dimensions, window 32, stride 1, MLP hidden width 8, 50 communication rounds.
+- Eq11 sparse global/time-segment coefficients use alternating proximal/gradient optimization; masks are merged across sites. The paper does not give complete optimization hyperparameters, site-merging rules, training batch size, or DP budget accounting.
+- Eq12–14 alignment uses linear-kernel MMD marginal and per-class hidden-representation means; it exchanges aggregate statistics from the training set and does not pool raw windows across sites.
+- Eq15 uses a logit mixture of the shared encoder/global head and each site's private head/gate.
+- The paper text is inconsistent between λ_M=0.01 and 0.1: the default explicitly selects 0.01, it is configurable, and it is recorded in every run; parameter noise addition does not claim epsilon-DP without accounting proof.
+- Encrypted aggregation provides actual Paillier homomorphic arithmetic validation and can optionally be used for shared-model aggregation; a single-machine simulation is not equivalent to a security system deployed across isolated hospitals.
 
-## 留痕
-所有运行保存至 `runs/<run_id>/`，包含 config、subject split、逐轮 history、真实受试者预测、checkpoint 和加密/通信设置。文献79%与实测指标在界面分栏显示，不填充模拟曲线。
+## Record Keeping
+All runs are saved to `runs/<run_id>/`, including config, subject split, per-round history, real subject predictions, checkpoint, and encryption/communication settings. The literature's 79% and the measured metrics are displayed in separate UI columns, with no simulated curves filled in.

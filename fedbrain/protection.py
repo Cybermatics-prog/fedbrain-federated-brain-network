@@ -160,10 +160,10 @@ def describe_protection(run_dir: Path | None) -> dict:
         'available': bool(frame and (aggregate_sketch is not None or any(site['uploaded_shared_sketch'] is not None for site in transfer_sites))),
         'round': _integer(frame.get('round')) if frame else None, 'sketch_size': 64,
         'sites': transfer_sites, 'aggregate_shared_sketch': aggregate_sketch, 'coordinates': coordinates,
-        'coordinate_note': '共享模型参数的固定64个记录坐标，不是ROI、FC或PCA坐标。',
+        'coordinate_note': '64 fixed recorded coordinates of shared-model parameters; they are not ROI, FC or PCA coordinates.',
         'alignment_statistics': {'values_recorded': False, 'marginal_mean': None, 'class_means': None,
                                  'class_counts': None, 'protected_by_noise': False, 'protected_by_paillier': False},
-        'note': '数值来自最新真实trace：上传sketch为裁剪/加噪后的共享权重，clean为加噪前，aggregate为实际聚合结果；均不是Paillier密文或网络抓包。缺少记录保持未知。'}
+        'note': 'Values come from the latest recorded trace: the uploaded sketch holds the clipped/noised shared weights, clean precedes noise, and aggregate is the actual aggregation result. None of them is Paillier ciphertext or a packet capture. Missing records stay unknown.'}
 
     def observation(configured):
         if not configured:
@@ -191,26 +191,26 @@ def describe_protection(run_dir: Path | None) -> dict:
         'deployment': {
             'mode': 'single_process_simulation', 'raw_data_centralized_in_demo': True,
             'role_switch_is_authorization': False, 'individual_data_api_available': True,
-            'note': '图示为联邦训练协议边界；本演示集中读取公开研究数据，个体健康数据API可浏览，并非已部署医院隔离或权限控制。'},
+            'note': 'The figure shows the message boundary of the federated training protocol. This demo reads public research data centrally and exposes an individual-data browsing API; it is not a deployed hospital isolation or access-control system.'},
         'channels': {
             'raw_data': {'uploaded': False, 'scope': 'training_protocol',
                          'items': ['raw_BOLD_timeseries', 'individual_FC', 'individual_sample_labels'],
-                         'note': '不属于训练上传载荷；公开数据浏览API仍提供个体数据。'},
+                         'note': 'Not part of the training upload payload; individual data remain available through the public-data browsing API.'},
             'shared_model': {'uploaded': True, 'scope': 'training_protocol',
                              'parameter_count': shared_count, 'names': names,
                              'raw_tensor_bytes': common_raw_bytes,
-                             'note': 'uploaded是训练协议的上传内容清单，不是实际网络抓包或已送达证明；R0也可列出允许上传的共享参数。',
-                             'bytes_note': '每站点共享张量载荷，非Paillier密文线长或网络协议总字节。'},
+                             'note': 'uploaded is the protocol inventory of uploaded content, not an actual packet capture or proof of delivery; R0 may also list the shared parameters allowed to be uploaded.',
+                             'bytes_note': 'Per-site shared-tensor payload; not the Paillier ciphertext wire length or total protocol bytes.'},
             'alignment_statistics': {
                 'uploaded': bool(use_align), 'scope': 'training_protocol',
                 'items': ['marginal_mean', 'class_means', 'class_counts'] if use_align else [],
                 'protected_by_paillier': False, 'protected_by_noise': False,
                 'method': method, 'alignment_weight': alignment_weight,
                 'class_counts_unit': 'training_window_samples_not_patients',
-                'note': 'uploaded为按method/alignment_weight确定的协议清单，不是网络抓包。class_counts是训练窗口样本数，不是患者人数；这些统计量不进入共享参数加噪或Paillier路径。'},
+                'note': 'uploaded is the protocol inventory determined by method/alignment_weight, not a packet capture. class_counts counts training-window samples, not patients; these statistics do not enter the shared-parameter noise or Paillier path.'},
             'private_parameters': {'uploaded': False, 'parameter_count_per_site': private_count,
                                    'items': ['private_head', 'gate'], 'scope': 'training_protocol',
-                                   'note': '协议清单规定私有参数不上送；实际逐轮保留检查仅由evidence中的真实trace报告。'}},
+                                   'note': 'The protocol inventory keeps private parameters local; per-round preservation checks are reported only from a real trace in evidence.'}},
         'mechanisms': {
             'perturbation': {'configured': noise_configured, 'observed': bool(noise_configured and completed > 0),
                              'noise_scale': noise_scale, 'clip_norm': clip_norm,
@@ -230,13 +230,13 @@ def describe_protection(run_dir: Path | None) -> dict:
             'trace_available': bool(frame),
             'mechanism_observation_is_cryptographic_proof': False},
         'notes': [
-            '数据留站点描述联邦训练协议；当前应用是集中公开数据的单机研究模拟。',
-            'channels.uploaded是协议内容清单，不是网络抓包或已送达事实；运行人数仅取该次result记录，不能把120人加密冒烟等同于465人全队列。',
-            '共享编码器/全局头参与聚合，私有专家头和门控不进入共享state；详细保留检查仅在真实trace存在时报告。',
-            '加噪参数是Laplace尺度b，不是经过隐私会计认证的epsilon；没有正式epsilon-DP保证。',
-            '真实Paillier算术仅覆盖共享模型向量；对齐均值和类别计数既未Paillier加密，也未进入参数加噪路径。',
-            '同进程协调器持有原始公开数据及Paillier私钥，不声称恶意服务器无法解密或生产级安全聚合。',
-            '界面角色切换仅是协议视角示意，不是访问授权；未据此声明医院隔离、认证或TLS已部署。',
-            '机制observed来自配置与已完成轮次的执行记录，不是独立密码学证明；缺少trace的具体检查保持未知。',
+            'Keeping data at each site describes the federated training protocol; this application is a single-process research simulation over centrally available public data.',
+            'channels.uploaded is a content inventory of the protocol, not a packet capture or proof of delivery. Participant counts come only from that run result; the 120-subject encrypted smoke test must not be read as the 465-subject full cohort.',
+            'The shared encoder and global head take part in aggregation; private expert heads and gates never enter shared state. Detailed preservation checks are reported only when a real trace exists.',
+            'The noise parameter is a Laplace scale b, not an epsilon certified by privacy accounting; there is no formal epsilon-DP guarantee.',
+            'Real Paillier arithmetic covers only the shared-model vector; alignment means and class counts are neither Paillier-encrypted nor on the parameter-noise path.',
+            'The same-process coordinator holds the raw public data and the Paillier private key; no claim is made that a malicious server cannot decrypt, or that this is production-grade secure aggregation.',
+            'Switching roles in the interface only illustrates protocol viewpoints; it is not access authorization, and no hospital isolation, authentication or TLS deployment is claimed on that basis.',
+            'observed mechanisms come from configuration and completed-round execution records, not from independent cryptographic proof; specific checks without a trace stay unknown.',
         ],
     }

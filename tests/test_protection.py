@@ -126,7 +126,7 @@ class ProtectionFactsTests(unittest.TestCase):
                 self.assertTrue(shared['uploaded'])  # Protocol inventory, not delivery.
                 self.assertEqual(shared['scope'], 'training_protocol')
                 self.assertIn('R0', shared['note'])
-                self.assertIn('网络抓包', shared['note'])
+                self.assertIn('packet capture', shared['note'])
                 self.assertEqual(data['evidence']['client_uploads'], 0)
                 self.assertFalse(data['mechanisms']['paillier']['observed'])
                 stats = data['channels']['alignment_statistics']

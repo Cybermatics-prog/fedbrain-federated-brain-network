@@ -1,28 +1,28 @@
-# 脑健康数据可视化：数据定义与使用
+# Brain-health data visualization: data definitions and usage
 
-本页展示ABIDE-I真实静息态fMRI数据及研究标签，不是联邦训练动画或模型准确率图。默认HC对照，可切换ASD及两组描述性差异；查看数据无需先训练。
+This page displays real ABIDE-I resting-state fMRI data and research labels; it is not a federated-training animation or a model-accuracy chart. It defaults to the HC control, with switching to ASD and to the descriptive difference between the two groups; viewing the data requires no prior training.
 
-## 数据范围
-- 465名真实被试：HC241、ASD224；六站点NYU/UM/USM/UCLA/KKI/Yale。
-- 年龄6.47至50.2231岁，当前465人均有有效年龄；本页按实际值筛选和统计。
-- CPAC / filt_noglobal / AAL116；每名被试具有至少32帧、116列的验证后公开时序。
-- HC/ASD是原始研究标签，HC不等于临床健康认证；图中没有虚构疾病风险或健康评分。
+## Data scope
+- 465 real subjects: HC241, ASD224; six sites NYU/UM/USM/UCLA/KKI/Yale.
+- Ages from 6.47 to 50.2231 years, and all current 465 subjects have a valid age; this page filters and computes statistics on the actual values.
+- CPAC / filt_noglobal / AAL116; every subject has a validated public time series with at least 32 frames and 116 columns.
+- HC/ASD are original research labels, and HC does not equal a clinical health certification; the chart contains no fabricated disease risk or health score.
 
-## 看什么
-1. **群体FC**：HC或ASD的116×116Pearson连接；先逐人Fisher-z，再等权平均，最后tanh还原到r。每名被试权重相同，而非扫描时长越长权重越大。
-2. **差异FC**：ASD组均值减HC组均值，单位Δr；未校正年龄/站点等混杂，不解释为疾病标志或因果差异。
-3. **强连接网络**：取当前真实矩阵上三角绝对值最大的若干连接，保留正/负号。圆周仅是布局，AAL-###只是文件列编号，不冒充解剖定位。
-4. **个体时序**：选择真实被试后，展示时间标准差最大的三个ROI的完整BOLD序列，逐ROI做z-score。横轴为帧序号，因未提供TR不标为秒。
-5. **HC参照**：个体FC减全队列HC描述均值；如果当前个体也是HC，则参考均值排除自己（241→240）。这不是临床正常范围或风险概率。
-6. **分布与筛选**：站点、年龄上下界（含端点）、HC/ASD研究标签；空群体显示无数据而非全零矩阵。
+## What to look at
+1. **Group FC**: the 116×116 Pearson connectivity of HC or ASD; Fisher-z per subject first, then equally weighted averaging, and finally tanh back to r. Every subject carries the same weight, instead of a longer scan duration carrying more weight.
+2. **Difference FC**: the ASD group mean minus the HC group mean, in units of Δr; age/site and other confounders are not corrected for, and it is not to be interpreted as a disease marker or a causal difference.
+3. **Strong-connectivity network**: takes the connections with the largest absolute value in the upper triangle of the current real matrix, keeping positive/negative signs. The circle is only a layout and AAL-### is only a file column index; it does not pose as an anatomical localization.
+4. **Individual time series**: after a real subject is selected, shows the complete BOLD series of the three ROIs with the largest temporal standard deviation, z-scored per ROI. The horizontal axis is the frame index, and because no TR is provided it is not labeled in seconds.
+5. **HC reference**: the individual FC minus the descriptive HC mean over the whole cohort; if the current subject is also HC, the reference mean excludes that subject (241→240). This is not a clinical normal range or a risk probability.
+6. **Distributions and filters**: site, age lower/upper bounds (endpoints included), HC/ASD research label; an empty group shows no data instead of an all-zero matrix.
 
-FC对角线显示为1是一项显式绘图约定；连接强度与排名都排除对角线，差异矩阵对角线为0。
+Showing the FC diagonal as 1 is an explicit plotting convention; both the connection strength and the ranking exclude the diagonal, and the difference matrix has 0 on the diagonal.
 
-## 接口与复算
+## Interface and recomputation
 
-- `GET /api/health-data`：队列、年龄/站点分布、群体矩阵、差异与被试清单；可加`site=KKI&age_min=10&age_max=20`。
-- `GET /api/health-data/subjects/51036`：真实HC示例、176帧、3条实际ROI曲线、30条强连接、240人留一HC参照。
-- `python scripts/build_health_data.py`：构建与审计缓存，不读取checkpoint、不训练、不调用分类模型。
-- `python -m unittest discover -s tests -v`：包括分析公式、按人聚合、来源失效、空组、留一法与无模型API的回归测试。
+- `GET /api/health-data`: cohort, age/site distributions, group matrices, difference, and subject list; `site=KKI&age_min=10&age_max=20` may be appended.
+- `GET /api/health-data/subjects/51036`: a real HC example, 176 frames, 3 actual ROI curves, 30 strong connections, and a 240-subject leave-one-out HC reference.
+- `python scripts/build_health_data.py`: builds and audits the cache; reads no checkpoint, trains nothing, and calls no classification model.
+- `python -m unittest discover -s tests -v`: includes regression tests for the analysis formulas, per-subject aggregation, source invalidation, empty groups, the leave-one-out method, and the model-free API.
 
-原始文件路径/大小/mtime、队列元信息、manifest摘要一起构成来源指纹；未变被试可复用FC，新/变文件重新计算。没有合成数据或模型输出来填充缺失数据。
+The original file paths/sizes/mtime, cohort metadata, and manifest digest together form the provenance fingerprint; unchanged subjects may reuse their FC, while new/changed files are recomputed. No synthetic data or model outputs are used to fill in missing data.

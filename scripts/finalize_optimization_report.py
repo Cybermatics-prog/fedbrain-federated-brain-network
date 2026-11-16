@@ -54,34 +54,34 @@ def main():
     result['matched_control_checks']=checks
     result['outcome']='passed_minimum_effect' if comp['pass_gate'] else 'no_stable_improvement'
     result['deployment']='validation_locked_candidate' if comp['pass_gate'] else 'keep_original_default'
-    result['interpretation']='验证提升没有稳定传递到测试；pooled微增不等于论文口径macro提升。'
-    extra='E使用400步mask；FedAvg另做相同400步mask/标准化/划分/选轮对照，三种子掩码完全相同。'
+    result['interpretation']='The validation gain did not transfer stably to the test set; a small pooled increase is not a macro improvement under the paper\'s protocol.'
+    extra='E uses the 400-step mask; FedAvg is additionally matched with the same 400-step mask/standardization/split/round selection, and the masks are identical across all three seeds.'
     if extra not in result['notes']:
         result['notes'].append(extra)
     atomic_json(RESULT,result)
     report(result)
     path=ROOT/'docs'/'OPTIMIZATION_RESULTS.md'
     text=path.read_text(encoding='utf-8')
-    table=['','## 原始基线不能被藏掉','','|同三个种子的均值|站点macro|pooled受试者|','|---|---:|---:|',
-           f"|原始固定50轮|{comp['original_macro_mean']*100:.2f}%|{comp['original_pooled_mean']*100:.2f}%|",
-           f"|A：仅验证选轮|{comp['baseline_macro_mean']*100:.2f}%|{comp['baseline_pooled_mean']*100:.2f}%|",
-           f"|E：验证选定候选|{comp['optimized_macro_mean']*100:.2f}%|{comp['optimized_pooled_mean']*100:.2f}%|",'',
-           f"候选相对原始macro变化 **{comp['delta_original_macro']*100:+.2f}个百分点**；pooled变化{comp['delta_original_pooled']*100:+.2f}个百分点，不能只选择更好看的口径。",'',
-           '## 失败验尸与停止决定','',
-           f"1. 失败发生于泛化：seed42验证+{result['validation_gain_over_A']*100:.2f}pp，但三种子测试对A平均仅+{comp['delta_macro']*100:.2f}pp，低于开跑前的2pp门槛；seed44为负，原始macro也更高。",
-           '2. 已排除训练不可学和明显管道错误：既有真实train-only8人功率门通过；完整私有/门控恢复、损失梯度和当前广播表示时序均有单测；独立审计另核对原始预测/受试者互斥/checkpoint重放。',
-           '3. 剩余机制：400步仍未解决Eq11的联合非光滑优化，且77个验证者、最小站点6人让选轮/五候选选择波动明显；一个KKI验证分类改变即可改变macro约2.78pp。','',
-           '本轮有界五候选已跑完，不再打开B/C/D测试集或根据E测试失败改选D。保留原始界面默认模型，不宣布准确率优化成功。','',
-           '## 下轮优先级（未执行，不冒充有效）','',
-           '1. 首先用联合近端/原始-对偶/ADMM求解Eq11，必须先通过解析反例及KKT/对偶残差，再测泛化。',
-           '2. 在嵌套验证中选择lambda_aug与特征数量，而不是固定未收敛系数的top512；外层固定重复交叉验证只做最终比较。',
-           '3. 若前两项仍无收益，再单独预注册多尺度动态FC+静态FC融合；不先扩大网络或噪声。','',
-           '## 对照匹配审计','',
-           f"400步同mask/noise/选轮FedAvg均值{comp['fedavg_best_val_macro_mean']*100:.2f}%macro；候选相对其{comp['delta_vs_matched_fedavg_macro']*100:+.2f}pp，不支持优于FedAvg。",'',
-           '|seed|indices完全相同|训练scaler相同|受试者划分相同|','|---|---|---|---|']
+    table=['','## The Original Baseline Must Not Be Hidden','','|Mean over the same three seeds|Site macro|Pooled subjects|','|---|---:|---:|',
+           f"|Original fixed 50 rounds|{comp['original_macro_mean']*100:.2f}%|{comp['original_pooled_mean']*100:.2f}%|",
+           f"|A: validation round selection only|{comp['baseline_macro_mean']*100:.2f}%|{comp['baseline_pooled_mean']*100:.2f}%|",
+           f"|E: validation-selected candidate|{comp['optimized_macro_mean']*100:.2f}%|{comp['optimized_pooled_mean']*100:.2f}%|",'',
+           f"Candidate vs original macro change **{comp['delta_original_macro']*100:+.2f} percentage points**; pooled change {comp['delta_original_pooled']*100:+.2f} percentage points — do not report only the more flattering metric.",'',
+           '## Failure Autopsy and Stop Decision','',
+           f"1. The failure is in generalization: seed42 validation +{result['validation_gain_over_A']*100:.2f}pp, but the three-seed test average vs A is only +{comp['delta_macro']*100:.2f}pp, below the 2pp gate set before the run; seed44 is negative, and the original macro is higher too.",
+           '2. Training being unlearnable and obvious pipeline errors have been ruled out: the existing real train-only 8-subject power gate passes; full private/gated restoration, loss gradients and the current broadcast-representation timing all have unit tests; an independent audit separately checked original predictions/subject exclusivity/checkpoint replay.',
+           '3. Remaining mechanism: 400 steps still do not solve the joint nonsmooth optimization of Eq11, and 77 validators with the smallest site at 6 subjects make round/candidate selection visibly unstable; a single KKI validation classification flip changes macro by about 2.78pp.','',
+           'This round of bounded five candidates is complete; B/C/D test sets will not be opened, and D will not be reselected based on E\'s test failure. Keep the original interface default model and do not declare the accuracy optimization successful.','',
+           '## Next-Round Priorities (Not Executed; Not Claimed Effective)','',
+           '1. First solve Eq11 with a joint proximal/primal-dual/ADMM method; it must pass analytic counterexamples and KKT/dual residuals before measuring generalization.',
+           '2. Select lambda_aug and the feature count in nested validation instead of fixing top512 with unconverged coefficients; the outer fixed repeated cross-validation is used only for final comparison.',
+           '3. If the first two items still give no gain, separately preregister multi-scale dynamic FC + static FC fusion; do not first enlarge the network or the noise.','',
+           '## Matched-Control Audit','',
+           f"400-step same-mask/noise/round-selection FedAvg mean {comp['fedavg_best_val_macro_mean']*100:.2f}% macro; the candidate is {comp['delta_vs_matched_fedavg_macro']*100:+.2f}pp relative to it, which does not support superiority over FedAvg.",'',
+           '|seed|Identical indices|Identical training scaler|Identical subject split|','|---|---|---|---|']
     for check in checks:
-        table.append(f"|{check['seed']}|是|是|是|")
-    table+=['',f"原40步mask+best-val FedAvg为{comp['fedavg_original_mask_best_val_macro_mean']*100:.2f}%macro，作为不同预处理的辅助对照另存，不冒充同mask。",'']
+        table.append(f"|{check['seed']}|Yes|Yes|Yes|")
+    table+=['',f"The original 40-step mask + best-val FedAvg is {comp['fedavg_original_mask_best_val_macro_mean']*100:.2f}% macro, stored separately as an auxiliary control with different preprocessing; it is not claimed to be the same mask.",'']
     path.write_text(text+'\n'.join(table),encoding='utf-8')
     atomic_json(ROOT/'artifacts'/'optimization_canonical_numbers.json',
                 {'source':'optimization_results.json, locked paired result.json, matched control result.json',

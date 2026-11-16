@@ -1,30 +1,30 @@
-# 健康数据与联邦保护：同一视图表达两件事
+# Health data and federated protection: one view expressing two things
 
-## 本次目标
-保留健康数据为主角，同时让读者看懂原始数据、上传消息、聚合结果分别位于哪里；不再将训练回放或准确率曲线当作主要安全可视化。
+## Goal of this round
+Keep health data as the protagonist, while letting readers understand where the raw data, the uploaded messages, and the aggregation results each live; training replay or accuracy curves are no longer treated as the primary security visualization.
 
-## 可视化语义
-- 研究者视图：公开队列的真实脑连接、年龄与BOLD信号；注明这些是研究浏览数据，不是联邦训练上传消息。
-- 站点数据域：训练协议不上传原始BOLD、个体FC和逐样本诊断标签；个性化私有头与门控不进入共享参数字典。
-- 上传信封：共享编码器/全局头参数，以及在开启对齐时交换的边际和类别均值统计。不能笼统写“只有参数”；类别统计也含信息。
-- 聚合端：按协议处理这些上传信息并返回全局共享模型；不将研究者的116×116个体数据图当作服务器收到的参数。
-- 可选聚合端协议视角：仅作界面教学示意，不是权限机制，不声称切换后API具有访问控制。
+## Visualization semantics
+- Researcher view: real brain connectivity, age, and BOLD signals from the public cohort; annotated as research-browsing data, not federated-training uploaded messages.
+- Site data domain: the training protocol does not upload raw BOLD, individual FC, or per-sample diagnostic labels; the personalized private head and gate do not enter the shared parameter dictionary.
+- Upload envelope: shared encoder/global head parameters, plus the marginal and class-mean statistics exchanged when alignment is enabled. It cannot be written vaguely as "only parameters"; class statistics also carry information.
+- Aggregation side: processes these uploaded messages according to the protocol and returns the global shared model; the researcher's 116×116 individual data map is not treated as parameters that the server receives.
+- Optional aggregation-side protocol view: a UI teaching illustration only, not a permission mechanism; it does not claim that the API has access control after switching.
 
-## 必须来自实际运行的状态
-|项目|默认8轮过程运行|含义|
+## State that must come from an actual run
+|Item|Default 8-round process run|Meaning|
 |---|---|---|
-|共享参数|4113个，单客户端原始张量16452字节|不包括对齐统计或同态加密膨胀后的通信量|
-|私有参数|每站点18个|共享状态与广播不覆盖私有模块；记录可核对|
-|参数扰动|Laplace b=0.01，clip norm10|不等于已认证ε差分隐私|
-|同态加密|默认运行未启用|不将可配置能力冒充当前已使用|
-|历史加密示例|encrypted-smoke-2048真实完成|Paillier2048算法演示；没有逐客户端过程记录时不能补造证据|
-|对齐统计|独立交换，未由当前参数加噪/Paillier覆盖|加密参数不等于全部交换信息均加密|
+|Shared parameters|4113, raw per-client tensor 16452 bytes|Excludes alignment statistics or the communication volume after homomorphic-encryption expansion|
+|Private parameters|18 per site|The shared state and broadcast do not overwrite private modules; the record is verifiable|
+|Parameter perturbation|Laplace b=0.01, clip norm10|Not equivalent to certified ε differential privacy|
+|Homomorphic encryption|Not enabled in the default run|A configurable capability is not passed off as currently in use|
+|Historical encryption example|encrypted-smoke-2048 actually completed|A Paillier2048 algorithm demo; without per-client process records, evidence must not be fabricated|
+|Alignment statistics|Exchanged independently, not covered by the current parameter noising/Paillier|Encrypted parameters do not mean that all exchanged information is encrypted|
 
-当前环境是单机六客户端模拟，集中读取公开数据，协调器与Paillier私钥同进程；健康数据接口允许研究浏览。这体现目标联邦通信边界，不是已完成医院隔离部署或绝对安全保证。
+The current environment is a single-machine six-client simulation that reads public data centrally, with the coordinator and the Paillier private key in the same process; the health-data interface allows research browsing. This expresses the intended federated communication boundary; it is not a completed hospital isolation deployment or an absolute security guarantee.
 
-## 验收
-1. 健康FC/BOLD与原有筛选仍可用，页面不出现伪造密文、隐私预算或安全分数。
-2. 默认显示HE未启用；切至真实历史HE运行后才显示Paillier2048算法状态。
-3. 无过程记录时，私有保留/共享一致性证据必须为未知，不能默认通过；第0轮仅显示配置，不称已经执行。
-4. 协议视角切换不会自动训练、修改参数或改变既有预测/准确率。
-5. 桌面与移动端均有可读的数据域、上传内容和单机示意范围说明。
+## Acceptance
+1. Health FC/BOLD and the existing filters remain usable, and the page shows no fabricated ciphertext, privacy budget, or security score.
+2. HE is shown as not enabled by default; the Paillier2048 algorithm status appears only after switching to the real historical HE run.
+3. With no process records, the private-preservation/shared-consistency evidence must be unknown and must not default to pass; round 0 shows configuration only and is not described as already executed.
+4. Switching the protocol view does not automatically train, modify parameters, or change existing predictions/accuracy.
+5. Both desktop and mobile have readable descriptions of the data domains, the uploaded content, and the scope of the single-machine illustration.

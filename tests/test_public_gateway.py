@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import httpx
 from fastapi.testclient import TestClient
 
-from scripts.public_gateway import READ_ONLY_MESSAGE, allowed_path, create_app
+from scripts.public_gateway import READ_ONLY_MESSAGE, UPSTREAM_UNAVAILABLE, allowed_path, create_app
 
 
 class PublicGatewayTests(unittest.TestCase):
@@ -19,7 +19,7 @@ class PublicGatewayTests(unittest.TestCase):
                              ['http:', '', '127.0.0.1:8765'])
             path = request.url.path
             if path == '/':
-                return httpx.Response(200, text='<html>单机模拟演示</html>',
+                return httpx.Response(200, text='<html>single-process simulation demo</html>',
                                       headers={'content-type': 'text/html; charset=utf-8'})
             if path.endswith('.js'):
                 return httpx.Response(200, content=gzip.compress(b'console.log("demo")'), headers={
@@ -33,7 +33,7 @@ class PublicGatewayTests(unittest.TestCase):
             if path == '/api/health-data/sites':
                 return httpx.Response(200, json={'sites': [{'id': str(i)} for i in range(6)]})
             if path == '/api/subjects/invalid':
-                return httpx.Response(409, json={'detail': '演示模型尚未就绪'})
+                return httpx.Response(409, json={'detail': 'The demo model is not ready yet'})
             if path == '/api/runs/not-found':
                 return httpx.Response(404, json={'detail': 'Run not found'})
             return httpx.Response(200, json={'ok': True})
@@ -47,7 +47,7 @@ class PublicGatewayTests(unittest.TestCase):
         page = self.client.get('/')
         self.assertEqual(page.status_code, 200)
         self.assertIn('text/html', page.headers['content-type'])
-        self.assertIn('单机模拟', page.text)
+        self.assertIn('single-process', page.text)
         response = self.client.get('/api/health-data/sites')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.json()['sites']), 6)
@@ -139,7 +139,7 @@ class PublicGatewayTests(unittest.TestCase):
             response = client.get('/api/health')
             self.assertEqual(response.status_code, 502)
             self.assertNotIn('SECRET', response.text)
-            self.assertEqual(response.json()['detail'], '演示上游暂不可用')
+            self.assertEqual(response.json()['detail'], UPSTREAM_UNAVAILABLE)
 
 
 if __name__ == '__main__':

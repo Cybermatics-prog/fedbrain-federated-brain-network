@@ -84,7 +84,7 @@ with sync_playwright() as p:
         snapshot(page,'mobile-overview')
         # A separate context exercises a Chinese API error without changing the service.
         failure=browser.new_page(viewport={'width':1440,'height':1080})
-        failure.route('**/api/health-data*',lambda route:route.fulfill(status=503,content_type='application/json',body=json.dumps({'detail':'健康数据接口暂不可用'},ensure_ascii=False)))
+        failure.route('**/api/health-data*',lambda route:route.fulfill(status=503,content_type='application/json',body=json.dumps({'detail':'The health data API is temporarily unavailable'})))
         failure.goto(base+'/?english-check=error#overview',wait_until='networkidle')
         snapshot(failure,'error-state')
         failure.close()

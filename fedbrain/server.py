@@ -74,7 +74,7 @@ def _dataset():
                        'hc': sum(s['site'] == site and s['label'] == 0 for s in subjects),
                        'paper_count': PAPER_COUNTS[site]} for site in SITE_ORDER],
             'pipeline': 'CPAC / filt_noglobal / AAL116', 'failures': len(manifest.get('failures', [])),
-            'cohort_note': manifest.get('cohort_note', '公开数据下载准备中')}
+            'cohort_note': manifest.get('cohort_note', 'Public data download in preparation')}
 
 
 @app.get('/api/health')
@@ -95,10 +95,10 @@ def status():
             'protocol': {'window': 32, 'stride': 1, 'atlas': 'AAL116', 'features': 6670,
                          'hidden_dim': 8, 'rounds': 50, 'split': 'subject-level stratified per site; held-out validation and test',
                          'reference_evaluation': '5 repeats × 5 folds (25 runs), not inferred from a single hold-out',
-                         'noise_discrepancy': '正文lambda_M=0.01，汇总lambda_M=0.1；实现默认0.01并记录实际配置',
-                         'privacy_note': '参数加噪不等于已证明epsilon-DP；Paillier为可选真实同态聚合，默认未启用。',
-                         'implementation_note': '稀疏优化采样与特征上限等实现选择在每次运行配置中公开。',
-                         'clinical_note': '仅科研与教学演示，不用于临床诊断。'}}
+                         'noise_discrepancy': 'The paper body uses lambda_M=0.01 while the summary uses lambda_M=0.1; this implementation defaults to 0.01 and records the actual configuration.',
+                         'privacy_note': 'Parameter noise is not a proven epsilon-DP guarantee; Paillier is an optional real homomorphic aggregation, disabled by default.',
+                         'implementation_note': 'Implementation choices such as sparse-optimization sampling and feature caps are disclosed in every run configuration.',
+                         'clinical_note': 'Research and teaching demonstration only; not for clinical diagnosis.'}}
 
 
 def _get_health_store():
@@ -116,11 +116,11 @@ def health_data(site: str | None = None,
                 age_min: float | None = Query(default=None, ge=0, le=120),
                 age_max: float | None = Query(default=None, ge=0, le=120)):
     if age_min is not None and age_max is not None and age_min > age_max:
-        raise HTTPException(status_code=422, detail='最小年龄不能大于最大年龄')
+        raise HTTPException(status_code=422, detail='Minimum age cannot exceed maximum age')
     try:
         return _get_health_store().overview(site=site, age_min=age_min, age_max=age_max)
     except FileNotFoundError as exc:
-        raise HTTPException(status_code=409, detail=f'真实健康数据尚未就绪：{exc}') from exc
+        raise HTTPException(status_code=409, detail=f'Real health data are not ready yet: {exc}') from exc
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
@@ -130,7 +130,7 @@ def health_sites():
     try:
         return _get_health_store().site_previews()
     except FileNotFoundError as exc:
-        raise HTTPException(status_code=409, detail=f'健康数据尚未就绪：{exc}') from exc
+        raise HTTPException(status_code=409, detail=f'Health data are not ready yet: {exc}') from exc
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
@@ -138,13 +138,13 @@ def health_sites():
 @app.get('/api/health-data/subjects/{subject_id}')
 def health_subject(subject_id: str):
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_.-]{0,120}', subject_id):
-        raise HTTPException(status_code=400, detail='被试标识格式无效')
+        raise HTTPException(status_code=400, detail='Invalid subject identifier')
     try:
         return _get_health_store().subject(subject_id)
     except KeyError as exc:
-        raise HTTPException(status_code=404, detail='公开数据中没有此被试') from exc
+        raise HTTPException(status_code=404, detail='That subject is not in the public dataset') from exc
     except FileNotFoundError as exc:
-        raise HTTPException(status_code=409, detail=f'真实健康数据尚未就绪：{exc}') from exc
+        raise HTTPException(status_code=409, detail=f'Real health data are not ready yet: {exc}') from exc
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc)) from exc
 
@@ -170,7 +170,7 @@ def data_protection(run_id: str | None = None):
 def optimization():
     return read_json(ROOT / 'artifacts' / 'optimization_results.json',
                      {'status': 'pending', 'selected_variant': None, 'selected_run_id': None,
-                      'variants': [], 'notes': ['尚未开始验证集筛选，不展示模拟收益。']})
+                      'variants': [], 'notes': ['Validation-based selection has not started; no simulated gains are shown.']})
 
 
 @app.get('/api/runs')
@@ -198,7 +198,7 @@ def federation_index(run_id: str):
             'status': result.get('status'), 'site_order': SITE_ORDER,
             'events': [], 'rounds': [], 'completed_rounds': 0,
             'reason': 'legacy_run_no_recorded_federation_trace',
-            'message': '此历史运行没有记录逐客户端状态，不能补造联邦回放。请选择有过程记录的实验。'}
+            'message': 'This historical run did not record per-client state, so a federation replay cannot be reconstructed. Choose an experiment that recorded its process.'}
 
 
 @app.get('/api/runs/{run_id}/federation/{round_number}')
@@ -208,7 +208,7 @@ def federation_round(run_id: str, round_number: int):
         raise HTTPException(status_code=422, detail='Round must be1..500')
     result = read_json(path / 'federation' / f'round-{round_number:04d}.json')
     if result is None:
-        raise HTTPException(status_code=404, detail='此轮尚未记录，不生成模拟参数或动画数据')
+        raise HTTPException(status_code=404, detail='That round was not recorded; no synthetic parameters or animation data are produced')
     return result
 
 
@@ -216,10 +216,10 @@ def _selected_run(run_id=None, completed=False):
     if run_id:
         path = _safe_run(run_id)
         if completed and not (path / 'checkpoint.pt').is_file():
-            raise HTTPException(status_code=409, detail='此实验尚无已完成模型，请选择 completed 实验')
+            raise HTTPException(status_code=409, detail='This experiment has no completed model; choose a completed run')
         info = read_json(path / 'result.json', {})
         if completed and info.get('config', {}).get('defer_test') and not info.get('test_evaluated'):
-            raise HTTPException(status_code=409, detail='此实验仅用于验证集筛选，尚未解锁测试与个体推理')
+            raise HTTPException(status_code=409, detail='This experiment was used for validation-only selection; test and individual inference remain locked')
         return path
     for item in _runs():
         path = RUN_DIR / item['id']
@@ -227,7 +227,7 @@ def _selected_run(run_id=None, completed=False):
         if not completed or ((path / 'checkpoint.pt').is_file() and eligible):
             return path
     if completed:
-        raise HTTPException(status_code=409, detail='尚无已训练模型，请先完成一次真实数据训练')
+        raise HTTPException(status_code=409, detail='No trained model yet; complete one real-data training run first')
     return None
 
 
@@ -290,11 +290,11 @@ def start_training(request: TrainingRequest):
         raise HTTPException(status_code=422, detail=str(exc)) from exc
     manifest = read_json(DATA_DIR / 'manifest.json', {})
     if manifest.get('status') not in ('complete', 'complete_with_failures'):
-        raise HTTPException(status_code=409, detail='请等待六站点公开数据下载完成')
+        raise HTTPException(status_code=409, detail='Wait for the six-site public data download to finish')
     if any(r['status'] in ('preparing', 'running') for r in _runs()):
-        raise HTTPException(status_code=409, detail='已有真实实验在运行，停止或等待后再开始')
+        raise HTTPException(status_code=409, detail='A real experiment is already running; stop it or wait before starting another')
     if not _training_lock.acquire(blocking=False):
-        raise HTTPException(status_code=409, detail='已有实验在运行，停止或等待后再开始')
+        raise HTTPException(status_code=409, detail='An experiment is already running; stop it or wait before starting another')
     run_id = datetime.now().strftime('%Y%m%d-%H%M%S-%f') + '-' + cfg.method
     event = threading.Event()
     def execute():
@@ -317,7 +317,7 @@ def stop(run_id: str):
     directory = _safe_run(run_id)
     result = read_json(directory / 'result.json', {})
     if result.get('status') not in ('preparing', 'running'):
-        raise HTTPException(status_code=409, detail='该实验当前未运行')
+        raise HTTPException(status_code=409, detail='That experiment is not currently running')
     if _active['id'] == run_id and _active['thread'] is not None and _active['thread'].is_alive():
         _active['stop'].set()
     else:

@@ -17,7 +17,10 @@ from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse, Response
 
 UPSTREAM = "http://127.0.0.1:8765"
-READ_ONLY_MESSAGE = "公网演示只读，不能启动或停止训练"
+READ_ONLY_MESSAGE = "Public demo is read-only; training cannot be started or stopped."
+EXPIRED_MESSAGE = "Public demo has expired."
+NOT_AVAILABLE_MESSAGE = "This public demo path is not exposed."
+UPSTREAM_UNAVAILABLE = "Demo upstream is temporarily unavailable."
 SAFE_ID = r"[A-Za-z0-9][A-Za-z0-9_.-]{0,120}"
 EXACT_APIS = frozenset({
     "/api/health", "/api/status", "/api/protocol", "/api/optimization",
@@ -99,13 +102,13 @@ def create_app(
     @app.middleware("http")
     async def fence(request: Request, call_next):
         if deadline is not None and clock() >= deadline:
-            return JSONResponse({"detail": "公网演示已到期"}, status_code=410,
+            return JSONResponse({"detail": EXPIRED_MESSAGE}, status_code=410,
                                 headers={"Cache-Control": "no-store"})
         if request.method not in ("GET", "HEAD"):
             return JSONResponse({"detail": READ_ONLY_MESSAGE}, status_code=403,
                                 headers={"Cache-Control": "no-store"})
         if not allowed_path(request.scope["path"]):
-            return JSONResponse({"detail": "未开放此公网演示路径"}, status_code=404,
+            return JSONResponse({"detail": NOT_AVAILABLE_MESSAGE}, status_code=404,
                                 headers={"Cache-Control": "no-store"})
         return await call_next(request)
 
@@ -136,7 +139,7 @@ def create_app(
             else:
                 result = await fetch()
         except httpx.HTTPError:
-            return JSONResponse({"detail": "演示上游暂不可用"}, status_code=502,
+            return JSONResponse({"detail": UPSTREAM_UNAVAILABLE}, status_code=502,
                                 headers={"Cache-Control": "no-store"})
         # httpx has decoded the body: never forward its old encoding/length.
         # A whitelist also strips hop-by-hop, cookies, and redirect headers.

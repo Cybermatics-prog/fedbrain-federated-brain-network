@@ -1,16 +1,16 @@
-# FedBrain 真实复现结果
+# FedBrain Reproduction Results from Real Data
 
-本报告由 `scripts/report.py` 从真实 `result.json` 自动生成；不手工填入实验数字。
+This report is generated automatically by `scripts/report.py` from real `result.json` files; experiment numbers are never entered by hand.
 
-## 数据与验证口径
+## Data and Evaluation Scope
 
-- 实际公开受试者：465，下载失败：0。
-- CPAC / filt_noglobal / AAL116；窗口32、步长1、Pearson→Fisher-z、6670维上三角。
-- 先按受试者划分train/val/test，稀疏和标准化仅使用train；每位受试者的窗口预测概率取均值。
-- macro-site为六站点准确率等权均值；pooled为所有测试受试者合并准确率，两者不可混用。
-- 论文参考79%（5次重复×5折）与以下当前配置实测不是同一cohort或完整评测口径。
+- Public subjects actually loaded: 465; download failures: 0.
+- CPAC / filt_noglobal / AAL116; window 32, stride 1, Pearson→Fisher-z, 6670-dimensional upper triangle.
+- Subjects are split into train/val/test first; sparsification and standardization use training data only; each subject's window predicted probabilities are averaged.
+- macro-site is the equal-weight mean of the six site accuracies; pooled is the accuracy over all test subjects combined. The two must not be conflated.
+- The paper reference of 79% (5 repeats × 5 folds) and the measurements under the current configuration below are not the same cohort or a complete evaluation protocol.
 
-|站点|实际人数|论文表1人数|
+|Site|Actual subjects|Paper Table 1 subjects|
 |---|---:|---:|
 |KKI|33|48|
 |NYU|172|167|
@@ -19,11 +19,11 @@
 |USM|67|52|
 |Yale|41|56|
 
-## 全量50轮实验
+## Full 50-Round Experiments
 
-实验按配方分组；只有配置/种子/特征mask对应的FedAvg才是同mask对照，不能把40步与400步mask混为一谈。不冒充原论文全部基线的逐项复现。
+Experiments are grouped by recipe; only FedAvg runs with the matching configuration/seed/feature mask are matched-mask controls, so 40-step and 400-step masks must not be conflated. This is not a claim to reproduce every baseline in the paper item by item.
 
-|运行|方法|seed|macro-site准确率|pooled准确率|AUC|测试人数|训练准确率|耗时秒|
+|Run|Method|seed|macro-site accuracy|pooled accuracy|AUC|Test subjects|Training accuracy|Elapsed seconds|
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 |[full-fedbrain-s42](../runs/full-fedbrain-s42/result.json)|fedbrain|42|56.89%|59.38%|0.6318|96|97.26%|133.2|
 |[full-fedavg-s42](../runs/full-fedavg-s42/result.json)|fedavg|42|60.73%|62.50%|0.6574|96|99.32%|55.6|
@@ -44,18 +44,18 @@
 |[opt-FedAvg-s43](../runs/opt-FedAvg-s43/result.json)|fedavg|43|56.66%|60.42%|0.7082|96|84.59%|39.9|
 |[opt-FedAvg-s44](../runs/opt-FedAvg-s44/result.json)|fedavg|44|64.73%|68.75%|0.7260|96|91.10%|38.1|
 
-### 按实验配方分别汇总（不混合候选/预算/选轮规则）
+### Summary by Experiment Recipe (candidates, budgets and round-selection rules not mixed)
 
-- fedbrain / original-fixed-final：n=3，macro-site均值=60.76%，样本标准差=4.05个百分点；pooled均值=62.85%。
-- fedavg / original-fixed-final：n=3，macro-site均值=63.69%，样本标准差=3.19个百分点；pooled均值=64.58%。
-- fedbrain / optimization-A：n=3，macro-site均值=59.00%，样本标准差=1.95个百分点；pooled均值=62.15%。
-- fedbrain / optimization-E：n=3，macro-site均值=60.02%，样本标准差=1.67个百分点；pooled均值=63.54%。
-- fedavg / optimized-matched-FedAvg：n=3，macro-site均值=60.23%，样本标准差=4.90个百分点；pooled均值=62.50%。
-- fedavg / optimization-A：n=3，macro-site均值=61.93%，样本标准差=4.57个百分点；pooled均值=64.58%。
+- fedbrain / original-fixed-final: n=3, macro-site mean=60.76%, sample std=4.05 percentage points; pooled mean=62.85%.
+- fedavg / original-fixed-final: n=3, macro-site mean=63.69%, sample std=3.19 percentage points; pooled mean=64.58%.
+- fedbrain / optimization-A: n=3, macro-site mean=59.00%, sample std=1.95 percentage points; pooled mean=62.15%.
+- fedbrain / optimization-E: n=3, macro-site mean=60.02%, sample std=1.67 percentage points; pooled mean=63.54%.
+- fedavg / optimized-matched-FedAvg: n=3, macro-site mean=60.23%, sample std=4.90 percentage points; pooled mean=62.50%.
+- fedavg / optimization-A: n=3, macro-site mean=61.93%, sample std=4.57 percentage points; pooled mean=64.58%.
 
-## 主运行 full-fedbrain-s42 的站点结果
+## Site results for main run full-fedbrain-s42
 
-|站点|测试人数|准确率|AUC|敏感度|特异度|
+|Site|Test subjects|Accuracy|AUC|Sensitivity|Specificity|
 |---|---:|---:|---:|---:|---:|
 |KKI|7|71.43%|0.7500|33.33%|100.00%|
 |NYU|35|71.43%|0.7333|60.00%|80.00%|
@@ -64,29 +64,29 @@
 |USM|14|64.29%|0.7556|77.78%|40.00%|
 |Yale|9|55.56%|0.4500|20.00%|100.00%|
 
-### 可解释结论
+### Interpretable Conclusion
 
-当前主运行未达到论文79%：已完成可运行的方法重实现与真实数据演示，尚未完成论文指标的精确复现。
-保持原始失败与低分结果，不按测试集调参或选择轮次。
+The current main run does not reach the paper's 79%: a runnable reimplementation of the method and a demonstration on real data are complete, but the paper's metric has not yet been accurately reproduced.
+Original failures and low-scoring results are kept; no tuning on the test set or selection of rounds is performed.
 
-## 独立有效性验证
+## Independent Validity Checks
 
-- 真实train-only8人过拟合功率控制：passed=True，accuracy=100.00%。
-- 已完成实验的划分/原始概率/重算评分一致性：20项，all_passed=True。
-- Paillier2048bit与明文冒烟预测概率最大误差：9.685754776000977e-08。
-- 桌面1440与移动390实际浏览器检查通过，所有展示取真实API响应。
-- 真实界面START/STOP：win=True，HTTP=200/200，持久化状态=stopped。
+- Real train-only 8-subject overfitting power control: passed=True, accuracy=100.00%.
+- Split/raw-probability/recomputed-score consistency across completed experiments: 20 checks, all_passed=True.
+- Maximum predicted-probability error between Paillier 2048-bit and plaintext smoke runs: 9.685754776000977e-08.
+- Real browser checks passed on a 1440 desktop and a 390 mobile viewport; all displayed values come from real API responses.
+- Real interface START/STOP: win=True, HTTP=200/200, persisted state=stopped.
 
-## 加速近似与隐私设置
+## Acceleration Approximations and Privacy Settings
 
-- 主配置稀疏阶段每位训练者8个相对时间分段、40迭代、最多512连接；分类阶段使用全部窗口。
-- 论文未给出的优化/合并/批量细节在配置中明确固定；原始受试者名单未知。
-- 主配置对共享参数裁剪后加入Laplace噪声，noise_scale=0.01；不是有预算会计证明的epsilon-DP。
-- 同态聚合是可选真实Paillier2048bit算术；单机同进程持钥，不等于独立医院部署。
+- In the main configuration, the sparse stage uses 8 relative time segments per training subject, 40 iterations, and at most 512 connections; the classification stage uses all windows.
+- Optimization/merging/batching details that the paper does not specify are explicitly fixed in the configuration; the original subject list is unknown.
+- The main configuration clips shared parameters and then adds Laplace noise with noise_scale=0.01; this is not epsilon-DP with a budget-accounting proof.
+- Homomorphic aggregation is optional real Paillier 2048-bit arithmetic; holding the key in the same process on one machine is not equivalent to a deployment across independent hospitals.
 
-## 冒烟及同态运行
+## Smoke and Homomorphic Runs
 
-|运行|状态|轮数|同态聚合|测试准确率|
+|Run|Status|Rounds|Homomorphic aggregation|Test accuracy|
 |---|---|---:|---|---:|
 |[smoke-six-sites](../runs/smoke-six-sites/result.json)|failed|0|False|—|
 |[smoke-six-sites-v2](../runs/smoke-six-sites-v2/result.json)|completed|2|False|54.17%|
@@ -97,9 +97,9 @@
 |[opt-C-s42](../runs/opt-C-s42/result.json)|completed|50|False|—|
 |[opt-D-s42](../runs/opt-D-s42/result.json)|completed|50|False|—|
 
-## 证据入口
+## Evidence Entry Points
 
-- 测试已解锁运行包含result.json / split.json / predictions.json / checkpoint.pt / preprocessing.npz；验证候选仅有validation_predictions.json，不生成test预测。
-- 测试命令：`.\.venv\Scripts\python.exe -m unittest discover -s tests -v`。
-- 完整重复5次×5折脚本：`scripts/benchmark.py`；未执行完成时不声称已完成论文25次协议。
-- 原始失败smoke-six-sites记录了ID截取导致少数类不足；已修复为固定种子站点内分层采样并增加回归测试。
+- Test-unlocked runs contain result.json / split.json / predictions.json / checkpoint.pt / preprocessing.npz; validation candidates have only validation_predictions.json and do not generate test predictions.
+- Test command: `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`.
+- Full 5-repeat × 5-fold script: `scripts/benchmark.py`; do not claim the paper's 25-run protocol is complete unless it has been executed to completion.
+- The original failing smoke-six-sites recorded insufficient minority-class samples caused by ID truncation; this was fixed with fixed-seed stratified sampling within each site plus a regression test.

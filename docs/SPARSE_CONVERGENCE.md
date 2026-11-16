@@ -1,49 +1,49 @@
-# Eq.11 稀疏优化：等价加速与训练集收敛诊断
+# Eq. 11 sparse optimization: equivalent speedup and training-set convergence diagnosis
 
-## 本轮命题与预注册
+## Proposition of this round and pre-registration
 
-只检验两个实现层命题，不读取或评估任何验证/测试指标：
-1. 按时间段分组的 float64 BLAS 与原始 `einsum + add.at` 实现的 summed logistic loss、梯度、近端更新及40步轨迹在绝对误差 `1e-10` 内一致，确定性测试样例的支持集必须完全相同。
-2. 固定原主实验训练受试者、训练均值/标准差、每名受试者8个等距相对时间段、`lambda_aug=.01`、`coupling=1`，400步目标值不得大于40步目标值（容差 `1e-8`）。同时报告精确零系数、支持集Jaccard、512截断后Jaccard和原停止准则，不预设400步一定收敛。
+Only two implementation-level propositions are examined; no validation/test metric is read or evaluated:
+1. The time-segment-grouped float64 BLAS implementation and the original `einsum + add.at` implementation agree to within absolute error `1e-10` on the summed logistic loss, the gradients, the proximal updates, and the 40-step trajectory, and the support set must be exactly identical on the deterministic test cases.
+2. With the original main experiment's training subjects, training mean/std, 8 equally spaced relative time segments per subject, `lambda_aug=.01`, and `coupling=1` fixed, the 400-step objective value must not exceed the 40-step objective value (tolerance `1e-8`). Exact zero coefficients, support-set Jaccard, Jaccard after 512 truncation, and the original stopping criterion are also reported; convergence at 400 steps is not presupposed.
 
-源数据只允许读取 [原训练划分](<../runs/full-fedbrain-s42/split.json>) 的 `train` 列表、保存的训练预处理数组和这些训练受试者的已验证FC缓存；不读取预测、结果指标或checkpoint。所有探测CPU线程池上限4。
+As source data, only the `train` list of the [original training split](<../runs/full-fedbrain-s42/split.json>), the saved training preprocessing arrays, and the validated FC cache of these training subjects may be read; no predictions, result metrics, or checkpoints are read. All probes cap the CPU thread pool at 4.
 
-## 论文与保持不变的语义
+## The paper and the semantics that stay unchanged
 
-[论文Eq.11及Algorithm1](<paper.txt#L310-L369>) 使用每个时间段的分类损失之和、时间段系数L1罚项与共享/时间段系数的L1耦合。此次加速保留：
+[The paper's Eq. 11 and Algorithm 1](<paper.txt#L310-L369>) use the sum of classification losses over each time segment, an L1 penalty on the time-segment coefficients, and an L1 coupling between the shared and time-segment coefficients. This speedup preserves:
 
-- **sum BCE，不是 mean BCE**；默认 `lambda_aug=.01`、`coupling=1`、学习率上限 `.1`；
-- 初始8步独立L1 warm start、精确共享坐标中位数、精确双L1近端映射；
-- 原Frobenius Lipschitz上界步长、参数变化 `<=1e-6` 停止准则、默认40步；
-- 模块默认没有特征上限；跨站点非零支持集合并，512上限另行明确标记为近似。
+- **sum BCE, not mean BCE**; defaults `lambda_aug=.01`, `coupling=1`, learning-rate cap `.1`;
+- the initial 8-step independent L1 warm start, the exact shared-coordinate median, and the exact dual-L1 proximal map;
+- the original Frobenius Lipschitz-upper-bound step size, the parameter-change `<=1e-6` stopping criterion, and the default 40 steps;
+- no feature cap in the module by default; cross-site nonzero support sets are unioned, and the 512 cap is separately and explicitly labeled as an approximation.
 
-仅一次性将各段训练矩阵整理为连续数组，每次梯度使用 `X_t @ w_t` 与 `X_t.T @ residual_t`。不再在每次迭代物化 `[n,d]` 的 `weights[encoded]` 和 `X*residual`。分组改变浮点归约顺序，但不改变数学目标。
+Each segment's training matrix is laid out as a contiguous array only once, and each gradient uses `X_t @ w_t` and `X_t.T @ residual_t`. The `[n,d]` `weights[encoded]` and `X*residual` are no longer materialized on every iteration. Grouping changes the floating-point reduction order but not the mathematical objective.
 
-原始诊断的 `converged` 是参数变化停止规则，不是全局最优证书；新增的相对末步目标变化也不是最优性gap。全部站点支持集合并后仍可能接近或等于6670，不能把人为512截断说成L1自动获得的稀疏度。
+The original diagnostic's `converged` is a parameter-change stopping rule, not a certificate of global optimality; the newly added relative final-step objective change is likewise not an optimality gap. After unioning all sites, the support set may still be close to or equal to 6670, so the artificial 512 truncation must not be described as sparsity that L1 obtains automatically.
 
-## 数值等价验证
+## Numerical-equivalence verification
 
-[新增离线测试](<../tests/test_sparse_convergence.py>) 5/5通过（0.206秒）：
-- 旧/新梯度、sum loss、双L1近端单步一致；
-- 完整默认40步的共享/分段系数、偏置、目标轨迹误差在 `1e-10` 内，支持集完全一致；
-- 复制训练行会使损失与梯度翻倍，防止误改为平均损失；
-- 大幅值logits有限，400步轨迹不增，真实零系数保留。
+[The new offline tests](<../tests/test_sparse_convergence.py>) pass 5/5 (0.206 seconds):
+- the old/new gradients, sum loss, and dual-L1 proximal single step agree;
+- over the full default 40 steps, the shared/segmented coefficients, bias, and objective trajectory agree within error `1e-10`, and the support sets are exactly identical;
+- duplicating training rows doubles the loss and the gradient, preventing an accidental change to a mean loss;
+- large-magnitude logits remain finite, the 400-step trajectory does not increase, and true zero coefficients are preserved.
 
-## 可复现训练集探测
+## Reproducible training-set probe
 
-运行 [探测脚本](<../scripts/sparse_probe.py>)：
+Run the [probe script](<../scripts/sparse_probe.py>):
 
 ```powershell
 .\.venv\Scripts\python.exe scripts/sparse_probe.py --threads 4
 ```
 
-固定读取原始完整训练划分及训练标准化；仅在同一8段网格比较40/400步。脚本验证FC缓存对应原始时间序列SHA256，记录输入文件哈希和训练ID哈希；不重算/改写FC缓存。已完成的产物为 [完整JSON](<../artifacts/sparse_probe.json>) 与 [精简摘要JSON](<../artifacts/sparse_probe_summary.json>)。
+It always reads the original full training split and the training standardization; it compares 40/400 steps only on the same 8-segment grid. The script verifies that the FC cache corresponds to the original time series by SHA256, and records input-file hashes and training-ID hashes; it does not recompute/rewrite the FC cache. The completed artifacts are the [full JSON](<../artifacts/sparse_probe.json>) and the [compact summary JSON](<../artifacts/sparse_probe_summary.json>).
 
-## 真实训练集结果：更快，但400步仍未收敛
+## Real training-set results: faster, but 400 steps still do not converge
 
-292名原训练受试者；全部12次站点拟合累计 **19.72秒**（CPU线程4，不含缓存准备）。NYU真实矩阵的梯度+loss核、5次计时中位数加速 **10.63倍**；这不是整段训练的加速比。旧/新梯度最大绝对误差 `1.78e-14`，loss误差0。
+292 original training subjects; all 12 site fits took **19.72 seconds** in total (CPU threads 4, excluding cache preparation). On the real NYU matrix, the gradient+loss kernel is **10.63x** faster at the median of 5 timings; this is not the speedup of a whole training run. The maximum absolute error between the old/new gradients is `1.78e-14`, and the loss error is 0.
 
-|站点|训练人数|40步目标|400步目标|目标下降|非零共享系数40→400|400步末相对目标变化|
+|Site|Training subjects|40-step objective|400-step objective|Objective decrease|Nonzero shared coefficients 40→400|Relative objective change at end of 400 steps|
 |---|---:|---:|---:|---:|---:|---:|
 |NYU|109|423.9138|227.4079|46.36%|5646→5608|5.61e-4|
 |UM|56|200.6508|127.4505|36.48%|5450→5449|3.08e-4|
@@ -52,22 +52,22 @@
 |KKI|20|64.7937|52.2901|19.30%|5681→5681|1.96e-4|
 |Yale|25|80.1727|62.3458|22.24%|5579→5579|2.12e-4|
 
-- 原参数变化收敛标记：40步 **0/6**，400步仍为 **0/6**；400步各目标轨迹均不增。
-- 跨站点非零并集：**6670→6670**，并没有产生全局维度下降。512维仍然完全依赖明确的外部截断。
-- 跨站点512掩码Jaccard仅 **0.4402**，表明排序会随优化预算明显改变；该数字不是准确率。
-- 5个新数值单测本地通过；Lead确认扩展整套 **37/37** 单测通过（2.037秒）。
+- Original parameter-change convergence flag: **0/6** at 40 steps, still **0/6** at 400 steps; no 400-step objective trajectory increases.
+- Cross-site nonzero union: **6670→6670**; no global dimensionality reduction occurs. The 512 dimensions still depend entirely on an explicit external truncation.
+- The cross-site 512-mask Jaccard is only **0.4402**, indicating that the ranking changes markedly with the optimization budget; this number is not an accuracy.
+- The 5 new numerical unit tests pass locally; the Lead confirmed that the expanded full suite passes **37/37** unit tests (2.037 seconds).
 
-结论：此次修复的是计算开销和诊断可见性，**没有修复数学收敛，更不能推导准确率改善**。当前400步候选仅作为有界优化预算对照。
+Conclusion: what this round fixes is computational cost and diagnostic visibility; **it does not fix the mathematical convergence, and it still less implies any accuracy improvement**. The current 400-step candidate serves only as a control with a bounded optimization budget.
 
-## 解析反例：分块近端停滞不等于联合最优
+## Analytic counterexample: blockwise proximal stagnation is not joint optimality
 
-另有 [解析反例原始证据](<../artifacts/sparse_probe_counterexample.json>)，完全不使用ABIDE或留出数据：
+[Raw evidence for the analytic counterexample](<../artifacts/sparse_probe_counterexample.json>) is also available, and it uses no ABIDE or held-out data at all:
 
-- 两个完全相同的时间段，每段20个样本；一维输入在 `-1,+1` 交替，`y=1[x>0]`，两类均衡，初始偏置为0。
-- 固定 `lambda=.01, coupling=1, max_steps=400`，沿所有段和共享参数共同取 `w>0` 的方向，耦合罚项始终为0。
-- 联合目标简化为 `F(w)=40*log(1+exp(-w)) + .02*w`；解析极小点 `w*=log(20/.01-1)=7.6004023345`，`F(w*)=.1720130484`。
-- 当前分块算法第94步即报告参数变化收敛，但 `w=2.9339528878`，`F=2.1314878055`，联合一致移动方向的导数仍为 **−2.0000178492**。因此仍存在明确下降方向。
+- Two exactly identical time segments, 20 samples each; the one-dimensional input alternates between `-1,+1`, `y=1[x>0]`, the two classes are balanced, and the initial bias is 0.
+- With `lambda=.01, coupling=1, max_steps=400` fixed, along the direction in which all segments and the shared parameters jointly take `w>0`, the coupling penalty is always 0.
+- The joint objective reduces to `F(w)=40*log(1+exp(-w)) + .02*w`; the analytic minimizer is `w*=log(20/.01-1)=7.6004023345`, with `F(w*)=.1720130484`.
+- The current blockwise algorithm reports parameter-change convergence already at step 94, yet `w=2.9339528878` and `F=2.1314878055`, and the derivative along the jointly consistent movement direction is still **−2.0000178492**. A clear descent direction therefore still exists.
 
-原因：固定共享参数更新时间段时，`|theta_t-theta|` 的折点会阻止各段一起移动；再固定各段更新共享中位数也不能执行联合一致移动。精确单块近端不会自动解决跨块非光滑耦合。这是现有分块停止准则的局限，不是BLAS加速引入的误差。
+Cause: when the shared parameters are fixed while the time segments are updated, the kink of `|theta_t-theta|` stops the segments from moving together; then fixing the segments while updating the shared median likewise cannot perform a jointly consistent movement. An exact single-block proximal map does not automatically resolve cross-block nonsmooth coupling. This is a limitation of the existing blockwise stopping criterion, not an error introduced by the BLAS speedup.
 
-冻结的本轮候选搜索不再改算法、不扩展预算。后续若继续，应另行预注册联合近端、原始-对偶或ADMM求解器，并先通过本解析反例与KKT/对偶残差检验，不能把加至400步宣称为已求解Eq.11。
+The candidate search frozen for this round changes no further algorithm and extends no budget. If work continues, a joint proximal, primal-dual, or ADMM solver should be pre-registered separately, and it must first pass this analytic counterexample and the KKT/duality-residual checks; raising the budget to 400 steps must not be claimed as having solved Eq. 11.

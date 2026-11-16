@@ -1,30 +1,30 @@
-# 联邦数据传输图
+# Federated data transfer diagram
 
-页面不再用三个说明框代替可视化。图中分开显示：
+The page no longer substitutes three explanation boxes for the visualization. The diagram shows separately:
 
-- 六个站点内的个体FC和BOLD示例；
-- 上传的共享参数摘要及对齐统计类别；
-- 中央聚合器的共享参数结果和模型返回路径。
+- individual FC and BOLD examples inside the six sites;
+- the uploaded shared-parameter sketch and the alignment-statistics category;
+- the central aggregator's shared-parameter result and the model return path.
 
-“看一次传输”只演示消息方向，不启动训练，也不表示抓到了实际网络包。FC与BOLD始终留在站点图框内，移动标记只代表共享参数或对齐统计。
+`Play Transfer` only demonstrates the direction of messages; it starts no training, nor does it mean that actual network packets were captured. FC and BOLD always stay inside the site frames, and moving markers represent only shared parameters or alignment statistics.
 
-## 数据来源
+## Data sources
 
-`GET /api/health-data/sites` 独立于模型。每站点按匿名编号选第一个HC（没有HC时选第一个被试）；FC是该被试完整116×116 Pearson矩阵。BOLD选时间标准差最大的ROI，先按完整序列做z-score，再选最多128个原始帧用于缩略图，保留首尾帧；不插值、不生成波形。示例来自公开队列，不表示参与了所选运行的训练。
+`GET /api/health-data/sites` is independent of the model. For each site, the first HC is chosen by anonymous ID (the first subject if there is no HC); the FC is that subject's complete 116×116 Pearson matrix. For BOLD, the ROI with the largest temporal standard deviation is chosen, the complete series is z-scored first, then at most 128 raw frames are chosen for the thumbnail, keeping the first and last frames; no interpolation, no waveform generation. The examples come from the public cohort and do not indicate participation in the training of the selected run.
 
-`GET /api/data-protection` 的 `transfer` 字段来自最新已记录轮次：
+The `transfer` field of `GET /api/data-protection` comes from the latest recorded round:
 
-- `uploaded_shared_sketch`：裁剪、加噪后的共享权重，64个固定坐标；
-- `clean_shared_sketch`：加噪前同坐标值；
-- `aggregate_shared_sketch`：实际聚合后的同坐标值；
-- `private_preserved`：记录中的私有模块保持性检查。
+- `uploaded_shared_sketch`: the shared weights after clipping and noising, at 64 fixed coordinates;
+- `clean_shared_sketch`: the same-coordinate values before noising;
+- `aggregate_shared_sketch`: the same-coordinate values after actual aggregation;
+- `private_preserved`: the private-module preservation check in the record.
 
-参数摘要不是ROI、FC或PCA。未记录的对齐均值和计数不补造数值，历史无trace运行不生成参数数组或密文。
+The parameter sketch is not ROI, FC, or PCA. Unrecorded alignment means and counts are not fabricated, and historical runs without a trace generate no parameter arrays or ciphertext.
 
-## 显示规则
+## Display rules
 
-图中传输参数摘要只用于说明消息类型。完整默认模型有4113个共享参数，摘要展示其中64个；16.1KB是单客户端共享张量加密前大小，不是全部通信量。对齐均值、类均值、类别窗口计数独立交换，当前不经过共享参数的加噪或Paillier路径。
+The transferred-parameter sketch in the diagram is only used to explain the message type. The full default model has 4113 shared parameters, of which the sketch shows 64; 16.1KB is the pre-encryption size of a single client's shared tensor, not the total communication volume. The alignment mean, class means, and class-window counts are exchanged independently and currently do not pass through the noising or Paillier path of the shared parameters.
 
-加噪、同态加密、人数和轮次始终以所选记录为准：默认8轮记录465人/训练292，Paillier未启用；历史加密验证120人/训练72，只有2轮且无参数trace，不能拿全队列图冒充465人已加密。
+Noising, homomorphic encryption, subject count, and round count always follow the selected record: the default 8-round record has 465 subjects/train 292 and Paillier not enabled; the historical encryption validation has 120 subjects/train 72, only 2 rounds, and no parameter trace, so the full-cohort diagram must not be passed off as 465 subjects having been encrypted.
 
-当前是公开数据的单机模拟。数据/上传切换只改展示，不构成权限控制或医院隔离部署。
+This is currently a single-machine simulation on public data. Switching data/upload only changes the display and does not constitute access control or a hospital isolation deployment.

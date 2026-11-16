@@ -1,30 +1,30 @@
-# FedBrain 准确率优化预注册（2026-11-13）
+# FedBrain accuracy-optimization pre-registration (2026-11-13)
 
-## 可检验命题
-当前泛化差距可能来自三个可定位偏差：没有按验证集保留最佳轮次；Eq16分类损失取mean而Eq14对齐取sum使对齐相对过强；对齐目标来自聚合前的局部编码器、与广播后的共享编码器坐标不同。另一个共同上限是稀疏优化40步未收敛、并集仍为6670维。
+## Testable propositions
+The current generalization gap may come from three localizable biases: the best epoch is not retained according to the validation set; the Eq. 16 classification loss takes the mean while the Eq. 14 alignment takes the sum, which makes alignment relatively too strong; and the alignment target comes from the local encoder before aggregation, so its coordinates differ from those of the shared encoder after broadcast. Another shared ceiling is that the sparse optimization has not converged at 40 steps and the union is still 6670-dimensional.
 
-原测试指标已在前一轮公开。本次严格只用训练/验证数据选择改动，锁定后一次评测；它是探索性后续实验，不冒充全新独立外部验证。
+The original test metrics were already disclosed in the previous round. This round uses strictly only training/validation data to select changes, with a single evaluation locked afterward; it is an exploratory follow-up experiment and does not pose as a brand-new independent external validation.
 
-## 不改的设置
-六站点同465人、同train/val/test划分、AAL116/窗口32/步长1、hidden8、max50round、batch256、Laplace scale0.01、同mask512（稀疏对照另述）、同学习率0.001。模型选轮只看subject-level六站点macro验证准确率，平手保留最早一轮；所有主分支跑足50轮，以隔离选轮与训练预算。不得按测试结果选参数、模型或种子。
+## Settings left unchanged
+Same six sites and same 465 subjects, same train/val/test split, AAL116/window 32/stride 1, hidden8, max50round, batch256, Laplace scale0.01, same mask512 (the sparse control is described separately), same learning rate 0.001. Model epoch selection looks only at subject-level six-site macro validation accuracy, with ties keeping the earliest epoch; every main branch runs the full 50 rounds, to isolate epoch selection from the training budget. Parameters, models, or seeds must not be selected by test results.
 
-## 有界候选集（seed42，验证集筛选）
-- A `best_val`：仅增加按验证集保存/恢复全部六客户端模型（共享、私有头、门控）；其余与原实现一致。
-- B `paper_objective`：A基础上将目标改为 BCE_mean + DA_sum / 实际batch人数；采用论文启发的minibatch约定(sumCE_batch+DA_batch)/batch，DA系数1；这不等于证明复原了全数据Eq16的sumCE_full+DA_full（非线性均值距离及样本数不同），也不冒充作者源码。不把论文明确的站点sum误改为mean。
-- C `fresh_alignment`：B基础上在每轮聚合/广播完成后重新计算训练隐藏均值，对齐目标不再来自旧局部编码器。
-- D `regularized`：C基础上只增加Adam weight_decay=0.01，作为清晰标注的抗过拟合扩展（不是论文已给出的配方）。
-- E `sparse400`：C基础上仅把原Eq11近端迭代从40提高到400，使用同lambda0.01/同训练段数/同512上限。先检查目标与mask稳定性，再执行神经验证；若没有有效非零特征则如实失败，不按测试补救。
+## Bounded candidate set (seed42, validation-set screening)
+- A `best_val`: only adds validation-based saving/restoring of all six client models (shared, private heads, gates); everything else matches the original implementation.
+- B `paper_objective`: on top of A, changes the objective to BCE_mean + DA_sum / actual batch size; it adopts the paper-inspired minibatch convention (sumCE_batch+DA_batch)/batch with a DA coefficient of 1; this is not equivalent to proving a reproduction of the full-data Eq. 16 sumCE_full+DA_full (the nonlinear mean distance and the sample count differ), nor does it pose as the authors' source code. The site-level sum that the paper makes explicit is not mistakenly changed to a mean.
+- C `fresh_alignment`: on top of B, recomputes the training hidden means after each round's aggregation/broadcast completes, so the alignment target no longer comes from the stale local encoder.
+- D `regularized`: on top of C, only adds Adam weight_decay=0.01, as a clearly labeled anti-overfitting extension (not a recipe the paper provides).
+- E `sparse400`: on top of C, only raises the original Eq. 11 proximal iterations from 40 to 400, using the same lambda0.01/same number of training segments/same 512 cap. Check objective and mask stability first, then run the empirical validation; if there are no valid nonzero features, fail honestly and do not patch it according to test results.
 
-不自动开启增宽MLP、调高噪声、改变QC队列或新数据切分；噪声与shuffle目前共用RNG，本轮不做噪声消融。
+A wider MLP, higher noise, a changed QC queue, or new data splits are not enabled automatically; noise and shuffle currently share the RNG, so this round runs no noise ablation.
 
-## WIN / KILL / 有效性条件
-- 闸门：所有现有离线测试和新增checkpoint隔离/DA缩放/同步时序测试必须通过；先做2轮真实smoke。
-- 数据有效性：按受试者分割在先、稀疏/标准化只用train；搜索运行 `defer_test=true`，不得产生测试预测或测试指标文件。
-- seed42筛选：候选按最佳macro验证准确率降序，平手按固定A→B→C→D→E顺序；比A提升>=2个百分点才视为最小有用优化，未达则报告无决定性提升。
-- 训练有效性：所有loss/梯度有限、实际完成预算；低分/失败保留。
-- 确认：锁定一个候选配方后，seed42/43/44三种子与相同best-val基线A比较；至少2/3种子macro测试准确率提升、平均提升>=2个百分点，才称本配置下有可重复收益。所有种子都报告，未达到不称成功。
-- 对同maskFedAvg采用相同best-val选轮，避免给新方法额外选轮优势。最终比较不据此再调参数。
-- 执行期对照审计补充（候选已按验证选定E，尚未读取三种子测试比较）：E使用400步新mask，原脚本的FedAvg(A)仍为40步mask，因此不能称同mask对照。新增独立同400步mask/noise/选轮FedAvg三种子对照；仅修复对照匹配，不参与选择/不改变E配方或WIN/KILL。验证时必须检查每种子indices完全相同，未匹配则该FedAvg比较无效。旧40步FedAvg结果保留并单独标注。
+## WIN / KILL / validity conditions
+- Gate: all existing offline tests and the new checkpoint-isolation/DA-scaling/synchronized-timing tests must pass; run a 2-round real smoke first.
+- Data validity: subject-wise splitting comes first, and sparsification/standardization use train only; search runs use `defer_test=true` and must not produce test predictions or test-metric files.
+- seed42 screening: candidates are ordered by best macro validation accuracy descending, with ties broken by the fixed A→B→C→D→E order; only an improvement of >=2 percentage points over A counts as a minimally useful optimization, otherwise report no decisive improvement.
+- Training validity: all losses/gradients are finite and the budget is actually completed; low-scoring/failed runs are retained.
+- Confirmation: after one candidate recipe is locked, compare three seeds seed42/43/44 against the same best-val baseline A; only if at least 2/3 seeds improve in macro test accuracy with a mean improvement of >=2 percentage points may this be called a reproducible gain in this configuration. All seeds are reported, and falling short is not called success.
+- The same-mask FedAvg uses the same best-val epoch selection, so the new method does not get an extra epoch-selection advantage. The final comparison does not tune parameters further on this basis.
+- Control-audit addendum during execution (the candidate has already been selected as E on validation, and the three-seed test comparison has not yet been read): E uses the new 400-step mask while FedAvg(A) in the original script still uses the 40-step mask, so it cannot be called a same-mask control. Add an independent control: the same 400-step mask/noise/epoch-selection FedAvg with three seeds; this only repairs control matching, takes no part in selection, and does not change the E recipe or the WIN/KILL criteria. During verification the per-seed indices must be checked to be exactly identical; if unmatched, that FedAvg comparison is invalid. The old 40-step FedAvg results are retained and labeled separately.
 
-## 留痕与预算
-每项最多50轮，已有GPU50轮约1–2分钟；神经验证候选最多5项、确认三种子，不无限搜索。保存配置、source hashes、训练/验证历史、最佳轮、是否执行test及模型。候选筛选证据独立JSON落盘后才允许打开确认测试。稀疏40→400诊断另记录收敛和mask Jaccard，不以“更稀疏”替代准确率证据。
+## Record-keeping and budget
+Each item runs at most 50 rounds, and an existing GPU 50-round run takes about 1–2 minutes; the empirical validation covers at most 5 candidates plus the three-seed confirmation, with no unbounded search. Save the config, source hashes, training/validation history, best epoch, whether test was executed, and the model. Confirmation tests may be opened only after the candidate-screening evidence has been independently written to JSON. The sparse 40→400 diagnostic separately records convergence and mask Jaccard, and does not substitute "more sparse" for accuracy evidence.

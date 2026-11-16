@@ -1,82 +1,82 @@
-# FedBrain 基于原论文的准确率优化
+# FedBrain Accuracy Optimization Based on the Original Paper
 
-本轮没有获得稳定准确率提升：未通过预注册>=2个百分点的最小收益门槛，不替换原始默认模型。
+No stable accuracy improvement was obtained in this round: the preregistered >=2 percentage point minimum-effect gate was not met, so the original default model is not replaced.
 
-## 验证集先锁定，测试集后评测
+## Validation Locked First, Test Evaluated Afterwards
 
-选择时间：2026-11-13T08:34:14.699919+00:00；按seed42验证macro选定 **E**，不是按测试选择。
+Selection time: 2026-11-13T08:34:14.699919+00:00; variant **E** was selected by seed42 validation macro, not by test performance.
 
-|候选|改动|验证macro|选中轮|搜索阶段test|
+|Candidate|Change|Validation macro|Selected round|Test during search|
 |---|---|---:|---:|---|
-|A|验证集选轮|68.69%|13|未评测|
-|B|选轮 + 论文启发的batch损失尺度|71.07%|11|未评测|
-|C|B + 聚合后刷新对齐目标|71.12%|25|未评测|
-|D|C + L2正则0.01|73.23%|27|未评测|
-|E|C + 稀疏优化400步|73.50%|31|未评测|
+|A|Validation-set round selection|68.69%|13|Not evaluated|
+|B|Round selection + paper-inspired batch loss scale|71.07%|11|Not evaluated|
+|C|B + refresh alignment target after aggregation|71.12%|25|Not evaluated|
+|D|C + L2 regularization 0.01|73.23%|27|Not evaluated|
+|E|C + 400-step sparse optimization|73.50%|31|Not evaluated|
 
-## 锁定配方的三种子结果
+## Three-Seed Results for the Locked Recipe
 
-|seed|选轮基线A macro|候选macro|变化百分点|原始固定50轮macro|
+|seed|Round-selection baseline A macro|Candidate macro|Change (percentage points)|Original fixed 50-round macro|
 |---|---:|---:|---:|---:|
 |42|56.77%|60.62%|+3.85|56.89%|
 |43|60.41%|61.31%|+0.90|60.41%|
 |44|59.81%|58.14%|-1.67|64.97%|
 
-- 原始固定50轮macro均值：60.76%。
-- 相同验证选轮基线A：59.00%；优化：60.02% ± 1.67个百分点。
-- 优化pooled受试者准确率均值：63.54%。
-- 对A配对平均变化：+1.03个百分点；2/3种子提升；通过预注册>=2pp且至少2/3提升：False。
-- 同样best-val选轮的matched-mask/noise FedAvg：60.23%macro。
+- Original fixed 50-round macro mean: 60.76%.
+- Same validation round-selection baseline A: 59.00%; optimized: 60.02% ± 1.67 percentage points.
+- Optimized pooled subject accuracy mean: 63.54%.
+- Paired mean change vs A: +1.03 percentage points; 2/3 seeds improved; passes preregistered >=2pp with at least 2/3 improved: False.
+- Matched-mask/noise FedAvg with the same best-val round selection: 60.23% macro.
 
-## 论文依据与解释
+## Paper Basis and Interpretation
 
-- §5.5.1明确引入early stopping：修复只保存最终轮而丢弃验证更佳模型的问题。
-- 采用论文启发的minibatch约定(sumCE_batch+DA_batch)/实际batch，调整分类/对齐相对尺度；并非全数据Eq16的严格等价或作者源码复原。
-- 聚合/广播后用当前共享编码器重新计算train隐藏均值，避免对齐到上一轮局部编码器坐标。
-- L2正则0.01是抗过拟合扩展；稀疏40→400是收敛诊断，不冒充原文已完整给出的超参。
+- §5.5.1 explicitly introduces early stopping: this fixes the problem of saving only the final round and discarding a model that validated better.
+- The paper-inspired minibatch convention (sumCE_batch+DA_batch)/actual batch adjusts the relative scale of classification/alignment; it is not a strict equivalence to the full-data Eq16 or a restoration of the authors' source code.
+- After aggregation/broadcast, the train hidden means are recomputed with the current shared encoder, avoiding alignment to the coordinates of the previous round's local encoder.
+- L2 regularization 0.01 is an anti-overfitting extension; sparse 40→400 is a convergence diagnostic and does not claim to be a hyperparameter fully specified in the original paper.
 
-## 结论边界
+## Conclusion Boundaries
 
-- 候选仅由seed42验证集选定；锁定后一次评测，不根据测试更换候选。
-- 原测试集已在前一轮公开，本轮属于探索性后续验证，不是全新外部验证。
-- 50轮内按验证集选轮，所有私有头/门控随同恢复；比较基线也使用相同选轮规则。
-- 保留所有候选与失败，不挑最佳种子；论文79%仍为独立参考。
-- E使用400步mask；FedAvg另做相同400步mask/标准化/划分/选轮对照，三种子掩码完全相同。
+- Candidates are selected only on the seed42 validation set; one evaluation after locking, and no candidate is changed based on the test set.
+- The original test set was made public in the previous round; this round is exploratory follow-up validation, not a fresh external validation.
+- Rounds are selected on validation within 50 rounds, and all private heads/gates are restored along with the model; the comparison baseline uses the same round-selection rule.
+- All candidates and failures are retained; the best seed is not cherry-picked. The paper's 79% remains an independent reference.
+- E uses the 400-step mask; FedAvg is additionally matched with the same 400-step mask/standardization/split/round selection, and the masks are identical across all three seeds.
 
-继续保留论文79%参考；是否达到必须读真实测试数值，不以验证准确率替代测试结果。
+The paper's 79% reference is retained; whether it is reached must be read from real test values, and validation accuracy is not a substitute for test results.
 
-## 原始基线不能被藏掉
+## The Original Baseline Must Not Be Hidden
 
-|同三个种子的均值|站点macro|pooled受试者|
+|Mean over the same three seeds|Site macro|Pooled subjects|
 |---|---:|---:|
-|原始固定50轮|60.76%|62.85%|
-|A：仅验证选轮|59.00%|62.15%|
-|E：验证选定候选|60.02%|63.54%|
+|Original fixed 50 rounds|60.76%|62.85%|
+|A: validation round selection only|59.00%|62.15%|
+|E: validation-selected candidate|60.02%|63.54%|
 
-候选相对原始macro变化 **-0.73个百分点**；pooled变化+0.69个百分点，不能只选择更好看的口径。
+Candidate vs original macro change **-0.73 percentage points**; pooled change +0.69 percentage points — do not report only the more flattering metric.
 
-## 失败验尸与停止决定
+## Failure Autopsy and Stop Decision
 
-1. 失败发生于泛化：seed42验证+4.82pp，但三种子测试对A平均仅+1.03pp，低于开跑前的2pp门槛；seed44为负，原始macro也更高。
-2. 已排除训练不可学和明显管道错误：既有真实train-only8人功率门通过；完整私有/门控恢复、损失梯度和当前广播表示时序均有单测；独立审计另核对原始预测/受试者互斥/checkpoint重放。
-3. 剩余机制：400步仍未解决Eq11的联合非光滑优化，且77个验证者、最小站点6人让选轮/五候选选择波动明显；一个KKI验证分类改变即可改变macro约2.78pp。
+1. The failure is in generalization: seed42 validation +4.82pp, but the three-seed test average vs A is only +1.03pp, below the 2pp gate set before the run; seed44 is negative, and the original macro is higher too.
+2. Training being unlearnable and obvious pipeline errors have been ruled out: the existing real train-only 8-subject power gate passes; full private/gated restoration, loss gradients and the current broadcast-representation timing all have unit tests; an independent audit separately checked original predictions/subject exclusivity/checkpoint replay.
+3. Remaining mechanism: 400 steps still do not solve the joint nonsmooth optimization of Eq11, and 77 validators with the smallest site at 6 subjects make round/candidate selection visibly unstable; a single KKI validation classification flip changes macro by about 2.78pp.
 
-本轮有界五候选已跑完，不再打开B/C/D测试集或根据E测试失败改选D。保留原始界面默认模型，不宣布准确率优化成功。
+This round of bounded five candidates is complete; B/C/D test sets will not be opened, and D will not be reselected based on E's test failure. Keep the original interface default model and do not declare the accuracy optimization successful.
 
-## 下轮优先级（未执行，不冒充有效）
+## Next-Round Priorities (Not Executed; Not Claimed Effective)
 
-1. 首先用联合近端/原始-对偶/ADMM求解Eq11，必须先通过解析反例及KKT/对偶残差，再测泛化。
-2. 在嵌套验证中选择lambda_aug与特征数量，而不是固定未收敛系数的top512；外层固定重复交叉验证只做最终比较。
-3. 若前两项仍无收益，再单独预注册多尺度动态FC+静态FC融合；不先扩大网络或噪声。
+1. First solve Eq11 with a joint proximal/primal-dual/ADMM method; it must pass analytic counterexamples and KKT/dual residuals before measuring generalization.
+2. Select lambda_aug and the feature count in nested validation instead of fixing top512 with unconverged coefficients; the outer fixed repeated cross-validation is used only for final comparison.
+3. If the first two items still give no gain, separately preregister multi-scale dynamic FC + static FC fusion; do not first enlarge the network or the noise.
 
-## 对照匹配审计
+## Matched-Control Audit
 
-400步同mask/noise/选轮FedAvg均值60.23%macro；候选相对其-0.20pp，不支持优于FedAvg。
+400-step same-mask/noise/round-selection FedAvg mean 60.23% macro; the candidate is -0.20pp relative to it, which does not support superiority over FedAvg.
 
-|seed|indices完全相同|训练scaler相同|受试者划分相同|
+|seed|Identical indices|Identical training scaler|Identical subject split|
 |---|---|---|---|
-|42|是|是|是|
-|43|是|是|是|
-|44|是|是|是|
+|42|Yes|Yes|Yes|
+|43|Yes|Yes|Yes|
+|44|Yes|Yes|Yes|
 
-原40步mask+best-val FedAvg为61.93%macro，作为不同预处理的辅助对照另存，不冒充同mask。
+The original 40-step mask + best-val FedAvg is 61.93% macro, stored separately as an auxiliary control with different preprocessing; it is not claimed to be the same mask.

@@ -17,7 +17,7 @@ from .data import (N_ROIS, PHENOTYPE_URL, SITE_ORDER, TIMESERIES_URL,
                    correlation_matrix, load_subjects, read_timeseries)
 
 ROI_LABELS = [f'AAL-{index + 1:03d}' for index in range(N_ROIS)]
-ROI_NOTE = '文件列顺序，网络示意布局非解剖坐标'
+ROI_NOTE = 'File column order; the network layout is illustrative, not anatomical coordinates'
 _TRIANGLE = np.triu_indices(N_ROIS, 1)
 _CACHE_VERSION = 1
 
@@ -201,14 +201,14 @@ class HealthDataStore:
                                'atlas': 'AAL116', 'phenotype_url': PHENOTYPE_URL,
                                'timeseries_url_template': TIMESERIES_URL, 'cohort_fingerprint': self._fingerprint,
                                'aggregation': 'equal-subject Fisher-z mean',
-                               'note': '研究对照标签HC不等于临床健康认证；未使用训练模型或风险评分。'},
+                               'note': 'The research control label HC is not a clinical certification of health; no trained model or risk score is used.'},
                     'filters': {'site': site or 'All', 'age_min': age_min, 'age_max': age_max},
                     'total_subjects': len(self._subjects), 'selected_subjects': len(selected),
                     'n_hc': len(hc), 'n_asd': len(asd), 'age_summary': age_summary,
                     'site_counts': counts, 'age_histogram': histogram, 'groups': groups,
                     'difference': {'count_hc': len(hc), 'count_asd': len(asd),
                                    'fc': None if difference is None else difference.tolist(),
-                                   'note': '描述性群体差异，未校正混杂，不作疾病标志'},
+                                   'note': 'Descriptive group difference, unadjusted for confounding, not a disease marker'},
                     'subjects': [self._subject_row(i) for i in selected],
                     'roi_labels': list(ROI_LABELS), 'roi_note': ROI_NOTE}
 
@@ -249,7 +249,7 @@ class HealthDataStore:
                     'source': {'name': 'ABIDE-I PCP', 'pipeline': 'CPAC', 'strategy': 'filt_noglobal',
                                'atlas': 'AAL116', 'cohort_fingerprint': self._fingerprint},
                     'sites': sites, 'roi_note': ROI_NOTE,
-                    'note': '公开数据示例；不是训练上传内容，也不表示该示例个体参与了所选训练运行。'}
+                    'note': 'Public-data examples, not training uploads; they do not imply that the example subject took part in the selected training run.'}
 
     def subject(self, subject_id):
         self._ensure()
@@ -284,5 +284,5 @@ class HealthDataStore:
                                   'healthy_mean_fc': None if reference is None else reference.tolist(),
                                   'difference_fc': None if delta is None else delta.tolist(),
                                   'leave_one_out': subject['label'] == 0,
-                                  'note': '全队列HC描述性参照；HC个体已排除自身，不是规范化临床范围或患者风险。'},
-                    'note': '仅研究数据展示；HC/ASD为原始研究标签，不是当前临床诊断。'}
+                                  'note': 'Descriptive full-cohort HC reference with the HC subject itself excluded; not a standardised clinical range or a patient risk score.'},
+                    'note': 'Research data display only; HC/ASD are source research labels, not a current clinical diagnosis.'}

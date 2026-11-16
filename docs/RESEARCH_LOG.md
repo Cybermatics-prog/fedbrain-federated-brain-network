@@ -1,116 +1,116 @@
-# FedBrain 复现执行记录
+# FedBrain Reproduction Execution Log
 
 ## 2026-11-13
 
-- 原始论文：FedBrain，Neurocomputing559(2023)126791，DOI10.1016/j.neucom.2023.126791；已读取全文方法、实验与超参段落。
-- 硬件：NVIDIA RTX5070Ti，16303MiB；torch2.11.0+cu128，CUDA12.8；真实CUDA矩阵乘积sum=512.0通过。
-- 数据：公开ABIDE-I PCP，CPAC/filt_noglobal/rois_aal；465/465有效时间序列成功下载，0失败。站点NYU172/UM88/USM67/UCLA64/KKI33/Yale41。每个文件记录SHA256。当前cohort采用五项公开QC任一FAIL剔除，不冒充论文未公开的受试者名单。
-- 环境故障：原Conda numpy2.5.1与scipy1.13.1编译ABI不兼容，发生import失败。未改动base，项目隔离venv覆盖numpy1.26.4，真实CUDA、SciPy及sklearn导入重测通过。
-- 离线单测：21/21通过（0.419s）：FC、Fisher-z、6670维、窗口、数据缓存失效、受试者无泄漏分组、MoE及梯度、对齐、实际近端稀疏、Paillier实际密文加法与有符号打包均值、参数扰动和评测器。
-- 评测器门槛：金标accuracy=1.0，固定随机置乱10000标签accuracy必须在[0.47,0.53]，已通过。
-- 开始真实冒烟：run_id=smoke-six-sites，seed42，六站点每站最多20人，2通信轮，训练最多8窗口/受试者，64特征上限；此为明确缩减版，不用于声称论文指标。
+- Original paper: FedBrain, Neurocomputing559(2023)126791, DOI 10.1016/j.neucom.2023.126791; the full text's method, experiment, and hyperparameter sections have been read.
+- Hardware: NVIDIA RTX5070Ti, 16303MiB; torch2.11.0+cu128, CUDA12.8; a real CUDA matmul with sum=512.0 passed.
+- Data: public ABIDE-I PCP, CPAC/filt_noglobal/rois_aal; 465/465 valid time series downloaded successfully, 0 failures. Sites NYU172/UM88/USM67/UCLA64/KKI33/Yale41. SHA256 is recorded for every file. The current cohort excludes any subject failing any one of five public QC criteria and does not pass itself off as the paper's unpublished subject list.
+- Environment failure: the original Conda numpy2.5.1 and scipy1.13.1 had an incompatible compiled ABI, causing an import failure. base was left untouched; a project-isolated venv overrides numpy1.26.4, and retests of real CUDA, SciPy, and sklearn imports passed.
+- Offline unit tests: 21/21 passed (0.419s): FC, Fisher-z, the 6670 dimensions, windows, data-cache invalidation, subject-leakage-free grouping, MoE and gradients, alignment, actual proximal sparsity, actual Paillier ciphertext addition and signed packed mean, parameter perturbation, and the evaluator.
+- Evaluator threshold: gold-label accuracy=1.0; with 10000 fixed randomly shuffled labels, accuracy must fall in [0.47,0.53]; passed.
+- Started the real smoke run: run_id=smoke-six-sites, seed42, at most 20 subjects per site across the six sites, 2 communication rounds, at most 8 training windows per subject, 64-feature cap; this is an explicitly reduced version and is not used to claim the paper's metrics.
 
-### 冒烟失败验尸与修复
-- 失败点：smoke-six-sites 数据划分；20人按ID截取导致少数类在外层训练集只有1人，分层验证划分拒绝运行（尚未训练）。
-- 已排除：评测器、真实数据下载、CUDA、模型数值问题；错误发生在划分前置检查。
-- 剩余原因及下一步：小样本受试者挑选策略按ID顺序偏置。仅修改冒烟受试者预算为站点内固定seed分层抽样，保持数据真实与train/val/test独立；开始smoke-six-sites-v2验证此机制。
+### Smoke Failure Autopsy and Fix
+- Failure point: the smoke-six-sites data split; truncating 20 subjects by ID left the minority class with only 1 subject in the outer training set, so the stratified validation split refused to run (no training had happened yet).
+- Ruled out: the evaluator, the real-data download, CUDA, and model numerics; the error occurred in the pre-split checks.
+- Remaining cause and next step: the small-sample subject selection strategy was biased by ID order. Changed only the smoke subject budget to fixed-seed stratified sampling within each site, keeping the data real and train/val/test independent; started smoke-six-sites-v2 to validate this mechanism.
 
-### 冒烟v2通过
-- run_id=smoke-six-sites-v2；120真实受试者（六站点各20）、train72/val24/test24，seed42，2通信轮。
-- CE loss0.6839→0.6834，全部预测和损失有限；受试者级accuracy=13/24=0.5416667，仅验证管道可执行，不用于性能结论。
-- 扩展离线测试27/27通过（1.415s），含最易可分任务的学习正对照>=0.95、金标1.0与随机0.501评分对照、冒烟分层抽样回归测试及API输入验证。
-- 决策：端到端冒烟/评测器闸门通过；预注册的真实微型训练集过拟合闸门当时尚未验证（synthetic正对照不能替代它），因此全量465人、固定50轮、seed42主实验先作为探索运行，完成真实闸门前不作性能结论。
-- 补充真实功率闸门预注册：只取主实验train集合内NYU前4名HC+4名ASD，每人32个窗口、同一训练期512特征变换，hidden8 MoE，单客户端无噪声/无对齐最易设置，Adam lr0.01固定300步，训练受试者accuracy>=0.95才通过。不取val/test、不用其结果调主实验。
-- 对齐统计实现补充：每站最多2048个确定性训练窗口，使用前轮本地聚合前编码器产生的边际/类别均值；下一轮对齐只交换这些统计，不交换原始时序。FedAvg对照沿用相同noise/clip，属于matched-noise FedAvg。稀疏阶段每名训练者8个等距相对时间分段，最多512特征，是公开记录的加速近似；分类训练使用全部32帧/步长1窗口。
+### Smoke v2 Passed
+- run_id=smoke-six-sites-v2; 120 real subjects (20 per each of the six sites), train72/val24/test24, seed42, 2 communication rounds.
+- CE loss0.6839→0.6834, all predictions and losses finite; subject-level accuracy=13/24=0.5416667; this only verifies that the pipeline executes and is not used for performance conclusions.
+- Extended offline tests 27/27 passed (1.415s), including the learnable positive control >=0.95 on the easiest separable task, the gold-label 1.0 and random 0.501 scoring controls, the smoke stratified-sampling regression test, and API input validation.
+- Decision: the end-to-end smoke/evaluator gate passed; the pre-registered overfitting gate on the real tiny training set had not yet been validated at that point (a synthetic positive control cannot substitute for it), so the full 465-subject, fixed 50-round, seed42 main experiment was first run as exploratory, and no performance conclusion is drawn before the real gate is completed.
+- Supplementary pre-registration of a real power gate: take only the first 4 HC + 4 ASD subjects from NYU within the main experiment's train set, 32 windows per subject, the same training-time 512-feature transform, hidden8 MoE, the easiest single-client setting with no noise/no alignment, Adam lr0.01 for a fixed 300 steps; it passes only if training subject accuracy>=0.95. val/test are not used, and its results are not used to tune the main experiment.
+- Alignment-statistics implementation addendum: at most 2048 deterministic training windows per site, using the marginal/class means produced by the local pre-aggregation encoder from the previous round; the next round's alignment exchanges only these statistics, not raw time series. The FedAvg control reuses the same noise/clip and is a matched-noise FedAvg. The sparse stage uses 8 equally spaced relative time segments per trainer, at most 512 features, which is a publicly recorded speed-up approximation; classification training uses all 32 frames/stride 1 windows.
 
-### 主实验与真实闸门结果
-- full-fedbrain-s42完成固定50轮：96名held-out测试受试者，pooled accuracy=0.59375、macro-site accuracy=0.5688848189、AUC=0.6317846287，未达到预注册0.79门槛。所有逐轮曲线为validation，不从中挑test最优点。
-- 真实train-only8名受试者功率门已验证：同MLP8/MoE，300步后训练accuracy=1.0、BCE=3.1356667e-6；功率足够，不能把当前低泛化准确率归因于模型根本不会学习。
-- 结果先当嫌疑犯：候选解释A=小站点/固定划分随机性；最便宜区分检验为预先计划的seed43/44，不改超参。候选解释B=个性化模型过拟合而非实现不可训练；最便宜区分检验为同seed42、同训练掩码、同noise/clip与预算的FedAvg对照。
-- 下一步仅执行预定验证三项：matched-noise FedAvg42、FedBrain43、FedBrain44；不以已见测试分数调整特征数/噪声/轮数。
+### Main Experiment and Real-Gate Results
+- full-fedbrain-s42 completed a fixed 50 rounds: 96 held-out test subjects, pooled accuracy=0.59375, macro-site accuracy=0.5688848189, AUC=0.6317846287, below the pre-registered 0.79 threshold. All per-round curves are validation; no test optimum is selected from them.
+- The real train-only 8-subject power gate has been verified: same MLP8/MoE, after 300 steps training accuracy=1.0, BCE=3.1356667e-6; power is sufficient, so the current low generalization accuracy cannot be attributed to the model being fundamentally unable to learn.
+- Treat the result as a suspect first: candidate explanation A = small sites/fixed-split randomness; the cheapest discriminating test is the pre-planned seed43/44 without changing hyperparameters. Candidate explanation B = the personalized model overfits rather than the implementation being untrainable; the cheapest discriminating test is a FedAvg control with the same seed42, same training mask, same noise/clip and budget.
+- Next, run only the three pre-planned validations: matched-noise FedAvg42, FedBrain43, FedBrain44; do not adjust feature count/noise/rounds based on the test scores already seen.
 
-- 追加预注册（在seed43/44测试结果出炉前）：对这两项也运行同掩码/同划分matched-noise FedAvg，形成三个固定种子的配对对照，不更换任何方法超参。
-- 实际Paillier2048bit加密六客户端2轮训练已完成；与同配置明文冒烟具有相同受试者预测类别和54.17%准确率（仅算术链路验证）。
+- Additional pre-registration (before the seed43/44 test results came out): also run a same-mask/same-split matched-noise FedAvg for these two, forming three paired controls at fixed seeds, without changing any method hyperparameter.
+- Actual Paillier2048bit encrypted 2-round training with six clients has completed; it has the same subject predicted classes and 54.17% accuracy as the same-config plaintext smoke run (arithmetic-path validation only).
 
-### 固定三种子配对验证完成
-- FedBrain42/43/44 pooled accuracy分别0.59375/0.6145833333/0.6770833333，macro-site分别0.5688848189/0.6041310541/0.6496540497；三个种子macro均值60.76%，样本标准差4.05个百分点。
-- matched-mask/noise FedAvg42/43/44 pooled分别0.625/0.6666666667/0.6458333333，macro-site分别0.6073463573/0.6706552707/0.6326007326；macro均值63.69%。
-- 结论收敛：当前实现没有复现79%或论文优于FedAvg的结论；真实训练准确率97.26%/98.63%/100%而测试明显较低，记录为泛化差距，不归因于训练不可解。
-- 8个已完成运行的原始预测重新评分、受试者互斥、轮数、稀疏索引与变换形状全部独立审计通过；Paillier与明文预测概率max差9.685754776e-8。
-- 桌面1440/移动390真实浏览器验证：四页、真实465人/六站点、116×116矩阵、切换实验、搜索筛选、无JS错误、无横向溢出。修复了累积通信误求和和重复macro曲线，保留单条真实验证曲线。
-- 默认展示seed42主运行，不按测试准确率挑最好种子。5次重复×5折脚本已经提供但本次未跑完25次，不声称完整论文评测协议已复现。
+### Fixed Three-Seed Paired Validation Completed
+- FedBrain42/43/44 pooled accuracy were 0.59375/0.6145833333/0.6770833333, macro-site 0.5688848189/0.6041310541/0.6496540497 respectively; the three-seed macro mean was 60.76% with a sample standard deviation of 4.05 percentage points.
+- matched-mask/noise FedAvg42/43/44 pooled 0.625/0.6666666667/0.6458333333, macro-site 0.6073463573/0.6706552707/0.6326007326 respectively; macro mean 63.69%.
+- Conclusions converge: the current implementation did not reproduce 79% or the paper's conclusion that it outperforms FedAvg; real training accuracy was 97.26%/98.63%/100% while test accuracy was clearly lower, recorded as a generalization gap and not attributed to training being unsolvable.
+- Independent audit passed for re-scoring the raw predictions, subject mutual exclusivity, round count, sparse indices, and transform shapes across all 8 completed runs; the max difference between Paillier and plaintext predicted probabilities is 9.685754776e-8.
+- Real-browser validation at desktop 1440/mobile 390: four pages, real 465 subjects/six sites, 116×116 matrix, experiment switching, search filtering, no JS errors, no horizontal overflow. Fixed the cumulative-communication mis-summing and the duplicated macro curve, keeping a single real validation curve.
+- The seed42 main run is shown by default, not the best seed by test accuracy. The 5-repeat×5-fold script is provided but its 25 runs were not completed this time; no claim that the full paper evaluation protocol has been reproduced.
 
-### 演示控制流程验收
-- 真实浏览器点击启动/停止均HTTP200；run20261113-161021-672878-fedbrain（5轮、seed43、20人/站点）进入preparing后响应停止，持久化status=stopped/round0，未冒充完成训练。
-- 提交期间按钮禁用、所选run一致、停止后按钮禁用；刷新后默认仍为主运行seed42；0JS错误。证据：web/qa/start-stop-report.json。
-- 八个已完成模型重新加载CPU推理，与原GPU/CPU保存概率最大偏差1.374e-8，全部小于1e-5；真实116×116矩阵一致。
+### Demo Control-Flow Acceptance
+- Real-browser start/stop clicks both returned HTTP200; run20261113-161021-672878-fedbrain (5 rounds, seed43, 20 subjects/site) entered preparing and then responded to stop, persisted status=stopped/round0, and did not pretend that training had completed.
+- During submission the buttons were disabled, the selected run stayed consistent, and after stop the buttons were disabled; after refresh the default remained the main run seed42; 0 JS errors. Evidence: web/qa/start-stop-report.json.
+- The eight completed models were reloaded for CPU inference; the max deviation from the original GPU/CPU saved probabilities is 1.374e-8, all below 1e-5; the real 116×116 matrix is consistent.
 
-## 2026-11-13 论文驱动优化（第二轮人类请求）
+## 2026-11-13 Paper-Driven Optimization (Second Round of Human Requests)
 
-- 仅从历史train/validation诊断：FedBrain验证final均值69.7691%，最佳轮均值71.9697%；训练-验证macro差27.93个百分点，不能把训练接近100%当成泛化成功。
-- 原文§5.5.1明确early stopping；原实现只保存最终轮。Eq16 sumCE与Eq14 sumDA混用成meanCE+0.1sumDA，在batch256时对齐相对同minibatch的literal(sumCE+DA)强25.6倍。聚合前局部表示统计又被用于聚合后的共享编码器。独立审计补充：B是论文启发的minibatch约定，并不证明与full-data非线性DA目标完全等价；只调整解释，不改已冻结运行。
-- 预注册5项A选轮、B损失归一化、C广播后统计、D额外L2、E稀疏400步；见[优化计划](OPTIMIZATION_PLAN.md)。先seed42验证筛选、落盘锁定后才测试；原测试已公开，所以明确为探索性后续。
-- 新增defer_test严格隔离：候选不计算test、不写predictions.json；API对未解锁候选个体推理返回409。2轮真实opt-smoke-validation-only已完成，best轮1、validation_macro54.17%、test指标None，隔离断言全部通过。
-- 37/37测试通过（2.037s）：新增完整私有头/门控快照、平手最早轮、Eq16梯度等价、广播后统计坐标检查、API隔离和稀疏分组BLAS数值等价。
-- 稀疏分组BLAS与原梯度误差1.78e-14，约10.63倍加速。训练数据40→400步仍0/6符合现有停止条件、union仍6670、top512 mask Jaccard0.4402；目标下降不等于收敛或准确率提升。
-- 另外发现非光滑分块交替可能停在坐标稳定但非联合最优点的反例，保留并记录，不在本轮已冻结的有界实验中偷偷更换算法。
-- 验证筛选已完成A68.6869%@13、B71.0678%@11、C71.1219%@25、D73.2323%@27、E73.5029%@31；2026-11-13T08:34:14.699919Z落盘选择E后才允许测试，未按测试换选D。
-- 三种子已完成：A macro56.7664%/60.4131%/59.8067%；E macro60.6186%/61.3126%/58.1400%；配对+3.8523/+0.8995/−1.6667pp，平均+1.02835pp，2/3提升但未达+2pp门槛，95%配对t区间[−5.8321,+7.8888]pp。
-- 原始固定50轮macro60.7557%，E60.0237%（−0.7319pp）；pooled62.8472%→63.5417%（+0.6944pp）。撤回任何“验证增加必然带来稳定测试增益”的假设，不宣称优化成功；原始默认模型保留。
-- E400步mask对应的FedAvg追加三种子macro63.0871%/63.0179%/54.5706%，均值60.2252%；与E的split/512indices/scaler逐种子完全相同。旧40步mask best-val FedAvg61.9278%单独保存，不能冒充同mask比较。
-- 失败验尸：(a)泛化环节未过最小收益门槛，seed44下降；(b)已排除训练不可学、完整专家恢复/量纲梯度/时序明显错误；(c)剩余联合稀疏求解停滞和小验证集选择波动。本轮停止继续试参，下一条最有依据的研究线是联合近端/ADMM+KKT认证，不是加大网络。
-- 工程加固：搜索锁复用不重开测试、旧run配置/源码不一致拒绝复用、测试解锁检查持久化选择一致和checkpoint指纹；原一轮执行路径独立来源审计通过。41/41离线测试通过1.916s。
-- 独立最终审计20个已测模型与4个验证隔离运行全部通过；原始概率重算/三划分互斥/轮数/checkpoint重放一致，max概率误差1.65101013e-8。额外验证重复执行优化脚本只读复用，不重新搜索或评测。
+- Diagnosing only from historical train/validation: FedBrain validation final mean 69.7691%, best-round mean 71.9697%; the train-validation macro gap is 27.93 percentage points; near-100% training cannot be taken as generalization success.
+- §5.5.1 of the original paper explicitly specifies early stopping; the original implementation saved only the final round. Eq16 sumCE and Eq14 sumDA were mixed into meanCE+0.1sumDA, making the alignment at batch256 25.6× stronger relative to the literal (sumCE+DA) over the same minibatch. Pre-aggregation local representation statistics were then used in the post-aggregation shared encoder. Independent audit addendum: B is a paper-inspired minibatch convention and does not prove full equivalence with the full-data nonlinear DA objective; only the interpretation was adjusted, and the frozen runs were not changed.
+- Pre-registered 5 options: A round selection, B loss normalization, C post-broadcast statistics, D extra L2, E sparse 400 steps; see [Optimization Plan](OPTIMIZATION_PLAN.md). Screen on seed42 first, lock the selection to disk, and only then test; the original test has already been made public, so this is explicitly an exploratory follow-up.
+- Added strict defer_test isolation: candidates do not compute test and do not write predictions.json; the API returns 409 for individual inference on a candidate that has not been unlocked. 2 rounds of real opt-smoke-validation-only have completed, best round 1, validation_macro54.17%, test metrics None, and all isolation assertions passed.
+- 37/37 tests passed (2.037s): added full private-head/gate snapshots, earliest-round tie-breaking, Eq16 gradient equivalence, post-broadcast statistic coordinate checks, API isolation, and sparse-grouped BLAS numerical equivalence.
+- Sparse-grouped BLAS differs from the original gradient by 1.78e-14, with about a 10.63× speed-up. Training 40→400 steps still has 0/6 meeting the existing stopping criterion, the union is still 6670, and the top512 mask Jaccard is 0.4402; a decreasing objective does not equal convergence or accuracy improvement.
+- Also found a counterexample in which the nonsmooth block alternation can stop at a coordinate-stable but not jointly optimal point; kept and recorded, without quietly swapping the algorithm inside this round's frozen bounded experiment.
+- Validation screening completed: A68.6869%@13, B71.0678%@11, C71.1219%@25, D73.2323%@27, E73.5029%@31; only after E was locked to disk at 2026-11-13T08:34:14.699919Z was testing allowed, and D was not swapped in based on test results.
+- Three seeds completed: A macro56.7664%/60.4131%/59.8067%; E macro60.6186%/61.3126%/58.1400%; paired +3.8523/+0.8995/−1.6667pp, mean +1.02835pp, improving in 2/3 but not reaching the +2pp threshold, 95% paired t-interval [−5.8321,+7.8888]pp.
+- The original fixed 50-round macro is 60.7557%, E 60.0237% (−0.7319pp); pooled 62.8472%→63.5417% (+0.6944pp). Withdraw any assumption that "more validation necessarily yields a stable test gain"; do not claim the optimization succeeded; the original default model is kept.
+- The FedAvg corresponding to the E400-step mask was run for three additional seeds: macro63.0871%/63.0179%/54.5706%, mean 60.2252%; identical to E per seed in split/512indices/scaler. The old 40-step-mask best-val FedAvg61.9278% is saved separately and cannot be passed off as a same-mask comparison.
+- Failure autopsy: (a) the generalization stage did not pass the minimum-gain threshold and seed44 dropped; (b) ruled out untrainability and obviously wrong full-expert recovery/gradient scaling/temporal ordering; (c) what remains is joint sparse-solver stagnation and small-validation-set selection variance. Stop further parameter tuning this round; the next best-supported research line is joint proximal/ADMM + KKT certification, not a bigger network.
+- Engineering hardening: the search lock is reused without reopening tests, reuse is refused when an old run's config/source mismatches, and the test-unlock check verifies the persisted selection is consistent and the checkpoint fingerprint matches; the original one-round execution path passed an independent provenance audit. 41/41 offline tests passed in 1.916s.
+- An independent final audit of 20 tested models and 4 validation-isolated runs all passed; raw probability recomputation/split mutual exclusivity/round count/checkpoint replay are consistent, with max probability error 1.65101013e-8. Additionally verified that repeated execution of the optimization script is a read-only reuse and does not re-search or re-evaluate.
 
-## 2026-11-13 联邦效果主视觉（第三轮人类纠正）
+## 2026-11-13 Federated-Effect Main Visual (Third Round of Human Correction)
 
-- 用户明确要可视联邦效果，而不是准确率仪表盘；首屏重构为六客户端↔服务器，所有accuracy/优化/测试表收进默认折叠辅助区。
-- 新增只读FederationRecorder：每轮真实本地训练/上传/平均/广播事件、同64参数坐标、固定初始train-only PCA的站点均值/协方差/类别均值；不导出个体窗口或原始FC。
-- 46/46离线测试通过2.847s：原管道保持通过，新增模型/梯度/混合train-eval标志及Python/NumPy/Torch RNG完全不变、参数平均/广播/私有保留、部分状态及故意错误可检出。
-- federation-smoke-s42真实2轮完成：与smoke-six-sites-v2同24测试者，概率最大差精确0.0，观测不改变原训练；36个真实事件，两轮广播共享max差0、所有私有权重保留。
-- 首次审计脚本将pending/verified两条广播状态误当一次事件而断言失败；修正审计仅重读原记录，未重训或更改事件。通过后才执行全队列8轮演示。
-- federation-demo-s42：465人队列（train292/val77/test96），8轮，6客户端，4113共享参数，138个真实有序事件；48/48本地更新非零。平均上传参数与实际聚合最大误差5.96046448e-8；8/8轮广播共享参数max差精确0，48/48私有参数hash未被聚合覆盖。该运行用于流程，不用于准确率优化结论。
-- 默认按过程记录存在性选择演示，历史原始/优化模型及其证据不变；无记录历史运行API明确available=false，不伪造过去逐站点轨迹。
-- 最终补充真实8轮API/边界检查后47/47单测通过2.348s；全8轮独立参数算术/广播/私有保留审计再次通过，全部Python编译成功。
-- 最终1440/390实际浏览器QA：6站点、6条真实广播路径、448个上传/聚合参数单元、12个实际表征椭圆；播放/暂停/逐步/点站点与延迟R2→R8响应保护通过，0JS错误/0训练POST/无横向溢出。辅助区仅4字段+2记录链接，展开桌面170.97px/移动177.95px，旧巨大仪表盘不再展开。
-- Lead另开Edge独立验证当前8765页面：默认真实8轮记录，6可交互节点、准确率默认折叠且展开170.97px、逐事件前进、0JS错误/无溢出；Node语法检查通过。
+- The user explicitly wants the federation effect visualized, not an accuracy dashboard; the first screen was rebuilt as six clients↔server, with all accuracy/optimization/test tables moved into a default-collapsed auxiliary area.
+- Added a read-only FederationRecorder: per-round real local training/upload/average/broadcast events, the same 64 parameter coordinates, and site means/covariances/class means from a fixed initial train-only PCA; no individual windows or raw FC are exported.
+- 46/46 offline tests passed in 2.847s: the original pipeline still passes; new checks confirm model/gradient/mixed train-eval flags and Python/NumPy/Torch RNG are completely unchanged, parameter averaging/broadcast/private retention work, and partial states and deliberate errors are detectable.
+- federation-smoke-s42 completed 2 real rounds: same 24 test subjects as smoke-six-sites-v2, max probability difference exactly 0.0, observation does not change the original training; 36 real events, shared max difference 0 in both broadcast rounds, all private weights retained.
+- The first audit script mistook the two broadcast states pending/verified for a single event and failed its assertion; the fixed audit only re-read the original records, without retraining or changing events. Only after it passed was the full-cohort 8-round demo started.
+- federation-demo-s42: 465-subject cohort (train292/val77/test96), 8 rounds, 6 clients, 4113 shared parameters, 138 real ordered events; 48/48 local updates nonzero. The max error between the averaged uploaded parameters and the actual aggregate is 5.96046448e-8; the shared-parameter max difference is exactly 0 in 8/8 broadcast rounds, and 48/48 private parameter hashes were not overwritten by aggregation. This run is for the process, not for accuracy-optimization conclusions.
+- By default the demo is selected by the existence of process records; historical original/optimized models and their evidence are unchanged; the API explicitly reports available=false for historical runs without records and does not fabricate past per-site trajectories.
+- After a final supplementary real 8-round API/boundary check, 47/47 unit tests passed in 2.348s; the independent parameter arithmetic/broadcast/private-retention audit for all 8 rounds passed again, and all Python compiled successfully.
+- Final QA in a real browser at 1440/390: 6 sites, 6 real broadcast paths, 448 upload/aggregate parameter units, 12 actual representation ellipses; play/pause/step/site-click and delayed R2→R8 response protection passed, with 0 JS errors/0 training POSTs/no horizontal overflow. The auxiliary area has only 4 fields + 2 record links; expanded height is 170.97px on desktop/177.95px on mobile, and the old huge dashboard no longer expands.
+- Lead separately opened Edge to independently verify the current 8765 page: the real 8-round record by default, 6 interactive nodes, accuracy collapsed by default and expanding to 170.97px, event-by-event stepping, 0 JS errors/no overflow; Node syntax check passed.
 
-## 2026-11-13 准确率偏低的只读诊断
+## 2026-11-13 Read-Only Diagnosis of the Low Accuracy
 
-- 用户再次询问准确率低；新增diagnose_accuracy.py只读既有7个运行预测，不训练、不选择阈值/测试最优模型；原始accuracy逐条重算一致，明细accuracy_diagnosis.json。
-- 8轮流程默认pooled55.21%，47名ASD只识别6人，预测8人ASD/88人HC，ASD召回12.77%；AUC0.7377但两类均值概率0.4121/0.4500都低于0.5，有决策偏移迹象，不按test校准。
-- 对原seed42同受试者/主要训练配置，前8轮val macro差精确0.0；8→50轮pooled55.21→59.38仅+4.17pp。50轮三种子train pooled98.63%/test62.85%（macro60.76%）表明主要未解决泛化差距，不是观测记录器改变训练。
-- 小板块补充明确动态标签：流程演示·8轮·非50轮主实验，切到主模型显示50轮/seed。Node语法及实际Edge两标签切换检查通过，0JS错误；初次内联Python验证因Windows引号转义SyntaxError，改为独立脚本运行通过，非页面错误。
+- The user again asked about the low accuracy; added diagnose_accuracy.py, which reads only the existing 7 run predictions, does not train, and does not select thresholds/test-best models; the original accuracy was recomputed item by item and matched, with details in accuracy_diagnosis.json.
+- The 8-round process defaults to pooled55.21%, identifying only 6 of 47 ASD subjects, predicting 8 ASD/88 HC, ASD recall 12.77%; AUC0.7377 but the two class mean probabilities 0.4121/0.4500 are both below 0.5, indicative of decision shift, and no calibration is done on test.
+- For the original seed42 same-subject/main training configuration, the first-8-round val macro difference is exactly 0.0; 8→50 rounds moves pooled55.21→59.38, only +4.17pp. The 50-round three-seed train pooled98.63%/test62.85% (macro60.76%) shows the main unresolved generalization gap, not that the observation recorder changed training.
+- A small panel was added with an explicit dynamic label: process demo · 8 rounds · not the 50-round main experiment; switching to the main model shows 50 rounds/seed. Node syntax and actual Edge two-label switching checks passed, with 0 JS errors; the first inline Python verification failed with a SyntaxError from Windows quote escaping, and running it as a standalone script passed, not a page error.
 
-## 2026-11-13 脑健康数据主视图（用户再次纠正）
+## 2026-11-13 Brain-Health Data Main View (User Corrected Again)
 
-- 用户澄清可视对象是健康数据，不是联邦训练。首页改为脑健康数据探索：HC/ASD均值与差异FC、116ROI强连接网络、年龄/六站点人数、真实个体BOLD与留一HC参照；联邦过程移到训练页折叠方法说明。
-- 新增独立HealthDataStore及/api/health-data，不加载训练模型。465人HC241/ASD224，年龄6.47–50.2231，缺失0；缓存全量构建及公式审计3.0207s通过。
-- 真实HC例51036，176帧，3条实际完整ROI zscore曲线，留一HC参考240。群体FC按人等权Fisher聚合；ASD−HC有符号矩阵、KKI33/HC21/ASD12、110–120岁空组None都通过核对。
-- 54/54单测通过3.731s，含5个独立健康数据分析测试和2个API无模型依赖/筛选边界测试。未改分类训练配置、模型权重或历史性能结论。
-- 确认无用户训练活动后才重载既有8765服务；健康队列及个体接口实际HTTP200，原模型训练与指标只作次级辅助内容。
-- 实际Edge桌面1440/手机390验收通过：0JS错误、0POST、无横向溢出；HC/ASD/有符号差异热图像素与API实值一致，116ROI及40→80强连接、ROI悬停点击、HC个体与240人参考都通过。新健康主图及完整页面截图保存在web/qa/health-*.png。
-- Lead独立隔离所有实验/模型API为HTTP503后，健康主视图仍正常展示465/241/224、116ROI、3条真实BOLD和真实HC51036；0JS错误/0POST，证实前后端健康数据探索均不依赖已有模型。记录于artifacts/health_frontend_independence.json。
-- 最终事件审查发现健康根节点dataset.subjectId的测试标记会被旧模型全局点击代理匹配；已对旧代理排除#health-root。新增正常模型服务可用时的健康群体/ROI/参考点击检查，确认意外/api/subjects/{id}模型推断请求为0；不改变健康图像或数据。
+- The user clarified that the object to visualize is health data, not federated training. The home page was changed to brain-health data exploration: HC/ASD mean and difference FC, the 116 ROI strong-connection network, age/six-site subject counts, real individual BOLD and a leave-one-out HC reference; the federation process moved to the training page's collapsed method notes.
+- Added an independent HealthDataStore and /api/health-data, which does not load the trained model. 465 subjects HC241/ASD224, ages 6.47–50.2231, missing 0; full-cache construction and formula audit passed in 3.0207s.
+- Real HC example 51036, 176 frames, 3 actual complete ROI zscore curves, leave-one-out HC reference 240. Group FC is Fisher-aggregated with subject-equal weight; the ASD−HC signed matrix, KKI33/HC21/ASD12, and the 110–120-year empty group None all passed checking.
+- 54/54 unit tests passed in 3.731s, including 5 independent health-data analysis tests and 2 API tests for model independence/filter boundaries. Classification training configuration, model weights, and historical performance conclusions were not changed.
+- Only after confirming there was no user training activity was the existing 8765 service reloaded; the health cohort and individual endpoints actually returned HTTP200, and the original model training and metrics are only secondary auxiliary content.
+- Actual Edge acceptance at desktop 1440/phone 390 passed: 0 JS errors, 0 POSTs, no horizontal overflow; HC/ASD/signed-difference heatmap pixels match the API's actual values, and the 116 ROI and 40→80 strong connections, ROI hover/click, and HC individual plus the 240-subject reference all passed. The new health main figure and full-page screenshots are saved in web/qa/health-*.png.
+- After the Lead independently isolated all experiment/model APIs to HTTP503, the health main view still displayed 465/241/224, 116 ROI, 3 real BOLD curves and real HC51036; 0 JS errors/0 POSTs, confirming that both front-end and back-end health-data exploration do not depend on existing models. Recorded in artifacts/health_frontend_independence.json.
+- A final event review found that the test marker on the health root node dataset.subjectId was matched by the old-model global click proxy; #health-root was excluded from the old proxy. Added health group/ROI/reference click checks when the normal model service is available, confirming 0 unexpected /api/subjects/{id} model-inference requests; health images and data are unchanged.
 
-## 2026-11-13 健康数据主视图嵌入联邦保护边界
+## 2026-11-13 Health-Data Main View Embeds the Federation Protection Boundary
 
-- 用户进一步明确：健康数据为主，但要体现通过联邦机制减少原始数据集中暴露，而非单独训练动画。新增同页站点数据域→共享参数/对齐统计→聚合返回说明，并保留原FC/BOLD/群体探索。
-- 新增只读protection事实层与/api/data-protection；上传清单区分原始个体数据、共享模型、对齐统计和私有模块。明示对齐均值/类别窗口计数未进入当前加噪或Paillier路径；参数扰动无正式epsilon-DP认证。
-- 原始8轮运行465人/训练292，HE关闭、b=.01已应用，4113共享/每站点18私有；8轮48上传，最新轮私有保持性通过。历史HE示例仅120人/训练72/2轮；Paillier2048算法真实记录但同进程密钥、返回模型明文，缺逐客户端trace的保持性不补造。
-- 当前是集中公开数据的单机模拟，研究者API可浏览个体数据；聚合端视角为教学示意而非权限控制，不声称已部署医院隔离或绝对安全。
-- 63/63回归测试通过3.385s；包括7个保护事实测试和2个保护API测试。既有健康数据仍465/HC241/ASD224，未修改训练参数、权重或历史性能结果。
-- 前端事件命名隔离：保护视角探针改用data-protection-view-mode，避免误匹配旧导航data-view；保持性文案限定最新记录而非把单轮证据冒充全轮验证。
-- 最终真实Edge桌面1440/手机390验收：0JS错误、0POST、0误触模型推断请求、无横向溢出。桌面保护卡259.55px且FC仍在首屏；手机改为三步纵向并提高正文10.5px。视角切换保持健康页激活，不误跳复现协议；历史HE120人范围、默认HE关闭、KKI33/21/12、116ROI/3真实BOLD曲线及研究视角恢复均通过。详情web/qa/privacy-report.json与privacy-*.png。
-- Lead再次模拟实验API全503，健康探索仍显示465/241/224、116ROI、3实际曲线；正常健康交互无旧模型推断请求。
+- The user further clarified: health data is primary, but the page must show that the federated mechanism reduces raw-data central exposure, rather than a standalone training animation. Added a same-page explanation of site data domains→shared parameters/alignment statistics→aggregation return, and kept the original FC/BOLD/group exploration.
+- Added a read-only protection fact layer and /api/data-protection; the upload inventory distinguishes raw individual data, shared models, alignment statistics, and private modules. It states explicitly that the alignment means/class-window counts do not enter the current noise-addition or Paillier paths, and that parameter perturbation has no formal epsilon-DP certification.
+- The original 8-round run has 465 subjects/training292, HE off, b=.01 applied, 4113 shared/18 private per site; 8 rounds and 48 uploads, and the latest round's private retention passed. Historical HE examples cover only 120 subjects/training72/2 rounds; Paillier2048 arithmetic is recorded for real but uses a same-process key and returns the model in plaintext, and the retention result, which lacks per-client traces, is not fabricated.
+- This is currently a single-machine simulation of centralized public data, and the researcher API can browse individual data; the aggregate-side view is a teaching illustration rather than access control, and it does not claim that hospital isolation has been deployed or that the system is absolutely secure.
+- 63/63 regression tests passed in 3.385s, including 7 protection-fact tests and 2 protection-API tests. Existing health data is still 465/HC241/ASD224, and training parameters, weights, and historical performance results were not modified.
+- Front-end event-naming isolation: the protection-view probe now uses data-protection-view-mode to avoid mistakenly matching the old navigation data-view; the retention wording is limited to the latest record instead of passing off single-round evidence as all-round validation.
+- Final real Edge acceptance at desktop 1440/phone 390: 0 JS errors, 0 POSTs, 0 accidental model-inference requests, no horizontal overflow. The desktop protection card is 259.55px and FC is still above the fold on desktop; on mobile it became three vertical steps and the body text was increased by 10.5px. View switching keeps the health page active and does not jump to the reproduction protocol; the historical HE120-subject scope, default HE off, KKI33/21/12, 116 ROI/3 real BOLD curves, and restoration of the research view all passed. Details in web/qa/privacy-report.json and privacy-*.png.
+- With all experiment APIs simulated as 503 again by the Lead, health exploration still showed 465/241/224, 116 ROI, and 3 actual curves; normal health interaction made no old-model inference requests.
 
-## 2026-11-13 六站点健康数据与上传消息的图形区分
+## 2026-11-13 Visual Distinction Between Six-Site Health Data and Upload Messages
 
-- 根据“从页面直观看出保护”的要求，替换三段说明框为六站点FC/BOLD→参数/统计箭头→中央参数聚合→模型返回图，保留健康数据主页面。页面提供本地数据/上传内容切换及一次示意传输，不启动训练。
-- 新增独立站点示例接口/api/health-data/sites：每站点第一个HC匿名被试的完整116²个体FC、一个实测BOLD ROI（先全长z-score，最多128原始帧抽样）；公开数据示例不表示参与所选训练。所有示例逐值核对原subject API，无合成波形。
-- /api/data-protection.transfer取最新实际记录中的6×64共享参数上传坐标和64聚合坐标；聚合值与上传均值吻合。未知对齐数值/历史无trace参数不补造，HE120人例与465人公开队列分开标注。
-- 69/69测试通过6.905s。真实HTTP已验证NYU51036、UM50327、USM50433、UCLA51250、KKI50772、Yale50551的FC116²及BOLD帧数128/128/128/116/128/128，8轮参数摘要6×64。
-- 首轮页面QA：6FC和6BOLD实数图、上传384坐标/聚合64坐标与API一致，中央无个体数据/ID，KKI33/21/12，无JS错误/POST/误模型推断，桌面1440及手机390无横向溢出。图高579.98px，桌面首屏可完整看到传输图。
-- Lead独立动画检验：可见6个运动包，包类型仅parameter/statistics/global；传输中6张本地FC的像素和屏幕位置逐项保持不变，中央无原始图，当前页不误跳。另将分类API全部503后健康探索仍正常。
+- Per the requirement to "make the protection visible on the page at a glance", the three explanatory boxes were replaced by the diagram six-site FC/BOLD→parameter/statistics arrows→central parameter aggregation→model return, keeping the health-data main page. The page offers a local-data/upload-content toggle and one illustrative transfer, and does not start training.
+- Added an independent per-site example API /api/health-data/sites: the complete 116² individual FC of the first anonymous HC subject at each site, and one measured BOLD ROI (full-length z-score first, then sampling at most 128 raw frames); a public-data example does not imply participation in the selected training. Every example was checked value by value against the original subject API, with no synthetic waveforms.
+- /api/data-protection.transfer takes the 6×64 shared-parameter upload coordinates and the 64 aggregate coordinates from the latest actual record; the aggregate values match the mean of the uploads. Unknown alignment values/historical parameters without traces are not fabricated, and the HE120-subject example is labeled separately from the 465-subject public cohort.
+- 69/69 tests passed in 6.905s. Real HTTP has verified the FC116² and BOLD frame counts 128/128/128/116/128/128 for NYU51036, UM50327, USM50433, UCLA51250, KKI50772, and Yale50551, and the 8-round parameter summary 6×64.
+- First-round page QA: 6 real FC and 6 real BOLD figures, upload384 coordinates/aggregate64 coordinates matching the API, no individual data/IDs in the center, KKI33/21/12, no JS errors/POSTs/accidental model inference, and no horizontal overflow at desktop 1440 or phone 390. The figure height is 579.98px, and the transfer diagram is fully visible above the fold on desktop.
+- Lead's independent animation check: 6 moving packets visible, packet types only parameter/statistics/global; during transfer the pixel values and screen positions of the 6 local FC images all stay unchanged item by item, there is no raw image in the center, and the current page does not jump erroneously. Also, with all classification APIs at 503, health exploration still works normally.
 
-所有真实结果由运行结果JSON生成[汇总报告](RESULTS.md)，论文79%始终独立标注。
+All real results are generated from run-result JSON into the [Summary Report](RESULTS.md); the paper's 79% is always labeled separately.

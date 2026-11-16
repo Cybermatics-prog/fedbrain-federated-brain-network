@@ -189,6 +189,7 @@ fedbrain/            # library and service
 
 web/                 # dependency-free front end (no CDN)
   index.html         # four views
+  i18n.js            # presentation guard: non-English payloads fall back to English
   app.js             # navigation, training, inference, protocol
   health.js          # health-data atlas
   protection.js      # federated data-flow figure
@@ -206,9 +207,10 @@ runs/federation-demo-s42/   # the recorded 8-round trace the UI replays
 
 ```powershell
 .\.venv\Scripts\python.exe -m unittest discover -s tests -q     # 76 tests
-.\.venv\Scripts\python.exe scripts/check_health_independent.py # health views need no checkpoint
-.\.venv\Scripts\python.exe scripts/check_dataflow_invariance.py# local charts do not move during transfer
-.\.venv\Scripts\python.exe scripts/check_english_ui.py         # interface text, layout, error states
+.\.venv\Scripts\python.exe scripts/check_no_chinese.py          # repository is English-only
+.\.venv\Scripts\python.exe scripts/check_health_independent.py  # health views need no checkpoint
+.\.venv\Scripts\python.exe scripts/check_dataflow_invariance.py # local charts do not move during transfer
+.\.venv\Scripts\python.exe scripts/check_english_ui.py          # interface text, layout, error states
 ```
 
 What these cover: FC and Fisher-z correctness, window construction, cache invalidation, subject-level splits without leakage, sparse proximal accuracy, MoE/gating, alignment distances, real Paillier arithmetic, API input validation, private-expert snapshot preservation, validation checkpoint selection, test-set API lockout, per-site data independence, and the honesty rules for the interface (unrecorded values stay null; a historical run without a trace produces no parameter arrays).

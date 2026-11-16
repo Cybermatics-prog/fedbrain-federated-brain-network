@@ -1,23 +1,23 @@
-# 当前准确率为什么低：只读历史记录诊断
+# Why current accuracy is low: a read-only diagnosis of historical records
 
-本次只读取既有预测与结果，不训练、不选择新阈值、不根据test重新选模型。原始可复算明细：[诊断JSON](<../artifacts/accuracy_diagnosis.json>)；脚本：[diagnose_accuracy.py](<../scripts/diagnose_accuracy.py>)。
+This round only reads existing predictions and results; it does not train, does not choose new thresholds, and does not re-select models based on test. Original recomputable details: [diagnosis JSON](<../artifacts/accuracy_diagnosis.json>); script: [diagnose_accuracy.py](<../scripts/diagnose_accuracy.py>).
 
-## 当前默认8轮与50轮不能混为一谈
+## The current default 8 rounds and 50 rounds must not be conflated
 
-- 联邦过程默认是`federation-demo-s42`，8轮用于展示客户端更新/上传/聚合/广播，非50轮主性能实验。
-- 该模型train pooled69.18%、test pooled55.21%、test macro53.41%。96人中47名ASD，只判8人ASD，其中识别正确6人；ASD召回6/47=12.77%，HC特异度95.92%，明显偏向HC。
-- AUC0.7377说明排序含信号，但默认0.5决策不理想；HC/ASD平均预测概率分别0.4121/0.4500，均低于0.5。尚未用独立验证设计证明校准能稳定改善，因此不按test改阈值。
-- 与原seed42的train/val/test受试者完全相同、主要学习配置相同，前8轮validation macro逐轮差精确0.0。8→50轮test pooled55.21%→59.38%，仅+4.17pp；不能归因于新增可视化记录器或指望加轮数解决全部差距。
+- The default federation run is `federation-demo-s42`; its 8 rounds are used to demonstrate client update/upload/aggregate/broadcast and are not the 50-round main performance experiment.
+- This model has train pooled 69.18%, test pooled 55.21%, and test macro 53.41%. Of the 96 subjects, 47 have ASD, yet only 8 are judged ASD, of which 6 are correctly identified; ASD recall is 6/47=12.77% and HC specificity is 95.92%, a clear bias toward HC.
+- AUC 0.7377 shows that the ranking contains signal, but the default 0.5 decision is not ideal; the mean predicted probabilities for HC/ASD are 0.4121/0.4500 respectively, both below 0.5. No independent validation design has yet shown that calibration can improve consistently, so the threshold is not changed according to test.
+- With train/val/test subjects exactly identical to the original seed42 and the same main learning configuration, the validation macro differs by exactly 0.0 round by round over the first 8 rounds. From 8→50 rounds, test pooled goes 55.21%→59.38%, only +4.17pp; this cannot be attributed to the newly added visualization recorder, nor can one expect more rounds to close the entire gap.
 
-## 更主要的瓶颈：训练到50轮后仍泛化不足
+## The more fundamental bottleneck: generalization is still insufficient after training to 50 rounds
 
-- 原三个种子train pooled均值98.63%，test pooled62.85%、站点macro60.76%。训练高、未见者低，是明确的泛化差距，不是模型完全学不动。
-- 真正独立训练者只有292人，滑窗增加的是相关窗口，不是独立受试者；高维连接、站点分布差异与小站点验证选择都使过拟合/估计波动值得优先排查。
-- 相同三种子的matched-mask/noise FedAvg macro63.69%高于FedBrain60.76%，当前实现的额外对齐/个性化模块没有展示稳定附加收益。不能据此宣布论文无效。
-- 既有五候选验证改动并未带来稳定测试提升；Eq11稀疏求解400步仍未收敛，当前top512是公开实现近似，不是严格作者源码。其与数据队列/重复评测协议差异尚未完全闭合，不能声称复现了论文79%。
+- Across the original three seeds, train pooled averages 98.63%, test pooled 62.85%, and site macro 60.76%. High on training and low on unseen subjects is a clear generalization gap, not a model that simply cannot learn.
+- There are only 292 truly independent training subjects; the sliding windows add correlated windows, not independent subjects. High-dimensional connectivity, site distribution differences, and validation-based selection at small sites all make overfitting/estimation variance worth investigating first.
+- The matched-mask/noise FedAvg with the same three seeds has macro 63.69%, higher than FedBrain's 60.76%; the extra alignment/personalization modules in the current implementation do not show a stable additional benefit. This does not justify declaring the paper invalid.
+- The existing five-candidate validation changes did not bring a stable test improvement; the Eq. 11 sparse solve has still not converged at 400 steps, and the current top512 is an approximation of a public implementation, not the authors' exact source code. Its differences from the data queue/repeated-evaluation protocol have not been fully closed, so it cannot be claimed that the paper's 79% has been reproduced.
 
-## 接下来应该针对什么
+## What to target next
 
-针对未收敛的特征选择，先做联合近端/ADMM及KKT认证；针对泛化/决策偏移，用嵌套训练验证来选择特征强度与校准。外层只用于最终评测，不继续按已见test逐次试参，也不把8轮流程演示包装成性能改进。
+For the unconverged feature selection, first do joint proximal/ADMM and KKT certification; for generalization/decision shift, use nested train-validation to choose the feature strength and calibration. The outer level is used only for final evaluation; do not keep trying parameters one by one against an already-seen test, and do not package the 8-round process demo as a performance improvement.
 
-界面已在小评测板块明确标注“流程演示·8轮·非50轮主实验”，同时保留原50轮运行供切换；没有调高显示数字或挑最高测试种子。
+The interface already labels the small evaluation section explicitly as `Process demo · 8 rounds · Not the 50-round main experiment`, while keeping the original 50-round run available for switching; no displayed number was raised and no highest-test-seed was cherry-picked.

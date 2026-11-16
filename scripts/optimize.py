@@ -25,11 +25,11 @@ from fedbrain.runner import (RunConfig,_evaluate,_subject_features,atomic_json,
                              read_json,run_training)
 
 VARIANTS={
- 'A':{'label':'验证集选轮', 'overrides':{}},
- 'B':{'label':'选轮 + 论文启发的batch损失尺度', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch'}},
- 'C':{'label':'B + 聚合后刷新对齐目标', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch','alignment_reference':'post_aggregation'}},
- 'D':{'label':'C + L2正则0.01', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch','alignment_reference':'post_aggregation','weight_decay':.01}},
- 'E':{'label':'C + 稀疏优化400步', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch','alignment_reference':'post_aggregation','sparse_max_iter':400,'feature_run_id':None}},
+ 'A':{'label':'Validation-set round selection', 'overrides':{}},
+ 'B':{'label':'Round selection + paper-inspired batch loss scale', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch'}},
+ 'C':{'label':'B + refresh alignment target after aggregation', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch','alignment_reference':'post_aggregation'}},
+ 'D':{'label':'C + L2 regularization 0.01', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch','alignment_reference':'post_aggregation','weight_decay':.01}},
+ 'E':{'label':'C + 400-step sparse optimization', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch','alignment_reference':'post_aggregation','sparse_max_iter':400,'feature_run_id':None}},
 }
 ART=ROOT/'artifacts'
 SELECTION=ART/'optimization_selection.json'
@@ -68,10 +68,10 @@ def search():
         print('Reusing persisted validation decision; no re-search on evaluated candidates',flush=True)
         return existing
     evidence={'status':'searching','selected_variant':None,'selected_run_id':None,'variants':[],
-              'changes':['按验证集保存全部专家/门控','校正分类与域对齐的相对损失尺度',
-                         '在广播后刷新训练对齐统计','有界L2/稀疏收敛对照'],
-              'notes':['仅使用训练/验证选择候选；搜索阶段未评测测试集。',
-                       '保持公开队列、hidden8、噪声0.01与50轮预算不变。']}
+              'changes':['Keep all experts/gates selected on validation','Correct the relative loss scale between classification and domain alignment',
+                         'Refresh training alignment statistics after broadcast','Bounded L2/sparse convergence control'],
+              'notes':['Candidates are selected only using training/validation data; the test set is not evaluated during the search phase.',
+                       'The public cohort, hidden8, noise 0.01 and the 50-round budget are kept unchanged.']}
     atomic_json(RESULT,evidence)
     for variant,definition in VARIANTS.items():
         run_id=f'opt-{variant}-s42'
@@ -197,10 +197,10 @@ def confirm():
     result.update(status='completed',selected_variant=variant,selected_run_id=selection['selected_run_id'],
                   selected_config=selection['selected_config'],comparison=comparison,pairs=pairs,fedavg=fedavg,
                   selection_locked_at=selection['locked_at'],completed_at=datetime.now(timezone.utc).isoformat(),
-                  notes=['候选仅由seed42验证集选定；锁定后一次评测，不根据测试更换候选。',
-                         '原测试集已在前一轮公开，本轮属于探索性后续验证，不是全新外部验证。',
-                         '50轮内按验证集选轮，所有私有头/门控随同恢复；比较基线也使用相同选轮规则。',
-                         '保留所有候选与失败，不挑最佳种子；论文79%仍为独立参考。'])
+                  notes=['Candidates are selected only on the seed42 validation set; one evaluation after locking, and no candidate is changed based on the test set.',
+                         'The original test set was made public in the previous round; this round is exploratory follow-up validation, not a fresh external validation.',
+                         'Rounds are selected on validation within 50 rounds, and all private heads/gates are restored along with the model; the comparison baseline uses the same round-selection rule.',
+                         'All candidates and failures are retained; the best seed is not cherry-picked. The paper\'s 79% remains an independent reference.'])
     atomic_json(RESULT,result)
     config=selection['selected_config'].copy()
     config.update(defer_test=False,seed=42,feature_run_id=None,experiment_tag='optimized-reusable')
@@ -212,33 +212,33 @@ def confirm():
 
 def report(result):
     comp=result['comparison']
-    verdict=('通过预注册的最小收益门槛，但仍需独立外部验证。' if comp['pass_gate'] else
-             '本轮没有获得稳定准确率提升：未通过预注册>=2个百分点的最小收益门槛，不替换原始默认模型。')
-    lines=['# FedBrain 基于原论文的准确率优化', '',verdict,'',
-           '## 验证集先锁定，测试集后评测', '',
-           f"选择时间：{result['selection_locked_at']}；按seed42验证macro选定 **{result['selected_variant']}**，不是按测试选择。", '',
-           '|候选|改动|验证macro|选中轮|搜索阶段test|','|---|---|---:|---:|---|']
+    verdict=('The preregistered minimum-effect gate was passed, but independent external validation is still required.' if comp['pass_gate'] else
+             'No stable accuracy improvement was obtained in this round: the preregistered >=2 percentage point minimum-effect gate was not met, so the original default model is not replaced.')
+    lines=['# FedBrain Accuracy Optimization Based on the Original Paper', '',verdict,'',
+           '## Validation Locked First, Test Evaluated Afterwards', '',
+           f"Selection time: {result['selection_locked_at']}; variant **{result['selected_variant']}** was selected by seed42 validation macro, not by test performance.", '',
+           '|Candidate|Change|Validation macro|Selected round|Test during search|','|---|---|---:|---:|---|']
     for v in result['variants']:
         score='—' if v.get('validation_accuracy') is None else f"{v['validation_accuracy']*100:.2f}%"
         label=VARIANTS.get(v['id'],{}).get('label',v['label'])
-        lines.append(f"|{v['id']}|{label}|{score}|{v.get('selected_round','—')}|未评测|")
-    lines+=['','## 锁定配方的三种子结果','','|seed|选轮基线A macro|候选macro|变化百分点|原始固定50轮macro|','|---|---:|---:|---:|---:|']
+        lines.append(f"|{v['id']}|{label}|{score}|{v.get('selected_round','—')}|Not evaluated|")
+    lines+=['','## Three-Seed Results for the Locked Recipe','','|seed|Round-selection baseline A macro|Candidate macro|Change (percentage points)|Original fixed 50-round macro|','|---|---:|---:|---:|---:|']
     for p in result['pairs']:
         old=read_json(ROOT/'runs'/f"full-fedbrain-s{p['seed']}"/'result.json')['metrics']['site_mean_accuracy']
         a,b=p['baseline']['site_mean_accuracy'],p['optimized']['site_mean_accuracy']
         lines.append(f"|{p['seed']}|{a*100:.2f}%|{b*100:.2f}%|{(b-a)*100:+.2f}|{old*100:.2f}%|")
-    lines+=['',f"- 原始固定50轮macro均值：{comp['original_macro_mean']*100:.2f}%。",
-            f"- 相同验证选轮基线A：{comp['baseline_macro_mean']*100:.2f}%；优化：{comp['optimized_macro_mean']*100:.2f}% ± {comp['optimized_macro_std']*100:.2f}个百分点。",
-            f"- 优化pooled受试者准确率均值：{comp['optimized_pooled_mean']*100:.2f}%。",
-            f"- 对A配对平均变化：{comp['delta_macro']*100:+.2f}个百分点；{comp['success_count']}/3种子提升；通过预注册>=2pp且至少2/3提升：{comp['pass_gate']}。",
-            f"- 同样best-val选轮的matched-mask/noise FedAvg：{comp['fedavg_best_val_macro_mean']*100:.2f}%macro。", '',
-            '## 论文依据与解释', '',
-            '- §5.5.1明确引入early stopping：修复只保存最终轮而丢弃验证更佳模型的问题。',
-            '- 采用论文启发的minibatch约定(sumCE_batch+DA_batch)/实际batch，调整分类/对齐相对尺度；并非全数据Eq16的严格等价或作者源码复原。',
-            '- 聚合/广播后用当前共享编码器重新计算train隐藏均值，避免对齐到上一轮局部编码器坐标。',
-            '- L2正则0.01是抗过拟合扩展；稀疏40→400是收敛诊断，不冒充原文已完整给出的超参。', '',
-            '## 结论边界', '',*['- '+n for n in result['notes']], '',
-            '继续保留论文79%参考；是否达到必须读真实测试数值，不以验证准确率替代测试结果。', '']
+    lines+=['',f"- Original fixed 50-round macro mean: {comp['original_macro_mean']*100:.2f}%.",
+            f"- Same validation round-selection baseline A: {comp['baseline_macro_mean']*100:.2f}%; optimized: {comp['optimized_macro_mean']*100:.2f}% ± {comp['optimized_macro_std']*100:.2f} percentage points.",
+            f"- Optimized pooled subject accuracy mean: {comp['optimized_pooled_mean']*100:.2f}%.",
+            f"- Paired mean change vs A: {comp['delta_macro']*100:+.2f} percentage points; {comp['success_count']}/3 seeds improved; passes preregistered >=2pp with at least 2/3 improved: {comp['pass_gate']}.",
+            f"- Matched-mask/noise FedAvg with the same best-val round selection: {comp['fedavg_best_val_macro_mean']*100:.2f}% macro.", '',
+            '## Paper Basis and Interpretation', '',
+            '- §5.5.1 explicitly introduces early stopping: this fixes the problem of saving only the final round and discarding a model that validated better.',
+            '- The paper-inspired minibatch convention (sumCE_batch+DA_batch)/actual batch adjusts the relative scale of classification/alignment; it is not a strict equivalence to the full-data Eq16 or a restoration of the authors\' source code.',
+            '- After aggregation/broadcast, the train hidden means are recomputed with the current shared encoder, avoiding alignment to the coordinates of the previous round\'s local encoder.',
+            '- L2 regularization 0.01 is an anti-overfitting extension; sparse 40→400 is a convergence diagnostic and does not claim to be a hyperparameter fully specified in the original paper.', '',
+            '## Conclusion Boundaries', '',*['- '+n for n in result['notes']], '',
+            'The paper\'s 79% reference is retained; whether it is reached must be read from real test values, and validation accuracy is not a substitute for test results.', '']
     (ROOT/'docs'/'OPTIMIZATION_RESULTS.md').write_text('\n'.join(lines),encoding='utf-8')
 
 
