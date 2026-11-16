@@ -37,11 +37,11 @@ Selection time: 2026-11-13T08:34:14.699919+00:00; variant **E** was selected by 
 
 ## Conclusion Boundaries
 
-- Candidates are selected only on the seed42 validation set; one evaluation after locking, and no candidate is changed based on the test set.
-- The original test set was made public in the previous round; this round is exploratory follow-up validation, not a fresh external validation.
-- Rounds are selected on validation within 50 rounds, and all private heads/gates are restored along with the model; the comparison baseline uses the same round-selection rule.
-- All candidates and failures are retained; the best seed is not cherry-picked. The paper's 79% remains an independent reference.
-- E uses the 400-step mask; FedAvg is additionally matched with the same 400-step mask/standardization/split/round selection, and the masks are identical across all three seeds.
+- Candidates were selected using the seed-42 validation set only; after locking, the candidate is evaluated once and is not replaced based on test results.
+- The original test set was already exposed in an earlier round; this is exploratory follow-up validation, not a fresh external validation.
+- Within 50 rounds the checkpoint is chosen on validation, and all private heads/gates are restored with it; the comparison baseline uses the same selection rule.
+- All candidates and failures are retained; the best seed is not cherry-picked. The paper-reported 79% remains an independent reference.
+- E uses a 400-step mask; FedAvg gets a matched 400-step mask/normalization/split/selection control, and the masks are identical across the three seeds.
 
 The paper's 79% reference is retained; whether it is reached must be read from real test values, and validation accuracy is not a substitute for test results.
 

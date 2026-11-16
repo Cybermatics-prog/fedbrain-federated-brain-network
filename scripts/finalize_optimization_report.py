@@ -55,7 +55,7 @@ def main():
     result['outcome']='passed_minimum_effect' if comp['pass_gate'] else 'no_stable_improvement'
     result['deployment']='validation_locked_candidate' if comp['pass_gate'] else 'keep_original_default'
     result['interpretation']='The validation gain did not transfer stably to the test set; a small pooled increase is not a macro improvement under the paper\'s protocol.'
-    extra='E uses the 400-step mask; FedAvg is additionally matched with the same 400-step mask/standardization/split/round selection, and the masks are identical across all three seeds.'
+    extra='E uses a 400-step mask; FedAvg gets a matched 400-step mask/normalization/split/selection control, and the masks are identical across the three seeds.'
     if extra not in result['notes']:
         result['notes'].append(extra)
     atomic_json(RESULT,result)
