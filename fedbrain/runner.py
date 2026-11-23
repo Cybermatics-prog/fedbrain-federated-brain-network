@@ -599,7 +599,10 @@ def main():
     if args.command == 'download':
         result = ensure_data(ROOT / 'data' / 'abide', max_per_site=args.max_per_site or None, workers=args.workers,
                              progress=lambda e: print(json.dumps(e, ensure_ascii=False), flush=True))
-        print(json.dumps({k: v for k, v in result.items() if k != 'subjects'}, ensure_ascii=False, indent=2))
+        summary = {k: v for k, v in result.items() if k not in ('subjects', 'candidates', 'failures')}
+        summary['subjects'] = len(result.get('subjects') or [])
+        summary['failures'] = len(result.get('failures') or [])
+        print(json.dumps(summary, ensure_ascii=False, indent=2))
     else:
         if args.config:
             # Never fall back to defaults when an explicit config cannot be read: a silent

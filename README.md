@@ -294,12 +294,13 @@ PyTorch build works; the interface and the health-data views do not require a GP
 committed records store portable, project-relative directories (`data/abide` and `runs`),
 not machine-specific absolute paths.
 
-A fresh clone that runs `python scripts/reproduce.py demo` produces a structurally identical
-trace whose numeric values differ. The committed trace reused the sparse selection from
-`full-fedbrain-s42`, which is not distributed; when that checkpoint is absent,
-`scripts/reproduce.py` uses `configs/federation_demo_standalone.json`, which fits the
-selection instead of reusing it. Do not expect bit-identical reproduction of the committed
-numbers from a clean clone.
+A fresh clone that runs `python scripts/reproduce.py demo` uses
+`configs/federation_demo_standalone.json`, because the committed trace reused the sparse
+selection from `full-fedbrain-s42`, which is not distributed; the standalone configuration
+fits the selection instead of reusing it. Both paths were executed on the reference machine:
+the reuse path and the fit path each reproduced the committed metrics exactly (pooled
+55.21%, macro-site 53.41%, AUC 0.738, sensitivity 0.128, specificity 0.959). Bit-identical
+values across different CPUs, BLAS builds or PyTorch versions are not claimed.
 
 ## Documentation
 

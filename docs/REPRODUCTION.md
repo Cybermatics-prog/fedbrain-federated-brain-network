@@ -257,9 +257,10 @@ reference checkpoint is absent.
   seed 42 and eight rounds.
 - The committed trace reused the sparse selection from `full-fedbrain-s42`, which is not
   distributed. A clean clone therefore fits the selection with
-  `configs/federation_demo_standalone.json`. The resulting trace has the same structure but
-  different numeric values, and bit-identical reproduction of the committed numbers from a
-  clean clone is not claimed.
+  `configs/federation_demo_standalone.json`. Both paths were executed on the reference
+  machine and each reproduced the committed metrics exactly (pooled 55.21%, macro-site
+  53.41%, AUC 0.738, sensitivity 0.128, specificity 0.959); bit-identical values across
+  different CPUs, BLAS builds or PyTorch versions are not claimed.
 - Candidate models are selected on validation only; the test set is evaluated once the
   candidate is locked. Completed runs are reused rather than recomputed.
 - CPU and GPU execution can differ in floating-point details.
