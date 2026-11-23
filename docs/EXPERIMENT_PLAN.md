@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # FedBrain Reproduction Pre-registration (2026-11-13)
 
 ## Testable Goals

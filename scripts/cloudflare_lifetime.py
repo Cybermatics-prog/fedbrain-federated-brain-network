@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Run a read-only public demo tunnel until an absolute UTC deadline."""
 from __future__ import annotations
 import argparse

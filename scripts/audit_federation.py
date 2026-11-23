@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Verify real federation traces, parameter arithmetic, and non-invasive probes."""
 from __future__ import annotations
 

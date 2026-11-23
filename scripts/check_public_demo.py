@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Check the published demo and prove its write endpoints are fenced."""
 import argparse
 import json

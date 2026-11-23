@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Fixed matched-mask baseline seeds43/44; no score-adaptive configuration."""
 from pathlib import Path
 import sys

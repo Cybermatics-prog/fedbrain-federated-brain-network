@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 /* Presentation guard: the recorded API text is English, so nothing is translated here.
    message() still filters a non-English error payload so a mixed-language string can never
    reach the interface; the fallback keeps the UI readable when that happens. */

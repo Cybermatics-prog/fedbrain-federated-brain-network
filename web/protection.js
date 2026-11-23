@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 /* Actual public site previews and recorded shared vectors; packet motion is schematic. */
 (() => {
   'use strict';

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Why current accuracy is low: a read-only diagnosis of historical records
 
 This round only reads existing predictions and results; it does not train, does not choose new thresholds, and does not re-select models based on test. Original recomputable details: [diagnosis JSON](<../artifacts/accuracy_diagnosis.json>); script: [diagnose_accuracy.py](<../scripts/diagnose_accuracy.py>).

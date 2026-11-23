@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Verify real health plots still work when experiment APIs are unavailable."""
 import json
 from pathlib import Path

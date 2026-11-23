@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Fail if any tracked text file contains Chinese, Japanese or Korean characters.
 
 GitHub-visible files must be English-only. Images and other binaries are skipped by

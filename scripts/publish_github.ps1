@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 # Push this repository to GitHub without storing the token in .git/config.
 #   $env:GITHUB_TOKEN = '<fine-grained token with Contents: Read and write>'
 #   .\scripts\publish_github.ps1 -Repo 'Cybermatics-prog/fedbrain-federated-brain-network'

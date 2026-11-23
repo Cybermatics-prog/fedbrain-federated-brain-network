@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """ABIDE-I CPAC/AAL116 acquisition and leakage-safe subject preprocessing.
 
 The default cohort is every available non-FAIL quality-rated subject from the

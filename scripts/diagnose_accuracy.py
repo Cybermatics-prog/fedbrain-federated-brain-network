@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Read existing predictions only: diagnose demo undertraining vs main generalization."""
 from __future__ import annotations
 import json

@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 /* FedBrain Research Workspace — dependency-free, real API data only. */
 (() => {
   'use strict';

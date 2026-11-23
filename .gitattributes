@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 # Keep source files LF even when checked out on Windows; never touch binary assets.
 * text=auto eol=lf
 *.png binary

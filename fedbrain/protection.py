@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Truthful protection inventory for the training protocol and public-data demo.
 
 Reads JSON run records only: never loads a model, raw subject data, keys or a

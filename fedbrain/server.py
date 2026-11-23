@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Local research API: source-derived health data and recorded protocol facts."""
 from __future__ import annotations
 

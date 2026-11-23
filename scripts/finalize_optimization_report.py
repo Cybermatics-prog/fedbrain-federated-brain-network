@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Merge independently matched controls and explain the preregistered null result.
 No model training, test re-evaluation, or candidate reselection occurs here.
 """

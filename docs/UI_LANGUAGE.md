@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # English-only repository
 
 The whole repository is English: four interface views, chart labels, SVG titles, accessibility attributes, form options, loading and empty states, status messages, errors, API notes, documentation, scripts and comments. The page language is `en` and number formatting uses `en-US`.
@@ -8,7 +9,7 @@ There is no translation layer. The backend emits English text directly, so `web/
 
 Validation:
 
-- 76 backend tests passed.
+- 91 offline tests passed (unit, API, compliance and portability).
 - No CJK characters in any tracked text file (repository-wide scan).
 - Four views plus cohort differences, HC references, invalid-age messages, transfer animation, upload payloads, historical encryption, mobile layout and network errors were inspected in a browser for non-English text, JavaScript errors and horizontal overflow.
 - Six actual FC/BOLD previews, 384 uploaded parameter coordinates and 64 aggregate coordinates remain available. A historical run without a trace still shows no invented parameter values, and the recorded demo run keeps its numeric content unchanged.

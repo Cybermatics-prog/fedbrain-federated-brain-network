@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 param([string]$Python = 'python')
 $ErrorActionPreference = 'Stop'
 Push-Location -LiteralPath $PSScriptRoot

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Verify the English interface, its data-flow behavior, and the public page."""
 import argparse,json,re
 from pathlib import Path

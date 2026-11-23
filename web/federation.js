@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 /* Recorded federation only. No generated frames, points, or training actions. */
 (() => {
   'use strict';

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Validation-only optimization diagnostics
 
 Six completed full-* runs. Held-out metrics and predictions were not deserialized or used; existing test-derived generalization_gap excluded. No training/source edits.

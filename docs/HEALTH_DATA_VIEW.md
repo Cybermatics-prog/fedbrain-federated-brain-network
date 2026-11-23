@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Brain-health data visualization: data definitions and usage
 
 This page displays real ABIDE-I resting-state fMRI data and research labels; it is not a federated-training animation or a model-accuracy chart. It defaults to the HC control, with switching to ASD and to the descriptive difference between the two groups; viewing the data requires no prior training.

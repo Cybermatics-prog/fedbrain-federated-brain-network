@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Capture the README hero image from the live demo (no data modification)."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright

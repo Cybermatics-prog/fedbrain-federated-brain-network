@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # FedBrain Accuracy Optimization Based on the Original Paper
 
 No stable accuracy improvement was obtained in this round: the preregistered >=2 percentage point minimum-effect gate was not met, so the original default model is not replaced.

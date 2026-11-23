@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Analytical file-based fixtures for descriptive health data, not clinical data."""
 import json
 from pathlib import Path

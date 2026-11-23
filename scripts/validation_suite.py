@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Fixed, non-adaptive validation: matched baseline + two additional seeds."""
 from pathlib import Path
 import sys

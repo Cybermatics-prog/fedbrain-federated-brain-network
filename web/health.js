@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 /* Brain-health data atlas. All matrices, cohorts and signals come from health-data APIs. */
 (() => {
   'use strict';

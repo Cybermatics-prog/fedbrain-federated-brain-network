@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Bounded, preregistered validation-only search, then locked paired confirmation.
 
 Never computes a candidate's held-out score until the validation decision is

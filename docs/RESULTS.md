@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # FedBrain Reproduction Results from Real Data
 
 This report is generated automatically by `scripts/report.py` from real `result.json` files; experiment numbers are never entered by hand.

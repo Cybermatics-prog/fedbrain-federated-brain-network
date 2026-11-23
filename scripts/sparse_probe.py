@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Train-only Eq.11 numerical/convergence probe; never reads held-out results.
 
 Use the existing full-fedbrain-s42 train IDs, saved train-only mean/std and

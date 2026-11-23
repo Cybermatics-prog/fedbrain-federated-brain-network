@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Preregistered easiest REAL-data training power gate, never a test result."""
 from __future__ import annotations
 

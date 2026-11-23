@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Build the user-facing results report exclusively from saved experiment JSON."""
 from __future__ import annotations
 

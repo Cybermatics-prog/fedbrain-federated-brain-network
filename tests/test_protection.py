@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Recorded-JSON fixtures for protocol facts; no model/raw/crypto execution."""
 import json
 from pathlib import Path

@@ -1,0 +1,41 @@
+# SPDX-License-Identifier: MIT
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fedbrain-reproduction"
+version = "1.0.0"
+description = "Six-site federated brain-network learning on ABIDE-I with a recorded data-flow explorer"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Cybermatics-prog" }]
+keywords = ["federated learning", "brain connectivity", "ABIDE", "reproducibility"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+dependencies = [
+  "numpy>=1.26,<2",
+  "scipy>=1.13",
+  "scikit-learn>=1.5",
+  "torch>=2.7",
+  "requests>=2.31",
+  "fastapi>=0.115",
+  "uvicorn>=0.30",
+  "pydantic>=2.8",
+]
+
+[project.optional-dependencies]
+browser = ["playwright>=1.40"]
+
+[project.urls]
+Repository = "https://github.com/Cybermatics-prog/fedbrain-federated-brain-network"
+Paper = "https://doi.org/10.1016/j.neucom.2023.126791"
+
+[tool.setuptools.packages.find]
+include = ["fedbrain*"]

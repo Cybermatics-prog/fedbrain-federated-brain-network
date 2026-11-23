@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Subject-level binary evaluation: rows=true HC/ASD, columns=pred HC/ASD."""
 from __future__ import annotations
 

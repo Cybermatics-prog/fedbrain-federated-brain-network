@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /* Health figures remain inside local boundaries; only typed model/statistic packets move. */
 .dataflow-card { padding: 18px 20px 12px; margin-bottom: 20px; background: #fff; }
 .df-heading { display: flex; gap: 12px; align-items: center; margin-bottom: 10px; }

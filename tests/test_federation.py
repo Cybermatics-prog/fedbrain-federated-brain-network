@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Offline algebraic telemetry tests, with no optimization or training runs."""
 import copy
 import json

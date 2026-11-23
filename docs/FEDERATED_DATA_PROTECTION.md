@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Health data and federated protection: one view expressing two things
 
 ## Goal of this round

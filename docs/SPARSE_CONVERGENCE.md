@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Eq. 11 sparse optimization: equivalent speedup and training-set convergence diagnosis
 
 ## Proposition of this round and pre-registration

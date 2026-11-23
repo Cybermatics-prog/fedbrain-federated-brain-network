@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Offline unit tests: synthetic mathematical fixtures, never network results."""
 import csv
 import io

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Read-only scientific provenance checks; does not evaluate any subject."""
 import hashlib
 import sys

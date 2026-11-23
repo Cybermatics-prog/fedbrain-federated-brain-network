@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Publishing this repository to GitHub
 
 The repository is already initialised and committed locally (`git log` shows the first

@@ -1,3 +1,4 @@
+/* SPDX-License-Identifier: MIT */
 /* Keep longer English labels readable without changing the data visualization. */
 html[lang=en] .brand-sub { letter-spacing: .25px; }
 html[lang=en] .nav-item { gap: 9px; font-size: 12px; }

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Match the already validation-locked preprocessing/regularization for FedAvg.
 Writes separate evidence only; never changes the chosen FedBrain recipe.
 """

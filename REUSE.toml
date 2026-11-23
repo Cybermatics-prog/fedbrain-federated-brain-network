@@ -1,0 +1,20 @@
+# SPDX-FileCopyrightText: 2026 Cybermatics-prog
+# SPDX-License-Identifier: MIT
+#
+# Files that cannot carry a comment header are covered here. Source files carry their own
+# `SPDX-License-Identifier: MIT` line, which scripts/check_compliance.py enforces.
+version = 1
+SPDX-PackageName = "fedbrain-federated-brain-network"
+SPDX-PackageSupplier = "Cybermatics-prog"
+SPDX-PackageDownloadLocation = "https://github.com/Cybermatics-prog/fedbrain-federated-brain-network"
+SPDX-PackageCopyrightText = "2026 Cybermatics-prog"
+
+[[annotations]]
+path = ["configs/*.json", "runs/**/*.json"]
+SPDX-FileCopyrightText = "2026 Cybermatics-prog"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["docs/images/*.png", "web/qa/*.png"]
+SPDX-FileCopyrightText = "2026 Cybermatics-prog"
+SPDX-License-Identifier = "MIT"

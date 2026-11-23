@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Parameter perturbation and real packed Paillier aggregation.
 
 This is a single-process research simulator: the coordinator also holds the key.

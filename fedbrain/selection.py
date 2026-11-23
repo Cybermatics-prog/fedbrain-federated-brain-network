@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Validation-only checkpoint selection; includes all private expert/gate tensors."""
 from __future__ import annotations
 

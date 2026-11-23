@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Reproducible single-machine, six-client FedBrain training and inference."""
 from __future__ import annotations
 
@@ -30,6 +31,33 @@ ROOT = Path(__file__).resolve().parent.parent
 _WRITE_LOCK = threading.Lock()
 
 
+def portable_path(value):
+    """Return a project-relative POSIX path so run records carry no machine paths."""
+    try:
+        return Path(value).resolve().relative_to(ROOT).as_posix()
+    except (ValueError, OSError):
+        return Path(value).name
+
+
+def portable_config(config):
+    """Configuration as recorded on disk: identical fields, portable directory values."""
+    recorded = asdict(config)
+    for key in ('data_dir', 'run_root'):
+        if isinstance(recorded.get(key), str):
+            recorded[key] = portable_path(recorded[key])
+    return recorded
+
+
+def resolve_recorded_path(value, fallback):
+    """Resolve a path stored in a run record; relative paths are relative to the repo."""
+    path = Path(value)
+    if path.is_absolute():
+        return path if path.exists() else Path(fallback)
+    candidate = ROOT / path
+    return candidate if candidate.exists() else Path(fallback)
+
+
+
 def atomic_json(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -41,8 +69,9 @@ def atomic_json(path, value):
 
 
 def read_json(path, default=None):
+    # utf-8-sig tolerates the byte-order mark that Windows editors and PowerShell add.
     try:
-        with Path(path).open(encoding='utf-8') as f:
+        with Path(path).open(encoding='utf-8-sig') as f:
             return json.load(f)
     except (FileNotFoundError, json.JSONDecodeError):
         return default
@@ -205,7 +234,7 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
     directory = Path(config.run_root) / run_id
     directory.mkdir(parents=True, exist_ok=True)
     status = {'id': run_id, 'status': 'preparing', 'created_at': datetime.now(timezone.utc).isoformat(),
-              'config': asdict(config), 'history': [], 'round': 0, 'total_rounds': config.rounds,
+              'config': portable_config(config), 'history': [], 'round': 0, 'total_rounds': config.rounds,
               'process_id': os.getpid(),
               'privacy': {'noise_scale': config.noise_scale, 'homomorphic': config.homomorphic,
                           'formal_dp': False, 'threat_model': 'single-process simulator'},
@@ -282,13 +311,29 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
         save()
         if config.feature_run_id:
             prior_path = Path(config.run_root) / config.feature_run_id / 'checkpoint.pt'
-            prior = torch.load(prior_path, map_location='cpu', weights_only=False)
-            prior_split = read_json(prior_path.parent / 'split.json')
-            now_ids = sorted(s['id'] for s in split['train'])
-            if sorted(s['id'] for s in prior_split['train']) != now_ids:
-                raise ValueError('Cannot reuse feature selection from different training subjects')
-            indices = np.array(prior['indices'], dtype=np.int64)
-            selection = {'reused_from': config.feature_run_id, 'train_only': True}
+            if prior_path.is_file():
+                prior = torch.load(prior_path, map_location='cpu', weights_only=False)
+                prior_split = read_json(prior_path.parent / 'split.json')
+                now_ids = sorted(s['id'] for s in split['train'])
+                if sorted(s['id'] for s in prior_split['train']) != now_ids:
+                    raise ValueError('Cannot reuse feature selection from different training subjects')
+                indices = np.array(prior['indices'], dtype=np.int64)
+                selection = {'reused_from': config.feature_run_id, 'train_only': True}
+            else:
+                # A clean clone has no reference checkpoint. Refit here rather than fail, and
+                # record that this run is not the reused-selection configuration.
+                print(f'warning: {prior_path} is absent; fitting the sparse selection in this run',
+                      flush=True)
+                indices, fitted = fit_sparse(sparse_site, lambda_aug=config.lambda_aug,
+                                             coupling=config.coupling, max_iter=config.sparse_max_iter,
+                                             max_features=config.max_features or None, seed=config.seed)
+                selection = {'reused_from': None, 'train_only': True,
+                             'requested_feature_run_id': config.feature_run_id,
+                             'fallback': 'requested_feature_run_missing',
+                             'note': ('Sparse selection was fitted by this run because the requested '
+                                      'feature run is absent. Structure matches the recorded demo trace; '
+                                      'numeric values do not.'),
+                             **fitted}
         else:
             indices, selection = fit_sparse(sparse_site, lambda_aug=config.lambda_aug,
                                              coupling=config.coupling, max_iter=config.sparse_max_iter,
@@ -299,6 +344,8 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
             raise ValueError('Sparse optimizer selected no features; no test-informed fallback allowed')
         status['selection'] = {'n_selected': len(indices), 'total_features': 6670,
                                'max_features': config.max_features, 'diagnostics': selection,
+                               'reused_from': selection.get('reused_from'),
+                               'fallback': selection.get('fallback'),
                                'sparse_windows_per_subject': config.sparse_windows_per_subject,
                                'segment_grid': 'relative-time evenly spaced bins; explicit sparse-stage approximation',
                                'subject_cap': 'seeded within-site stratified sample' if config.max_per_site else None}
@@ -339,7 +386,7 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
         if config.record_federation:
             from .federation import FederationRecorder
             recorder = FederationRecorder(directory, models=models, train_data=train_data,
-                config=asdict(config), train_subject_counts={site:sum(s['site']==site for s in split['train']) for site in SITE_ORDER},
+                config=portable_config(config), train_subject_counts={site:sum(s['site']==site for s in split['train']) for site in SITE_ORDER},
                 feature_indices=indices, site_order=SITE_ORDER)
             status['federation'] = {'available': True, 'schema_version': 1, 'current_round': 0,
                                     'current_phase': 'ready', 'current_site': None, 'completed_rounds': 0}
@@ -462,7 +509,7 @@ def run_training(config: RunConfig, run_id=None, stop_event=None, progress=None)
             status['test_evaluated'] = True
             status['generalization_gap'] = status['train_metrics']['accuracy'] - status['metrics']['accuracy']
             atomic_json(directory / 'predictions.json', test_records)
-        checkpoint = {'config': asdict(config), 'indices': indices, 'mean': mean, 'std': std,
+        checkpoint = {'config': portable_config(config), 'indices': indices, 'mean': mean, 'std': std,
                       'models': {s: {k: v.detach().cpu() for k, v in m.state_dict().items()} for s, m in models.items()},
                       'subject_ids': [s['id'] for s in subjects], 'run_id': run_id,
                       'personalization': use_personal, 'selected_round': status['selected_round']}
@@ -498,6 +545,8 @@ def infer_subject(run_dir, subject_id, subjects=None):
     run_dir = Path(run_dir)
     checkpoint = torch.load(run_dir / 'checkpoint.pt', map_location='cpu', weights_only=False)
     config = RunConfig(**checkpoint['config'])
+    config.data_dir = str(resolve_recorded_path(config.data_dir, ROOT / 'data' / 'abide'))
+    config.run_root = str(resolve_recorded_path(config.run_root, ROOT / 'runs'))
     if not (Path(config.data_dir) / 'manifest.json').exists():
         config.data_dir = str(ROOT / 'data' / 'abide')
     subjects = subjects or load_subjects(config.data_dir)
@@ -549,7 +598,19 @@ def main():
                              progress=lambda e: print(json.dumps(e, ensure_ascii=False), flush=True))
         print(json.dumps({k: v for k, v in result.items() if k != 'subjects'}, ensure_ascii=False, indent=2))
     else:
-        cfg = read_json(args.config, {}) if args.config else {}
+        if args.config:
+            # Never fall back to defaults when an explicit config cannot be read: a silent
+            # default run would report a different experiment under the requested run id.
+            if not Path(args.config).is_file():
+                raise SystemExit(f'config file not found: {args.config}')
+            cfg = read_json(args.config)
+            if not isinstance(cfg, dict):
+                raise SystemExit(f'config file is not valid JSON: {args.config}')
+            unknown = sorted(set(cfg) - set(RunConfig.__dataclass_fields__))
+            if unknown:
+                raise SystemExit('unknown config keys: ' + ', '.join(unknown))
+        else:
+            cfg = {}
         for name in ('rounds', 'method', 'seed', 'max_per_site', 'fold', 'max_features', 'noise_scale', 'homomorphic', 'feature_run_id'):
             value = getattr(args, name)
             if value is not None:

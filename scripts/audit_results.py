@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Independently recompute every completed run's metrics and leakage checks."""
 from __future__ import annotations
 

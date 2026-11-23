@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Read-only, fixed-origin public demo gateway; never imports the model/server.
 
 Usage: python scripts/public_gateway.py --port 8766 \

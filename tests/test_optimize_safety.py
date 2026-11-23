@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 import hashlib
 import sys
 import tempfile

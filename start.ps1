@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 param([int]$Port = 8765)
 $ErrorActionPreference = 'Stop'
 $ProjectRoot = $PSScriptRoot

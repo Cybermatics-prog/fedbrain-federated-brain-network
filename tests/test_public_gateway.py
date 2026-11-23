@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """No model, server, network, training or cache jobs are imported/started here."""
 import gzip
 import unittest

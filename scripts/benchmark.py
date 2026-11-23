@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Sequential fixed-budget repeated subject-stratified cross-validation.
 
 Never picks the best held-out fold/round. Every seed/fold/method is reported.

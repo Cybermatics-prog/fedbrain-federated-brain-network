@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Read-only, train-only telemetry for actual federated collaboration events.
 
 No training, RNG calls, raw FC or individual probe points are exported. All

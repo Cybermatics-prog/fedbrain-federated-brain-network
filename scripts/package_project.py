@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Package source, reproducibility evidence and trained models, not cached data."""
 from __future__ import annotations
 

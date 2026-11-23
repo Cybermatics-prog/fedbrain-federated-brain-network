@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # FedBrain accuracy-optimization pre-registration (2026-11-13)
 
 ## Testable propositions

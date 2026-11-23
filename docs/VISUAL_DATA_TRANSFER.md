@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Federated data transfer diagram
 
 The page no longer substitutes three explanation boxes for the visualization. The diagram shows separately:

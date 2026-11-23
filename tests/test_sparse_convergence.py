@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Numerical equivalence of grouped BLAS to the original Eq.11 implementation."""
 import unittest
 

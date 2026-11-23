@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Build/audit real health-data views without loading or training any model."""
 from __future__ import annotations
 import argparse

@@ -1,3 +1,4 @@
+<!-- SPDX-License-Identifier: MIT -->
 # Federation-Process Main Visual Rebuild and Authenticity Acceptance
 
 User correction: the interface should visualize the process and effect of federated collaboration, with accuracy only as a small auxiliary panel.

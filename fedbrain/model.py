@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Small shared MLP, private expert/gate, and moment alignment (Eqs.12–16)."""
 from __future__ import annotations
 

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Descriptive ABIDE brain-health data views, independent of trained models.
 
 All matrices and curves come from validated real input files. HC/ASD are

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 """Independent UI check: moving packets never move or change local health charts."""
 import json
 from pathlib import Path

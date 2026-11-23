@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: MIT
 cff-version: 1.2.0
 message: "If you use this reproduction, cite the original FedBrain paper and this repository."
 title: "FedBrain reproduction: six-site federated brain-network learning with a recorded data-flow explorer"
