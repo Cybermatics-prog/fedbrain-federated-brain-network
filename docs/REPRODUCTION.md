@@ -80,6 +80,12 @@ python scripts/reproduce.py setup
 
 Windows, relative paths only (cmd.exe or PowerShell):
 
+On Windows, confirm the interpreter first: `python --version` must print a version. If it
+opens the Microsoft Store or prints nothing, `python` on PATH is the Store alias; use the
+full path to a real interpreter instead, for example
+`"%LOCALAPPDATA%\Programs\Python\Python312\python.exe" scripts\reproduce.py setup`, and replace `python` with that
+path in the commands below.
+
 ```bat
 python scripts\reproduce.py setup
 ```
