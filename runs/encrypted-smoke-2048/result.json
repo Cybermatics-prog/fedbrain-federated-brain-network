@@ -1,0 +1,697 @@
+{
+  "id": "encrypted-smoke-2048",
+  "status": "completed",
+  "created_at": "2026-11-13T07:59:23.629065+00:00",
+  "config": {
+    "method": "fedbrain",
+    "rounds": 2,
+    "seed": 42,
+    "learning_rate": 0.001,
+    "local_epochs": 1,
+    "batch_size": 256,
+    "hidden_dim": 8,
+    "noise_scale": 0.01,
+    "alignment_weight": 0.1,
+    "max_per_site": 20,
+    "max_windows": 8,
+    "max_features": 64,
+    "sparse_max_iter": 8,
+    "sparse_windows_per_subject": 8,
+    "lambda_aug": 0.01,
+    "coupling": 1.0,
+    "homomorphic": true,
+    "paillier_bits": 2048,
+    "clip_norm": 10.0,
+    "fold": null,
+    "n_splits": 5,
+    "test_size": 0.2,
+    "validation_fraction": 0.2,
+    "device": "cpu",
+    "data_dir": "data/abide",
+    "run_root": "runs",
+    "feature_run_id": null
+  },
+  "history": [
+    {
+      "round": 1,
+      "train_loss": 0.6839212477207184,
+      "alignment_loss": 5.867752552032471,
+      "val_accuracy": 0.5416666666666666,
+      "site_accuracy": {
+        "KKI": 0.25,
+        "NYU": 0.25,
+        "UCLA": 0.75,
+        "UM": 0.5,
+        "USM": 1.0,
+        "Yale": 0.5
+      },
+      "elapsed_seconds": 11.69968499999959,
+      "communication_bytes": 47640
+    },
+    {
+      "round": 2,
+      "train_loss": 0.6834376355012258,
+      "alignment_loss": 5.629640261332194,
+      "val_accuracy": 0.5,
+      "site_accuracy": {
+        "KKI": 0.25,
+        "NYU": 0.25,
+        "UCLA": 0.75,
+        "UM": 0.5,
+        "USM": 0.75,
+        "Yale": 0.5
+      },
+      "elapsed_seconds": 16.88793210001313,
+      "communication_bytes": 95280
+    }
+  ],
+  "round": 2,
+  "total_rounds": 2,
+  "process_id": 21164,
+  "privacy": {
+    "noise_scale": 0.01,
+    "homomorphic": true,
+    "formal_dp": false,
+    "threat_model": "single-process simulator"
+  },
+  "test_policy": "test evaluated only once, after final fixed communication round",
+  "metrics": {
+    "accuracy": 0.5416666666666666,
+    "balanced_accuracy": 0.5416666666666666,
+    "auc": 0.47916666666666663,
+    "sensitivity": 0.75,
+    "specificity": 0.3333333333333333,
+    "confusion_matrix": [
+      [
+        4,
+        8
+      ],
+      [
+        3,
+        9
+      ]
+    ],
+    "n_test_subjects": 24,
+    "per_site": {
+      "KKI": {
+        "accuracy": 0.75,
+        "balanced_accuracy": 0.5,
+        "auc": 0.33333333333333337,
+        "sensitivity": 0.0,
+        "specificity": 1.0,
+        "confusion_matrix": [
+          [
+            3,
+            0
+          ],
+          [
+            1,
+            0
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "NYU": {
+        "accuracy": 0.25,
+        "balanced_accuracy": 0.25,
+        "auc": 0.0,
+        "sensitivity": 0.0,
+        "specificity": 0.5,
+        "confusion_matrix": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "UCLA": {
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.5,
+        "auc": 0.25,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "UM": {
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.5,
+        "auc": 0.25,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "USM": {
+        "accuracy": 0.75,
+        "balanced_accuracy": 0.5,
+        "auc": 1.0,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "Yale": {
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.5,
+        "auc": 0.5,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_test_subjects": 4
+      }
+    },
+    "site_mean_accuracy": 0.5416666666666666,
+    "aggregation": "subject probability = mean window probabilities; macro-site mean reported separately"
+  },
+  "stage": "completed",
+  "updated_at": "2026-11-13T07:59:40.558404+00:00",
+  "evaluator_self_check": {
+    "gold_accuracy": 1.0,
+    "shuffled_accuracy": 0.501,
+    "passed": true
+  },
+  "split_counts": {
+    "train": 72,
+    "val": 24,
+    "test": 24
+  },
+  "data_subjects": 120,
+  "progress_detail": "",
+  "selection": {
+    "n_selected": 64,
+    "total_features": 6670,
+    "max_features": 64,
+    "diagnostics": {
+      "sites": {
+        "KKI": {
+          "objective": "sum logistic + l1*sum|segment| + coupling*sum|shared-segment|",
+          "optimizer": "independent-L1 warmstart + exact-median / exact-two-L1-prox alternating PGD",
+          "l1": 0.01,
+          "coupling": 1.0,
+          "training_windows": 96,
+          "segments": 8,
+          "single_segment_approximation": false,
+          "steps_requested": 8,
+          "steps_run": 8,
+          "warm_start_steps": 8,
+          "converged": false,
+          "objective_history": [
+            48.42104419237505,
+            47.02275498487049,
+            45.94258015316366,
+            45.08502367097519,
+            44.3876813563955,
+            43.80176091712053,
+            43.302367816288545,
+            42.867039324709964,
+            42.48044539207591
+          ],
+          "uncapped_nonzero": 5719,
+          "selected_count": 5719,
+          "segment_nonzero": 49892,
+          "max_features": null,
+          "feature_cap_applied": false,
+          "approximation": null,
+          "fit_scope": "caller-provided training windows only",
+          "seed": 42
+        },
+        "NYU": {
+          "objective": "sum logistic + l1*sum|segment| + coupling*sum|shared-segment|",
+          "optimizer": "independent-L1 warmstart + exact-median / exact-two-L1-prox alternating PGD",
+          "l1": 0.01,
+          "coupling": 1.0,
+          "training_windows": 96,
+          "segments": 8,
+          "single_segment_approximation": false,
+          "steps_requested": 8,
+          "steps_run": 8,
+          "warm_start_steps": 8,
+          "converged": false,
+          "objective_history": [
+            49.82681420592729,
+            48.713576384142144,
+            47.82276822364372,
+            47.08958555462783,
+            46.472137935508826,
+            45.94189648647303,
+            45.477528954366484,
+            45.06568345958866,
+            44.69627236406147
+          ],
+          "uncapped_nonzero": 5490,
+          "selected_count": 5490,
+          "segment_nonzero": 49550,
+          "max_features": null,
+          "feature_cap_applied": false,
+          "approximation": null,
+          "fit_scope": "caller-provided training windows only",
+          "seed": 42
+        },
+        "UCLA": {
+          "objective": "sum logistic + l1*sum|segment| + coupling*sum|shared-segment|",
+          "optimizer": "independent-L1 warmstart + exact-median / exact-two-L1-prox alternating PGD",
+          "l1": 0.01,
+          "coupling": 1.0,
+          "training_windows": 96,
+          "segments": 8,
+          "single_segment_approximation": false,
+          "steps_requested": 8,
+          "steps_run": 8,
+          "warm_start_steps": 8,
+          "converged": false,
+          "objective_history": [
+            50.50302401446508,
+            49.01186527308757,
+            47.88735120706718,
+            47.009883374918914,
+            46.306326195042516,
+            45.72725890532797,
+            45.23814769083083,
+            44.816473139843,
+            44.44638318477441
+          ],
+          "uncapped_nonzero": 5818,
+          "selected_count": 5818,
+          "segment_nonzero": 49969,
+          "max_features": null,
+          "feature_cap_applied": false,
+          "approximation": null,
+          "fit_scope": "caller-provided training windows only",
+          "seed": 42
+        },
+        "UM": {
+          "objective": "sum logistic + l1*sum|segment| + coupling*sum|shared-segment|",
+          "optimizer": "independent-L1 warmstart + exact-median / exact-two-L1-prox alternating PGD",
+          "l1": 0.01,
+          "coupling": 1.0,
+          "training_windows": 96,
+          "segments": 8,
+          "single_segment_approximation": false,
+          "steps_requested": 8,
+          "steps_run": 8,
+          "warm_start_steps": 8,
+          "converged": false,
+          "objective_history": [
+            49.56383584764923,
+            48.603525190478386,
+            47.8136103911764,
+            47.14679397937327,
+            46.575418909085016,
+            46.07479550021418,
+            45.62963411940552,
+            45.22827637598263,
+            44.864019200673376
+          ],
+          "uncapped_nonzero": 5372,
+          "selected_count": 5372,
+          "segment_nonzero": 49528,
+          "max_features": null,
+          "feature_cap_applied": false,
+          "approximation": null,
+          "fit_scope": "caller-provided training windows only",
+          "seed": 42
+        },
+        "USM": {
+          "objective": "sum logistic + l1*sum|segment| + coupling*sum|shared-segment|",
+          "optimizer": "independent-L1 warmstart + exact-median / exact-two-L1-prox alternating PGD",
+          "l1": 0.01,
+          "coupling": 1.0,
+          "training_windows": 96,
+          "segments": 8,
+          "single_segment_approximation": false,
+          "steps_requested": 8,
+          "steps_run": 8,
+          "warm_start_steps": 8,
+          "converged": false,
+          "objective_history": [
+            49.092777541038195,
+            48.03657055751805,
+            47.18436778440116,
+            46.47815622729189,
+            45.87583705590318,
+            45.35395095068003,
+            44.89376415309352,
+            44.483765385522915,
+            44.11471568125992
+          ],
+          "uncapped_nonzero": 5517,
+          "selected_count": 5517,
+          "segment_nonzero": 49615,
+          "max_features": null,
+          "feature_cap_applied": false,
+          "approximation": null,
+          "fit_scope": "caller-provided training windows only",
+          "seed": 42
+        },
+        "Yale": {
+          "objective": "sum logistic + l1*sum|segment| + coupling*sum|shared-segment|",
+          "optimizer": "independent-L1 warmstart + exact-median / exact-two-L1-prox alternating PGD",
+          "l1": 0.01,
+          "coupling": 1.0,
+          "training_windows": 96,
+          "segments": 8,
+          "single_segment_approximation": false,
+          "steps_requested": 8,
+          "steps_run": 8,
+          "warm_start_steps": 8,
+          "converged": false,
+          "objective_history": [
+            49.85417874004149,
+            48.78821974407184,
+            47.925387529237625,
+            47.20553342622182,
+            46.59268549226462,
+            46.058592057048315,
+            45.588070800793915,
+            45.16720756434938,
+            44.78671394695131
+          ],
+          "uncapped_nonzero": 5461,
+          "selected_count": 5461,
+          "segment_nonzero": 49640,
+          "max_features": null,
+          "feature_cap_applied": false,
+          "approximation": null,
+          "fit_scope": "caller-provided training windows only",
+          "seed": 42
+        }
+      },
+      "merge": "union_of_per_site_nonzero_shared_coefficients",
+      "uncapped_union_count": 6670,
+      "selected_count": 64,
+      "max_features": 64,
+      "feature_cap_applied": true,
+      "approximation": "top_max_absolute_client_coefficient_cap",
+      "fit_scope": "training windows only; no hidden sampling or label access"
+    },
+    "sparse_windows_per_subject": 8,
+    "segment_grid": "relative-time evenly spaced bins; explicit sparse-stage approximation",
+    "subject_cap": "seeded within-site stratified sample"
+  },
+  "device": "cpu",
+  "train_metrics": {
+    "accuracy": 0.5694444444444444,
+    "balanced_accuracy": 0.5812693498452012,
+    "auc": 0.7004643962848298,
+    "sensitivity": 0.7941176470588235,
+    "specificity": 0.3684210526315789,
+    "confusion_matrix": [
+      [
+        14,
+        24
+      ],
+      [
+        7,
+        27
+      ]
+    ],
+    "n_test_subjects": 72,
+    "per_site": {
+      "KKI": {
+        "accuracy": 0.6666666666666666,
+        "balanced_accuracy": 0.5625,
+        "auc": 0.6875,
+        "sensitivity": 0.25,
+        "specificity": 0.875,
+        "confusion_matrix": [
+          [
+            7,
+            1
+          ],
+          [
+            3,
+            1
+          ]
+        ],
+        "n_test_subjects": 12
+      },
+      "NYU": {
+        "accuracy": 0.6666666666666666,
+        "balanced_accuracy": 0.6857142857142857,
+        "auc": 0.6857142857142857,
+        "sensitivity": 0.8,
+        "specificity": 0.5714285714285714,
+        "confusion_matrix": [
+          [
+            4,
+            3
+          ],
+          [
+            1,
+            4
+          ]
+        ],
+        "n_test_subjects": 12
+      },
+      "UCLA": {
+        "accuracy": 0.5833333333333334,
+        "balanced_accuracy": 0.5,
+        "auc": 0.8857142857142857,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        "n_test_subjects": 12
+      },
+      "UM": {
+        "accuracy": 0.3333333333333333,
+        "balanced_accuracy": 0.4375,
+        "auc": 0.65625,
+        "sensitivity": 0.75,
+        "specificity": 0.125,
+        "confusion_matrix": [
+          [
+            1,
+            7
+          ],
+          [
+            1,
+            3
+          ]
+        ],
+        "n_test_subjects": 12
+      },
+      "USM": {
+        "accuracy": 0.5833333333333334,
+        "balanced_accuracy": 0.5571428571428572,
+        "auc": 0.5428571428571428,
+        "sensitivity": 0.7142857142857143,
+        "specificity": 0.4,
+        "confusion_matrix": [
+          [
+            2,
+            3
+          ],
+          [
+            2,
+            5
+          ]
+        ],
+        "n_test_subjects": 12
+      },
+      "Yale": {
+        "accuracy": 0.5833333333333334,
+        "balanced_accuracy": 0.5,
+        "auc": 0.8571428571428571,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            5
+          ],
+          [
+            0,
+            7
+          ]
+        ],
+        "n_test_subjects": 12
+      }
+    },
+    "site_mean_accuracy": 0.5694444444444445,
+    "aggregation": "subject probability = mean window probabilities; macro-site mean reported separately"
+  },
+  "validation_metrics": {
+    "accuracy": 0.5,
+    "balanced_accuracy": 0.4571428571428572,
+    "auc": 0.47857142857142865,
+    "sensitivity": 0.7142857142857143,
+    "specificity": 0.2,
+    "confusion_matrix": [
+      [
+        2,
+        8
+      ],
+      [
+        4,
+        10
+      ]
+    ],
+    "n_test_subjects": 24,
+    "per_site": {
+      "KKI": {
+        "accuracy": 0.25,
+        "balanced_accuracy": 0.25,
+        "auc": 0.0,
+        "sensitivity": 0.0,
+        "specificity": 0.5,
+        "confusion_matrix": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "NYU": {
+        "accuracy": 0.25,
+        "balanced_accuracy": 0.25,
+        "auc": 0.5,
+        "sensitivity": 0.0,
+        "specificity": 0.5,
+        "confusion_matrix": [
+          [
+            1,
+            1
+          ],
+          [
+            2,
+            0
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "UCLA": {
+        "accuracy": 0.75,
+        "balanced_accuracy": 0.5,
+        "auc": 0.0,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "UM": {
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.5,
+        "auc": 0.5,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "USM": {
+        "accuracy": 0.75,
+        "balanced_accuracy": 0.5,
+        "auc": 1.0,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            1
+          ],
+          [
+            0,
+            3
+          ]
+        ],
+        "n_test_subjects": 4
+      },
+      "Yale": {
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.5,
+        "auc": 0.25,
+        "sensitivity": 1.0,
+        "specificity": 0.0,
+        "confusion_matrix": [
+          [
+            0,
+            2
+          ],
+          [
+            0,
+            2
+          ]
+        ],
+        "n_test_subjects": 4
+      }
+    },
+    "site_mean_accuracy": 0.5,
+    "aggregation": "subject probability = mean window probabilities; macro-site mean reported separately"
+  },
+  "generalization_gap": 0.02777777777777779,
+  "elapsed_seconds": 16.929504800005816,
+  "communication_bytes": 95280
+}

@@ -49,12 +49,15 @@ def portable_config(config):
 
 
 def resolve_recorded_path(value, fallback):
-    """Resolve a path stored in a run record; relative paths are relative to the repo."""
+    """Resolve a path stored in a run record; relative paths are relative to the repo.
+
+    The result is returned even when it does not exist, so callers can decide what to do;
+    an absent override falls back to the default directory.
+    """
+    if not value:
+        return Path(fallback)
     path = Path(value)
-    if path.is_absolute():
-        return path if path.exists() else Path(fallback)
-    candidate = ROOT / path
-    return candidate if candidate.exists() else Path(fallback)
+    return path if path.is_absolute() else ROOT / path
 
 
 

@@ -52,7 +52,9 @@ class ConfigPortabilityTests(unittest.TestCase):
 
     def test_recorded_relative_path_resolves_against_the_repository(self):
         self.assertEqual(resolve_recorded_path('data/abide', ROOT / 'fallback'), ROOT / 'data' / 'abide')
-        self.assertEqual(resolve_recorded_path('/nonexistent/elsewhere', ROOT / 'fallback'), ROOT / 'fallback')
+        self.assertEqual(resolve_recorded_path('', ROOT / 'fallback'), ROOT / 'fallback')
+        absolute = ROOT / 'missing' / 'outside'
+        self.assertEqual(resolve_recorded_path(str(absolute), ROOT / 'fallback'), absolute)
 
     def test_committed_demo_config_stays_portable(self):
         for name in ('federation_demo.json', 'federation_demo_standalone.json'):

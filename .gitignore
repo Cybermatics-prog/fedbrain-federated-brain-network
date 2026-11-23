@@ -14,14 +14,18 @@ artifacts/
 *.pt
 tools/
 
-# Run outputs are large and machine-specific. Only the recorded demo trace is kept,
-# because the interface replays it without training.
+# Run outputs are large and machine-specific. The recorded demo trace and the small
+# encrypted smoke record are kept because the interface reads them without training.
 runs/*
 !runs/federation-demo-s42/
 runs/federation-demo-s42/*
 !runs/federation-demo-s42/result.json
 !runs/federation-demo-s42/split.json
 !runs/federation-demo-s42/federation/
+!runs/encrypted-smoke-2048/
+runs/encrypted-smoke-2048/*
+!runs/encrypted-smoke-2048/result.json
+!runs/encrypted-smoke-2048/split.json
 
 # Third-party article text is not redistributed
 docs/paper.txt

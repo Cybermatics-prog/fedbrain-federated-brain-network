@@ -52,6 +52,8 @@ test set.
   interface figures referenced below.
 - `tests/`: offline unit, API and compliance tests.
 - `runs/federation-demo-s42/`: the committed eight-round trace that the interface replays.
+- `runs/encrypted-smoke-2048/`: the committed two-round record of the optional Paillier run
+  (`result.json` and `split.json` only; no checkpoint or predictions).
 
 ## Results at a glance
 
@@ -224,6 +226,7 @@ scripts/                   reproduce.py entry point, data build, audits, complia
 docs/                      reproduction protocol, results, diagnostics, research log, images/
 tests/                     offline unit, API and compliance tests, 91 tests (includes the compliance and portability suites)
 runs/federation-demo-s42/  committed eight-round trace replayed by the interface
+runs/encrypted-smoke-2048/ committed two-round record of the optional Paillier run
 Makefile                   make targets that delegate to scripts/reproduce.py
 setup.sh                   POSIX convenience wrapper (optional)
 setup.ps1, start.ps1       PowerShell convenience wrappers (optional)

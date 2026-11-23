@@ -130,11 +130,16 @@ class APITests(unittest.TestCase):
                 np.testing.assert_allclose(bold['values'],expected,atol=1e-7)
 
     def test_health_data_filters_and_invalid_bounds(self):
+        from fedbrain.runner import ROOT
         self.assertEqual(self.client.get('/api/health-data?age_min=30&age_max=10').status_code,422)
         self.assertEqual(self.client.get('/api/health-data?age_min=-1').status_code,422)
         self.assertEqual(self.client.get('/api/health-data?site=not-a-site').status_code,422)
-        self.assertEqual(self.client.get('/api/health-data/subjects/not-real').status_code,404)
         self.assertEqual(self.client.get('/api/health-data/subjects/bad$id').status_code,400)
+        if not (ROOT/'data'/'abide'/'manifest.json').is_file():
+            # Without downloaded data the route reports 409 before it can look up a subject.
+            self.assertEqual(self.client.get('/api/health-data/subjects/not-real').status_code,409)
+            self.skipTest('Public data are not downloaded; unknown-subject lookup needs the dataset')
+        self.assertEqual(self.client.get('/api/health-data/subjects/not-real').status_code,404)
 
     def test_protection_view_reports_actual_mechanisms_and_scope(self):
         from fedbrain.runner import ROOT
@@ -157,6 +162,8 @@ class APITests(unittest.TestCase):
         self.assertFalse(profile['channels']['alignment_statistics']['protected_by_paillier'])
         self.assertFalse(profile['channels']['alignment_statistics']['protected_by_noise'])
         self.assertTrue(profile['evidence']['private_preserved'])
+        if not (ROOT/'runs'/'encrypted-smoke-2048'/'result.json').is_file():
+            self.skipTest('The recorded encrypted smoke run is not present')
         he=self.client.get('/api/data-protection?run_id=encrypted-smoke-2048').json()
         self.assertTrue(he['mechanisms']['paillier']['configured'])
         self.assertTrue(he['mechanisms']['paillier']['observed'])
@@ -184,6 +191,8 @@ class APITests(unittest.TestCase):
             self.assertNotIn('fc',site)
             self.assertNotIn('bold',site)
             self.assertNotIn('private_parameters',site)
+        if not (ROOT/'runs'/'encrypted-smoke-2048'/'result.json').is_file():
+            self.skipTest('The recorded encrypted smoke run is not present')
         legacy=self.client.get('/api/data-protection?run_id=encrypted-smoke-2048').json()['transfer']
         self.assertFalse(legacy['available'])
         self.assertIsNone(legacy['aggregate_shared_sketch'])
