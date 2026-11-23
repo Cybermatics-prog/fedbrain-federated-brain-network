@@ -4,6 +4,9 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .venv/
+*.egg-info/
+build/
+dist/
 
 # ABIDE inputs and derived caches: rebuild with `python -m fedbrain.runner download`
 # and `python scripts/build_health_data.py`

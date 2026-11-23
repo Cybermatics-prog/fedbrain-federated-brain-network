@@ -127,7 +127,17 @@ def cmd_verify(dry_run: bool) -> None:
 
 
 def cmd_serve(port: int, dry_run: bool) -> None:
-    run([step('serve API and interface', python(), '-m', 'fedbrain.server', '--port', str(port))], dry_run)
+    """Replace this process with the server so Ctrl+C closes the listening socket.
+
+    A child process would outlive an interrupted parent and keep the port bound.
+    """
+    interpreter = python()
+    command = [str(interpreter), '-m', 'fedbrain.server', '--port', str(port)]
+    print(f'\n== serve API and interface\n   $ {" ".join(display(part) for part in command)}\n'
+          f'   http://127.0.0.1:{port}  (Ctrl+C stops it)', flush=True)
+    if dry_run:
+        return
+    os.execv(str(interpreter), command)
 
 
 def cmd_all(args) -> None:
