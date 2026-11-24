@@ -1,4 +1,4 @@
 # SPDX-License-Identifier: MIT
-"""FedBrain: transparent, executable reproduction of Neurocomputing 126791 (2023)."""
+"""FedBrain: a six-site federated learning system for brain-network analysis."""
 
 __version__ = "0.1.0"

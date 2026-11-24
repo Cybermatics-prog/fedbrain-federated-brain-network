@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: MIT
 """ABIDE-I CPAC/AAL116 acquisition and leakage-safe subject preprocessing.
 
-The default cohort is every available non-FAIL quality-rated subject from the
-six paper sites, not a truncation to the paper's undocumented QC counts.
+The default cohort is every available non-FAIL quality-rated subject across the
+six acquisition sites; counts are not truncated to any published subset.
 Phenotype labels DX_GROUP=1/2 map to ASD=1/HC=0. Subject splits always precede
 sliding-window augmentation. Network access occurs only in ``ensure_data``.
 """
@@ -25,7 +25,8 @@ PHENOTYPE_URL = "https://s3.amazonaws.com/fcp-indi/data/Projects/ABIDE_Initiativ
 TIMESERIES_URL = "https://s3.amazonaws.com/fcp-indi/data/Projects/ABIDE_Initiative/Outputs/cpac/filt_noglobal/rois_aal/{file_id}_rois_aal.1D"
 SITE_CODES = {"NYU": "NYU", "UM_1": "UM", "USM": "USM", "UCLA_1": "UCLA", "KKI": "KKI", "YALE": "Yale"}
 SITE_ORDER = ("NYU", "UM", "USM", "UCLA", "KKI", "Yale")
-PAPER_COUNTS = dict(zip(SITE_ORDER, (167, 88, 52, 63, 48, 56)))
+# Published per-site cohort sizes, kept only as provenance for the cohort note.
+REFERENCE_COUNTS = dict(zip(SITE_ORDER, (167, 88, 52, 63, 48, 56)))
 QC_FIELDS = ("qc_rater_1", "qc_anat_rater_2", "qc_func_rater_2", "qc_anat_rater_3", "qc_func_rater_3")
 N_ROIS = 116
 N_FEATURES = N_ROIS * (N_ROIS - 1) // 2
@@ -206,8 +207,8 @@ def ensure_data(data_dir, max_per_site=None, workers=6, progress: Callable | Non
         "pipeline": "cpac", "strategy": "filt_noglobal", "atlas": "aal116",
         "selection": {"site_codes": SITE_CODES, "max_per_site": max_per_site,
                       "sort": "site_order,subject_id,file_id", **audit},
-        "paper_subject_counts": PAPER_COUNTS,
-        "cohort_note": "Public quality-filtered availability; paper subject IDs/QC thresholds were not published. Counts are not forced to match.",
+        "reference_subject_counts": REFERENCE_COUNTS,
+        "cohort_note": "Public quality-filtered availability. Published subject identifiers and quality thresholds are not available, so counts are not forced to match any prior report.",
     }
     manifest_path = root / "manifest.json"
     _atomic_json(manifest_path, manifest)

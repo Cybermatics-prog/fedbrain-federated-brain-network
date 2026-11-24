@@ -31,8 +31,8 @@ runs/encrypted-smoke-2048/*
 !runs/encrypted-smoke-2048/split.json
 
 # Third-party article text is not redistributed
-docs/paper.txt
-docs/paper.pdf
+docs/article.txt
+docs/article.pdf
 
 # Browser QA output and the older single-view smoke scripts (superseded by scripts/check_*.py;
 # README images live in docs/images)

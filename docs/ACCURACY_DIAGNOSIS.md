@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 # Why current accuracy is low: a read-only diagnosis of historical records
 
-This round only reads existing predictions and results; it does not train, does not choose new thresholds, and does not re-select models based on test. Original recomputable details: [diagnosis JSON](<../artifacts/accuracy_diagnosis.json>); script: [diagnose_accuracy.py](<../scripts/diagnose_accuracy.py>).
+This round only reads existing predictions and results; it does not train, does not choose new thresholds, and does not re-select models based on test. Original recomputable details: `../artifacts/accuracy_diagnosis.json`; script: [diagnose_accuracy.py](<../scripts/diagnose_accuracy.py>).
 
 ## The current default 8 rounds and 50 rounds must not be conflated
 
@@ -14,8 +14,8 @@ This round only reads existing predictions and results; it does not train, does 
 
 - Across the original three seeds, train pooled averages 98.63%, test pooled 62.85%, and site macro 60.76%. High on training and low on unseen subjects is a clear generalization gap, not a model that simply cannot learn.
 - There are only 292 truly independent training subjects; the sliding windows add correlated windows, not independent subjects. High-dimensional connectivity, site distribution differences, and validation-based selection at small sites all make overfitting/estimation variance worth investigating first.
-- The matched-mask/noise FedAvg with the same three seeds has macro 63.69%, higher than FedBrain's 60.76%; the extra alignment/personalization modules in the current implementation do not show a stable additional benefit. This does not justify declaring the paper invalid.
-- The existing five-candidate validation changes did not bring a stable test improvement; the Eq. 11 sparse solve has still not converged at 400 steps, and the current top512 is an approximation of a public implementation, not the authors' exact source code. Its differences from the data queue/repeated-evaluation protocol have not been fully closed, so it cannot be claimed that the paper's 79% has been reproduced.
+- The matched-mask/noise FedAvg with the same three seeds has macro 63.69%, higher than FedBrain's 60.76%; the extra alignment/personalization modules in the current implementation do not show a stable additional benefit. This does not justify declaring the reference formulation invalid.
+- The existing five-candidate validation changes did not bring a stable test improvement; the Eq. 11 sparse solve has still not converged at 400 steps, and the current top512 is an approximation of a public implementation, not the authors' exact source code. Its differences from the data queue/repeated-evaluation protocol have not been fully closed.
 
 ## What to target next
 

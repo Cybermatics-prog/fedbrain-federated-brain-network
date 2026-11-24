@@ -27,7 +27,7 @@ from fedbrain.runner import (RunConfig,_evaluate,_subject_features,atomic_json,
 
 VARIANTS={
  'A':{'label':'Validation-set round selection', 'overrides':{}},
- 'B':{'label':'Round selection + paper-inspired batch loss scale', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch'}},
+ 'B':{'label':'Round selection + batch loss scale', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch'}},
  'C':{'label':'B + refresh alignment target after aggregation', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch','alignment_reference':'post_aggregation'}},
  'D':{'label':'C + L2 regularization 0.01', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch','alignment_reference':'post_aggregation','weight_decay':.01}},
  'E':{'label':'C + 400-step sparse optimization', 'overrides':{'alignment_weight':1.,'alignment_normalization':'batch','alignment_reference':'post_aggregation','sparse_max_iter':400,'feature_run_id':None}},
@@ -201,7 +201,7 @@ def confirm():
                   notes=['Candidates are selected only on the seed42 validation set; one evaluation after locking, and no candidate is changed based on the test set.',
                          'The original test set was made public in the previous round; this round is exploratory follow-up validation, not a fresh external validation.',
                          'Rounds are selected on validation within 50 rounds, and all private heads/gates are restored along with the model; the comparison baseline uses the same round-selection rule.',
-                         'All candidates and failures are retained; the best seed is not cherry-picked. The paper\'s 79% remains an independent reference.'])
+                         'All candidates and failures are retained; the best seed is not cherry-picked.'])
     atomic_json(RESULT,result)
     config=selection['selected_config'].copy()
     config.update(defer_test=False,seed=42,feature_run_id=None,experiment_tag='optimized-reusable')
@@ -215,7 +215,7 @@ def report(result):
     comp=result['comparison']
     verdict=('The preregistered minimum-effect gate was passed, but independent external validation is still required.' if comp['pass_gate'] else
              'No stable accuracy improvement was obtained in this round: the preregistered >=2 percentage point minimum-effect gate was not met, so the original default model is not replaced.')
-    lines=['# FedBrain Accuracy Optimization Based on the Original Paper', '',verdict,'',
+    lines=['# FedBrain Accuracy Optimization Study', '',verdict,'',
            '## Validation Locked First, Test Evaluated Afterwards', '',
            f"Selection time: {result['selection_locked_at']}; variant **{result['selected_variant']}** was selected by seed42 validation macro, not by test performance.", '',
            '|Candidate|Change|Validation macro|Selected round|Test during search|','|---|---|---:|---:|---|']
@@ -233,13 +233,13 @@ def report(result):
             f"- Optimized pooled subject accuracy mean: {comp['optimized_pooled_mean']*100:.2f}%.",
             f"- Paired mean change vs A: {comp['delta_macro']*100:+.2f} percentage points; {comp['success_count']}/3 seeds improved; passes preregistered >=2pp with at least 2/3 improved: {comp['pass_gate']}.",
             f"- Matched-mask/noise FedAvg with the same best-val round selection: {comp['fedavg_best_val_macro_mean']*100:.2f}% macro.", '',
-            '## Paper Basis and Interpretation', '',
-            '- §5.5.1 explicitly introduces early stopping: this fixes the problem of saving only the final round and discarding a model that validated better.',
-            '- The paper-inspired minibatch convention (sumCE_batch+DA_batch)/actual batch adjusts the relative scale of classification/alignment; it is not a strict equivalence to the full-data Eq16 or a restoration of the authors\' source code.',
+            '## Rationale and Interpretation', '',
+            '- Early stopping on validation addresses the problem of saving only the final round and discarding a better-validated model.',
+            '- The batch convention (sumCE_batch+DA_batch)/actual batch adjusts the relative scale of classification and alignment; it is not a strict equivalence to the full-data Eq. 16 or a restoration of any source implementation.',
             '- After aggregation/broadcast, the train hidden means are recomputed with the current shared encoder, avoiding alignment to the coordinates of the previous round\'s local encoder.',
-            '- L2 regularization 0.01 is an anti-overfitting extension; sparse 40→400 is a convergence diagnostic and does not claim to be a hyperparameter fully specified in the original paper.', '',
+            '- L2 regularization 0.01 is an anti-overfitting extension; sparse 40→400 is a convergence diagnostic and is not claimed to be a specified hyperparameter.', '',
             '## Conclusion Boundaries', '',*['- '+n for n in result['notes']], '',
-            'The paper\'s 79% reference is retained; whether it is reached must be read from real test values, and validation accuracy is not a substitute for test results.', '']
+            'Whether the target macro accuracy is met must be read from real test values; validation accuracy is not a substitute for test results.', '']
     (ROOT/'docs'/'OPTIMIZATION_RESULTS.md').write_text('\n'.join(lines),encoding='utf-8')
 
 

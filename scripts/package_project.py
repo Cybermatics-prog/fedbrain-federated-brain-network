@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Package source, reproducibility evidence and trained models, not cached data."""
+"""Package source, evidence and trained models, not cached data."""
 from __future__ import annotations
 
 import hashlib
@@ -23,7 +23,7 @@ def main():
         for p in (ROOT/root).rglob('*'):
             if not p.is_file() or '__pycache__' in p.parts or '.pytest_cache' in p.parts:
                 continue
-            if p.name=='paper.txt' or p.suffix in ('.tmp','.part','.log'):
+            if p.name=='article.txt' or p.suffix in ('.tmp','.part','.log'):
                 continue
             paths.append(p)
     paths.extend(ROOT/p for p in ['README.md','requirements.txt','setup.ps1','start.ps1','.gitignore'])
@@ -33,7 +33,7 @@ def main():
         distributions[package]=importlib.metadata.version(package)
     manifest={'created_at':datetime.now(timezone.utc).isoformat(),
               'python':sys.version,'platform':platform.platform(),'dependencies':distributions,
-              'excluded':'raw ABIDE derivatives and FC caches, .venv, full paper extraction',
+              'excluded':'raw ABIDE derivatives and FC caches, .venv, third-party article text',
               'download_command':'python -m fedbrain.runner download',
               'files':{str(p.relative_to(ROOT)).replace('\\','/'):hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(set(paths))}}
     atomic_json(ROOT/'artifacts'/'package_manifest.json',manifest)

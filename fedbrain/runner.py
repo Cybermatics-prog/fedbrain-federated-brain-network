@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Reproducible single-machine, six-client FedBrain training and inference."""
+"""Single-machine, six-client FedBrain training and inference."""
 from __future__ import annotations
 
 import argparse
@@ -578,7 +578,7 @@ def infer_subject(run_dir, subject_id, subjects=None):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='FedBrain reproducible research runner')
+    parser = argparse.ArgumentParser(description='FedBrain federated training runner')
     sub = parser.add_subparsers(dest='command', required=True)
     d = sub.add_parser('download')
     d.add_argument('--max-per-site', type=int, default=0)

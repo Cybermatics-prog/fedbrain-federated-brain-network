@@ -37,7 +37,7 @@ class APITests(unittest.TestCase):
     def test_health_and_real_status_schema(self):
         self.assertEqual(self.client.get('/api/health').json()['ok'], True)
         result = self.client.get('/api/status').json()
-        self.assertEqual(result['paper']['reported_accuracy'],.79)
+        self.assertEqual(sorted(result),['active_run','dataset','device','protocol','runs'])
         self.assertEqual(len(result['dataset']['sites']),6)
         self.assertIn('cuda',result['device'])
         self.assertEqual(result['protocol']['features'],6670)

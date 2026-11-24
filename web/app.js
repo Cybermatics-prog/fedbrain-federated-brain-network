@@ -285,17 +285,14 @@
   }
   function protocolItem(label, value) { return `<div class="protocol-item"><span class="protocol-item-label">${esc(label)}</span><span class="protocol-item-value">${esc(displayValue(value))}</span></div>`; }
   function renderProtocol() {
-    const paper = state.status?.paper || {};
-    if (num(paper.reported_accuracy) !== null) $('paper-accuracy').innerHTML = `${Number(paper.reported_accuracy) * (Number(paper.reported_accuracy) <= 1 ? 100 : 1)}<span>%</span>`;
-    if (paper.doi) $('paper-link').href = `https://doi.org/${String(paper.doi).replace(/^https?:\/\/(?:dx\.)?doi\.org\//,'')}`;
-    const p = state.status?.protocol || {}, privacy = privacyConfig();
+          const p = state.status?.protocol || {}, privacy = privacyConfig();
     const homomorphic = privacy.homomorphic ?? state.run?.config?.homomorphic;
     const items = [
       protocolItem('Deployment mode','Six-client single-process simulation, not a deployed hospital federation'),
       protocolItem('Selected model',state.run ? methodName(state.run.config?.method) : 'Select a run'),
       protocolItem('Data source','ABIDE I · real locally cached data'),
       protocolItem('Cached subjects',datasetCount(state.status?.dataset) !== null ? `${fmt(datasetCount(state.status?.dataset))}  subjects (Actually cached)` : 'Awaiting the data service'),
-      protocolItem('Local versus paper cohort','The downloaded cohort may differ from paper Table 1'),
+      protocolItem('Cohort versus published counts','The locally available cohort may differ from published per-site counts'),
       protocolItem('Subject-level split',p.split ?? p.split_strategy ?? p.splitting ?? 'See the saved run protocol and service records'),
       protocolItem('Homomorphic encryption',homomorphic === true ? 'Paillier enabled for this run' : homomorphic === false ? 'Disabled for this run (smoke-test configuration)' : 'Awaiting run configuration; not assumed enabled'),
       protocolItem('Privacy statement',privacy.formal_dp === true ? 'The service reports formal DP enabled' : 'Parameter noise is not a formal DP guarantee'),
@@ -304,7 +301,7 @@
       protocolItem('Checkpoint selection',selectedRound()!==null ? `Validation selected round ${fmt(selectedRound())}  rounds; Trained ${fmt(getRunRound())}  rounds` : 'No validation checkpoint reported; no round is assumed'),
       protocolItem('Intended use','Research only; not for clinical diagnosis')
     ];
-    const names = {implementation:'Implementation notes',implementation_note:'Implementation choices',limitations:'Implementation limitations',notes:'Protocol notes',deviations:'Differences from the paper',cohort_note:'Cohort notes',reference_evaluation:'Published evaluation protocol',evaluation:'Evaluation definition',feature_selection:'Feature selection',normalization:'Feature scaling',window:'Window length',window_size:'Window length',stride:'Window stride',encryption:'Encryption notes',privacy_note:'Privacy scope'};
+    const names = {implementation:'Implementation notes',implementation_note:'Implementation choices',limitations:'Implementation limitations',notes:'Protocol notes',deviations:'Implementation differences',cohort_note:'Cohort notes',reference_evaluation:'Published evaluation protocol',evaluation:'Evaluation definition',feature_selection:'Feature selection',normalization:'Feature scaling',window:'Window length',window_size:'Window length',stride:'Window stride',encryption:'Encryption notes',privacy_note:'Privacy scope'};
     Object.entries(names).forEach(([key,label]) => { if (p[key] !== undefined) items.push(protocolItem(label,p[key])); });
     $('protocol-details').innerHTML = items.join('');
     const run = state.run, m = metrics(), h = history();
@@ -326,7 +323,7 @@
     $('optimization-status').textContent = complete ? passGate===true ? 'Confirmation passed · gate met' : passGate===false ? 'Confirmation complete · no automatic deployment' : 'Test results summarized · awaiting verdict' : confirming ? 'Confirming the locked variant' : searching ? 'Validation selection in progress' : 'Awaiting optimization evidence';
     $('optimization-status').className = `badge ${complete && passGate===true ? 'teal-outline' : searching ? 'violet-outline' : 'neutral'}`;
     const warning = state.optimizationError ? `<div class="optimization-warning">${icon('info')}<span>${esc(state.optimizationError)}</span></div>` : '';
-    const summary = `<div class="optimization-summary"><p>${complete ? `Validation-locked${passGate===true ? 'Variant' : 'Candidate'}: <strong>${esc(selectedLabel || 'Variant name not provided')}</strong>${passGate===false ? '.The preregistered stability gate was not met; the original reproduction remains the default.' : ''}` : confirming ? 'The variant is locked by validation; fixed-seed held-out confirmation is in progress and comparisons are not final.' : searching ? 'Select the variant and checkpoint on validation, then unlock final testing.' : 'Optimization evidence is pending; retain the original run without prefilled scores or improvements.'}</p>${optimizationRunId() ? `<button class="text-button" data-open-optimized>${String(state.selectedRun)===String(optimizationRunId()) ? passGate===true ? 'Viewing the locked run' : 'Viewing the validation-selected candidate' : passGate===true ? 'View locked run' : 'View validation-selected candidate'} ${icon('arrow')}</button>` : ''}</div>`;
+    const summary = `<div class="optimization-summary"><p>${complete ? `Validation-locked${passGate===true ? 'Variant' : 'Candidate'}: <strong>${esc(selectedLabel || 'Variant name not provided')}</strong>${passGate===false ? '.The preregistered stability gate was not met; the original configuration remains the default.' : ''}` : confirming ? 'The variant is locked by validation; fixed-seed held-out confirmation is in progress and comparisons are not final.' : searching ? 'Select the variant and checkpoint on validation, then unlock final testing.' : 'Optimization evidence is pending; retain the original run without prefilled scores or improvements.'}</p>${optimizationRunId() ? `<button class="text-button" data-open-optimized>${String(state.selectedRun)===String(optimizationRunId()) ? passGate===true ? 'Viewing the locked run' : 'Viewing the validation-selected candidate' : passGate===true ? 'View locked run' : 'View validation-selected candidate'} ${icon('arrow')}</button>` : ''}</div>`;
     let comparison = '';
     if (complete) {
       const c = o.comparison && typeof o.comparison === 'object' ? o.comparison : {}, seeds = Array.isArray(c.seeds) ? c.seeds : [];
@@ -618,7 +615,7 @@
   $('menu-toggle').addEventListener('click',()=>{const open=$('sidebar').classList.toggle('open');$('menu-toggle').setAttribute('aria-expanded',String(open));$('menu-toggle').setAttribute('aria-label',open?'Close navigation':'Open navigation');});
   document.addEventListener('keydown',(event)=>{if(event.key==='Escape'){$('sidebar').classList.remove('open');$('menu-toggle').setAttribute('aria-expanded','false');}});
   $('export-run').addEventListener('click',()=>exportJson(state.run,`fedbrain-${state.selectedRun || 'run'}.json`));
-  $('export-protocol').addEventListener('click',()=>exportJson({exported_at:new Date().toISOString(),status:state.status,optimization:state.optimization,selected_run:state.run},'fedbrain-reproduction-snapshot.json'));
+  $('export-protocol').addEventListener('click',()=>exportJson({exported_at:new Date().toISOString(),status:state.status,optimization:state.optimization,selected_run:state.run},'fedbrain-snapshot.json'));
   $('fc-canvas').addEventListener('pointermove',(event)=>{
     const fc=state.subject?.fc;if(!Array.isArray(fc)||!fc.length)return;
     const rect=event.currentTarget.getBoundingClientRect(),col=clamp(Math.floor((event.clientX-rect.left)/rect.width*fc.length),0,fc.length-1),row=clamp(Math.floor((event.clientY-rect.top)/rect.height*fc.length),0,fc.length-1);

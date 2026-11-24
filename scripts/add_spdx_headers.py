@@ -31,7 +31,7 @@ STYLES = {
 }
 EXTRA_FILES = {'.gitignore': ('# ', ''), '.gitattributes': ('# ', ''), 'Makefile': ('# ', '')}
 # Covered by REUSE.toml annotations or are the license text itself.
-SKIP = {'LICENSE', 'LICENSES/MIT.txt', 'REUSE.toml', 'docs/paper.txt'}
+SKIP = {'LICENSE', 'LICENSES/MIT.txt', 'REUSE.toml', 'docs/article.txt'}
 
 
 def tracked() -> list[str]:

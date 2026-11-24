@@ -32,7 +32,7 @@ MACHINE_PATH = re.compile(
     r'|/home/[A-Za-z0-9._-]+/'
     r'|\\\\\\\\[A-Za-z0-9._-]+[\\/]'                             # UNC share
 )
-EXEMPT_PATHS = {'LICENSE', 'LICENSES/MIT.txt', 'REUSE.toml', 'docs/paper.txt'}
+EXEMPT_PATHS = {'LICENSE', 'LICENSES/MIT.txt', 'REUSE.toml', 'docs/article.txt'}
 
 
 def tracked() -> list[str]:

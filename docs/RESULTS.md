@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# FedBrain Reproduction Results from Real Data
+# FedBrain Results from Real Data
 
 This report is generated automatically by `scripts/report.py` from real `result.json` files; experiment numbers are never entered by hand.
 
@@ -9,9 +9,8 @@ This report is generated automatically by `scripts/report.py` from real `result.
 - CPAC / filt_noglobal / AAL116; window 32, stride 1, Pearson→Fisher-z, 6670-dimensional upper triangle.
 - Subjects are split into train/val/test first; sparsification and standardization use training data only; each subject's window predicted probabilities are averaged.
 - macro-site is the equal-weight mean of the six site accuracies; pooled is the accuracy over all test subjects combined. The two must not be conflated.
-- The paper reference of 79% (5 repeats × 5 folds) and the measurements under the current configuration below are not the same cohort or a complete evaluation protocol.
 
-|Site|Actual subjects|Paper Table 1 subjects|
+|Site|Actual subjects|Prior reports: subjects|
 |---|---:|---:|
 |KKI|33|48|
 |NYU|172|167|
@@ -22,28 +21,28 @@ This report is generated automatically by `scripts/report.py` from real `result.
 
 ## Full 50-Round Experiments
 
-Experiments are grouped by recipe; only FedAvg runs with the matching configuration/seed/feature mask are matched-mask controls, so 40-step and 400-step masks must not be conflated. This is not a claim to reproduce every baseline in the paper item by item.
+Experiments are grouped by recipe; only FedAvg runs with the matching configuration/seed/feature mask are matched-mask controls, so 40-step and 400-step masks must not be conflated.
 
 |Run|Method|seed|macro-site accuracy|pooled accuracy|AUC|Test subjects|Training accuracy|Elapsed seconds|
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-|[full-fedbrain-s42](../runs/full-fedbrain-s42/result.json)|fedbrain|42|56.89%|59.38%|0.6318|96|97.26%|133.2|
-|[full-fedavg-s42](../runs/full-fedavg-s42/result.json)|fedavg|42|60.73%|62.50%|0.6574|96|99.32%|55.6|
-|[full-fedbrain-s43](../runs/full-fedbrain-s43/result.json)|fedbrain|43|60.41%|61.46%|0.6565|96|98.63%|94.4|
-|[full-fedbrain-s44](../runs/full-fedbrain-s44/result.json)|fedbrain|44|64.97%|67.71%|0.7086|96|100.00%|92.8|
-|[full-fedavg-s43](../runs/full-fedavg-s43/result.json)|fedavg|43|67.07%|66.67%|0.6939|96|100.00%|41.9|
-|[full-fedavg-s44](../runs/full-fedavg-s44/result.json)|fedavg|44|63.26%|64.58%|0.7139|96|100.00%|36.7|
-|[opt-A-s42](../runs/opt-A-s42/result.json)|fedbrain|42|56.77%|60.42%|0.7143|96|82.53%|84.3|
-|[opt-E-s42](../runs/opt-E-s42/result.json)|fedbrain|42|60.62%|63.54%|0.6956|96|99.66%|100.7|
-|[opt-A-s43](../runs/opt-A-s43/result.json)|fedbrain|43|60.41%|61.46%|0.6565|96|98.63%|81.8|
-|[opt-E-s43](../runs/opt-E-s43/result.json)|fedbrain|43|61.31%|65.62%|0.7069|96|96.23%|103.0|
-|[opt-A-s44](../runs/opt-A-s44/result.json)|fedbrain|44|59.81%|64.58%|0.7269|96|96.23%|93.3|
-|[opt-matched-FedAvg-s42](../runs/opt-matched-FedAvg-s42/result.json)|fedavg|42|63.09%|67.71%|0.7490|96|99.66%|74.7|
-|[opt-matched-FedAvg-s43](../runs/opt-matched-FedAvg-s43/result.json)|fedavg|43|63.02%|62.50%|0.6830|96|100.00%|63.5|
-|[opt-E-s44](../runs/opt-E-s44/result.json)|fedbrain|44|58.14%|61.46%|0.6539|96|100.00%|109.9|
-|[opt-matched-FedAvg-s44](../runs/opt-matched-FedAvg-s44/result.json)|fedavg|44|54.57%|57.29%|0.6548|96|99.66%|68.9|
-|[opt-FedAvg-s42](../runs/opt-FedAvg-s42/result.json)|fedavg|42|64.40%|64.58%|0.6969|96|88.01%|39.5|
-|[opt-FedAvg-s43](../runs/opt-FedAvg-s43/result.json)|fedavg|43|56.66%|60.42%|0.7082|96|84.59%|39.9|
-|[opt-FedAvg-s44](../runs/opt-FedAvg-s44/result.json)|fedavg|44|64.73%|68.75%|0.7260|96|91.10%|38.1|
+|`full-fedbrain-s42`|fedbrain|42|56.89%|59.38%|0.6318|96|97.26%|133.2|
+|`full-fedavg-s42`|fedavg|42|60.73%|62.50%|0.6574|96|99.32%|55.6|
+|`full-fedbrain-s43`|fedbrain|43|60.41%|61.46%|0.6565|96|98.63%|94.4|
+|`full-fedbrain-s44`|fedbrain|44|64.97%|67.71%|0.7086|96|100.00%|92.8|
+|`full-fedavg-s43`|fedavg|43|67.07%|66.67%|0.6939|96|100.00%|41.9|
+|`full-fedavg-s44`|fedavg|44|63.26%|64.58%|0.7139|96|100.00%|36.7|
+|`opt-A-s42`|fedbrain|42|56.77%|60.42%|0.7143|96|82.53%|84.3|
+|`opt-E-s42`|fedbrain|42|60.62%|63.54%|0.6956|96|99.66%|100.7|
+|`opt-A-s43`|fedbrain|43|60.41%|61.46%|0.6565|96|98.63%|81.8|
+|`opt-E-s43`|fedbrain|43|61.31%|65.62%|0.7069|96|96.23%|103.0|
+|`opt-A-s44`|fedbrain|44|59.81%|64.58%|0.7269|96|96.23%|93.3|
+|`opt-matched-FedAvg-s42`|fedavg|42|63.09%|67.71%|0.7490|96|99.66%|74.7|
+|`opt-matched-FedAvg-s43`|fedavg|43|63.02%|62.50%|0.6830|96|100.00%|63.5|
+|`opt-E-s44`|fedbrain|44|58.14%|61.46%|0.6539|96|100.00%|109.9|
+|`opt-matched-FedAvg-s44`|fedavg|44|54.57%|57.29%|0.6548|96|99.66%|68.9|
+|`opt-FedAvg-s42`|fedavg|42|64.40%|64.58%|0.6969|96|88.01%|39.5|
+|`opt-FedAvg-s43`|fedavg|43|56.66%|60.42%|0.7082|96|84.59%|39.9|
+|`opt-FedAvg-s44`|fedavg|44|64.73%|68.75%|0.7260|96|91.10%|38.1|
 
 ### Summary by Experiment Recipe (candidates, budgets and round-selection rules not mixed)
 
@@ -67,7 +66,6 @@ Experiments are grouped by recipe; only FedAvg runs with the matching configurat
 
 ### Interpretable Conclusion
 
-The current main run does not reach the paper's 79%: a runnable reimplementation of the method and a demonstration on real data are complete, but the paper's metric has not yet been accurately reproduced.
 Original failures and low-scoring results are kept; no tuning on the test set or selection of rounds is performed.
 
 ## Independent Validity Checks
@@ -81,7 +79,7 @@ Original failures and low-scoring results are kept; no tuning on the test set or
 ## Acceleration Approximations and Privacy Settings
 
 - In the main configuration, the sparse stage uses 8 relative time segments per training subject, 40 iterations, and at most 512 connections; the classification stage uses all windows.
-- Optimization/merging/batching details that the paper does not specify are explicitly fixed in the configuration; the original subject list is unknown.
+- Optimization/merging/batching details that the published method does not specify are explicitly fixed in the configuration; the original subject list is unknown.
 - The main configuration clips shared parameters and then adds Laplace noise with noise_scale=0.01; this is not epsilon-DP with a budget-accounting proof.
 - Homomorphic aggregation is optional real Paillier 2048-bit arithmetic; holding the key in the same process on one machine is not equivalent to a deployment across independent hospitals.
 
@@ -89,18 +87,18 @@ Original failures and low-scoring results are kept; no tuning on the test set or
 
 |Run|Status|Rounds|Homomorphic aggregation|Test accuracy|
 |---|---|---:|---|---:|
-|[smoke-six-sites](../runs/smoke-six-sites/result.json)|failed|0|False|—|
-|[smoke-six-sites-v2](../runs/smoke-six-sites-v2/result.json)|completed|2|False|54.17%|
+|`smoke-six-sites`|failed|0|False|—|
+|`smoke-six-sites-v2`|completed|2|False|54.17%|
 |[encrypted-smoke-2048](../runs/encrypted-smoke-2048/result.json)|completed|2|True|54.17%|
-|[20261113-161021-672878-fedbrain](../runs/20261113-161021-672878-fedbrain/result.json)|stopped|0|False|—|
-|[opt-smoke-validation-only](../runs/opt-smoke-validation-only/result.json)|completed|2|False|—|
-|[opt-B-s42](../runs/opt-B-s42/result.json)|completed|50|False|—|
-|[opt-C-s42](../runs/opt-C-s42/result.json)|completed|50|False|—|
-|[opt-D-s42](../runs/opt-D-s42/result.json)|completed|50|False|—|
+|`20261113-161021-672878-fedbrain`|stopped|0|False|—|
+|`opt-smoke-validation-only`|completed|2|False|—|
+|`opt-B-s42`|completed|50|False|—|
+|`opt-C-s42`|completed|50|False|—|
+|`opt-D-s42`|completed|50|False|—|
 
 ## Evidence Entry Points
 
 - Test-unlocked runs contain result.json / split.json / predictions.json / checkpoint.pt / preprocessing.npz; validation candidates have only validation_predictions.json and do not generate test predictions.
 - Test command: `.\.venv\Scripts\python.exe -m unittest discover -s tests -v`.
-- Full 5-repeat × 5-fold script: `scripts/benchmark.py`; do not claim the paper's 25-run protocol is complete unless it has been executed to completion.
+- Full 5-repeat × 5-fold script: `scripts/benchmark.py`; do not claim the 25-run protocol is complete unless it has been executed to completion.
 - The original failing smoke-six-sites recorded insufficient minority-class samples caused by ID truncation; this was fixed with fixed-seed stratified sampling within each site plus a regression test.

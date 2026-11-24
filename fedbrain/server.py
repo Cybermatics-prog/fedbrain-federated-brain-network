@@ -16,7 +16,7 @@ from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict
 
-from .data import PAPER_COUNTS, SITE_ORDER, load_subjects
+from .data import REFERENCE_COUNTS, SITE_ORDER, load_subjects
 from .runner import ROOT, RunConfig, atomic_json, infer_subject, read_json, run_training
 
 app = FastAPI(title='FedBrain Research Studio', version='0.1.0', docs_url='/api/docs')
@@ -73,7 +73,7 @@ def _dataset():
             'sites': [{'id': site, 'name': site, 'count': sum(s['site'] == site for s in subjects),
                        'asd': sum(s['site'] == site and s['label'] == 1 for s in subjects),
                        'hc': sum(s['site'] == site and s['label'] == 0 for s in subjects),
-                       'paper_count': PAPER_COUNTS[site]} for site in SITE_ORDER],
+                       'reference_count': REFERENCE_COUNTS[site]} for site in SITE_ORDER],
             'pipeline': 'CPAC / filt_noglobal / AAL116', 'failures': len(manifest.get('failures', [])),
             'cohort_note': manifest.get('cohort_note', 'Public data download in preparation')}
 
@@ -87,16 +87,13 @@ def health():
 def status():
     runs = _runs()
     summaries = [{k: v for k, v in r.items() if k not in ('history', 'traceback')} for r in runs]
-    return {'paper': {'title': 'FedBrain: A robust multi-site brain network analysis framework based on federated learning for brain disease diagnosis',
-                      'doi': '10.1016/j.neucom.2023.126791', 'year': 2023, 'reported_accuracy': .79,
-                      'url': 'https://doi.org/10.1016/j.neucom.2023.126791'},
-            'dataset': _dataset(), 'device': _DEVICE,
+    return {'dataset': _dataset(), 'device': _DEVICE,
             'active_run': next((r['id'] for r in runs if r['status'] in ('preparing', 'running')), None),
             'runs': summaries,
             'protocol': {'window': 32, 'stride': 1, 'atlas': 'AAL116', 'features': 6670,
                          'hidden_dim': 8, 'rounds': 50, 'split': 'subject-level stratified per site; held-out validation and test',
                          'reference_evaluation': '5 repeats × 5 folds (25 runs), not inferred from a single hold-out',
-                         'noise_discrepancy': 'The paper body uses lambda_M=0.01 while the summary uses lambda_M=0.1; this implementation defaults to 0.01 and records the actual configuration.',
+                         'noise_discrepancy': 'Published descriptions of the noise scale disagree (lambda_M=0.01 in the method description, 0.1 in the summary); this implementation defaults to 0.01 and records the actual configuration.',
                          'privacy_note': 'Parameter noise is not a proven epsilon-DP guarantee; Paillier is an optional real homomorphic aggregation, disabled by default.',
                          'implementation_note': 'Implementation choices such as sparse-optimization sampling and feature caps are disclosed in every run configuration.',
                          'clinical_note': 'Research and teaching demonstration only; not for clinical diagnosis.'}}

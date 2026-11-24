@@ -1,20 +1,20 @@
 # SPDX-License-Identifier: MIT
-"""Single, cross-platform entry point for reproducing this project.
+"""Single, cross-platform entry point for running this project.
 
-Every documented reproduction step is a subcommand here, so the same commands work on
+Every documented step is a subcommand here, so the same commands work on
 Linux, macOS and Windows without a shell-specific wrapper:
 
-    python scripts/reproduce.py setup      # create .venv and install requirements
-    python scripts/reproduce.py data       # download the public ABIDE-I derivatives
-    python scripts/reproduce.py features   # build the FC/BOLD cache used by the interface
-    python scripts/reproduce.py demo       # train a federation trace the interface replays
-    python scripts/reproduce.py test       # offline test suite
-    python scripts/reproduce.py verify     # compliance, language, tests, data checks
-    python scripts/reproduce.py serve      # start the API and interface
-    python scripts/reproduce.py all        # data -> features -> demo -> test -> verify
+    python scripts/pipeline.py setup      # create .venv and install requirements
+    python scripts/pipeline.py data       # download the public ABIDE-I derivatives
+    python scripts/pipeline.py features   # build the FC/BOLD cache used by the interface
+    python scripts/pipeline.py demo       # train a federation trace the interface replays
+    python scripts/pipeline.py test       # offline test suite
+    python scripts/pipeline.py verify     # compliance, language, tests, data checks
+    python scripts/pipeline.py serve      # start the API and interface
+    python scripts/pipeline.py all        # data -> features -> demo -> test -> verify
 
 The script never overwrites the recorded trace committed under
-`runs/federation-demo-s42`; a reproduction run gets its own run id.
+`runs/federation-demo-s42`; a new run always gets its own run id.
 """
 from __future__ import annotations
 
@@ -73,7 +73,7 @@ def cmd_setup(dry_run: bool) -> None:
         run([step('create virtual environment', Path(sys.executable), '-m', 'venv', VENV)], dry_run)
     run([step('install dependencies', python(), '-m', 'pip', 'install', '-r',
               ROOT / 'requirements.txt')], dry_run)
-    print('\nEnvironment ready. Next: python scripts/reproduce.py data')
+    print('\nEnvironment ready. Next: python scripts/pipeline.py data')
 
 
 def cmd_data(dry_run: bool) -> None:
@@ -105,7 +105,7 @@ def cmd_demo(run_id: str, dry_run: bool, force: bool) -> None:
               '      different numeric values.')
     run([step('train federation trace', python(), '-m', 'fedbrain.runner', 'train',
               '--config', config, '--run-id', run_id)], dry_run)
-    print(f'\nTrace written to runs/{run_id}. Inspect it with: python scripts/reproduce.py serve')
+    print(f'\nTrace written to runs/{run_id}. Inspect it with: python scripts/pipeline.py serve')
 
 
 def cmd_test(dry_run: bool) -> None:
@@ -146,13 +146,13 @@ def cmd_all(args) -> None:
     cmd_demo(args.run_id, args.dry_run, args.force)
     cmd_test(args.dry_run)
     cmd_verify(args.dry_run)
-    print('\nAll reproduction steps finished. Start the interface with:\n'
-          '    python scripts/reproduce.py serve')
+    print('\nAll pipeline steps finished. Start the interface with:\n'
+          '    python scripts/pipeline.py serve')
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description='Reproduce the FedBrain six-site federated experiment and its interface.',
+        description='Run the FedBrain six-site federated pipeline and its interface.',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__)
     parser.add_argument('--dry-run', action='store_true', help='print the commands without running them')
@@ -169,8 +169,8 @@ def main() -> int:
     ):
         sub = subparsers.add_parser(name, help=help_text, description=help_text)
         if name in ('demo', 'all'):
-            sub.add_argument('--run-id', default='demo-reproduction',
-                             help='run directory to write (default: demo-reproduction)')
+            sub.add_argument('--run-id', default='demo-run',
+                             help='run directory to write (default: demo-run)')
             sub.add_argument('--force', action='store_true', help='retrain even if the run directory exists')
     serve = subparsers.add_parser('serve', help='start the API and interface')
     serve.add_argument('--port', type=int, default=8765, help='port to listen on (default: 8765)')

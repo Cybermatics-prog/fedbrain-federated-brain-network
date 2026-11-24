@@ -25,7 +25,7 @@ class SelectionTests(unittest.TestCase):
             for key,value in model.state_dict().items():
                 torch.testing.assert_close(value,expected[site][key])
 
-    def test_paper_sum_objective_and_gradient_equivalence(self):
+    def test_paired_sum_objective_and_gradient_equivalence(self):
         logits=torch.tensor([-.3,.5,1.],requires_grad=True)
         labels=torch.tensor([0.,1.,1.])
         ce=torch.nn.functional.binary_cross_entropy_with_logits(logits,labels)

@@ -41,11 +41,11 @@ Ignored, because they are large, rebuildable or third-party:
 
 | Ignored | Why | Rebuild with |
 |---|---|---|
-| `data/` (~2 GB) | ABIDE downloads and derived features | `python -m fedbrain.runner download` |
-| `artifacts/` | FC caches, exported zips, QA screenshots | `python scripts/build_health_data.py` |
-| `runs/*` except the demo trace | per-run checkpoints and predictions | rerun the configs |
+| `data/` (~2 GB) | ABIDE downloads and derived features | `python scripts/pipeline.py data` |
+| `artifacts/` | FC caches, exported zips, QA screenshots | `python scripts/pipeline.py features` |
+| `runs/*` except the demo trace | per-run checkpoints and predictions | `python scripts/pipeline.py demo` |
 | `*.pt`, `tools/` | checkpoints and the Cloudflare binary | — |
-| `docs/paper.txt` | third-party article text | — |
+| `docs/article.txt` | third-party article text | — |
 | `web/qa/` | browser QA output | `python scripts/check_english_ui.py` |
 | `.venv/` | local environment | `.\setup.ps1` |
 
@@ -79,7 +79,5 @@ Optional repository settings:
 
 - **About** — description: *Six-site federated brain-network learning on ABIDE-I, with a
   data-flow explorer that shows what leaves each site.*
-- **Topics** — `federated-learning`, `brain-connectivity`, `abide`, `pytorch`, `reproducibility`.
+- **Topics** — `federated-learning`, `brain-connectivity`, `abide`, `pytorch`, `privacy-preserving`.
 - **License** — MIT (already in `LICENSE`).
-- Keep the paper-reported 79% out of the description: it is a reference value, not this
-  implementation's result.

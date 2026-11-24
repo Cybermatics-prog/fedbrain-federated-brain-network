@@ -17,7 +17,7 @@ import torch
 
 def perturb_shared_state(state: dict[str, torch.Tensor], noise_scale: float = 0.01,
                          clip_norm: float = 10.0, generator=None):
-    """Clip the shared parameter vector then add Laplace noise (paper Eq17).
+    """Clip the shared parameter vector then add Laplace noise (Eq. 17 formulation).
 
     noise_scale is the direct noise scale, not an accounted epsilon budget.
     """
@@ -146,7 +146,7 @@ class PackedPaillierAggregator:
 
 
 def average_shared_states(states: Sequence[dict[str, torch.Tensor]], encrypted=None):
-    """Uniform FedAvg as written in paper Eq2; never includes private/gate params."""
+    """Uniform FedAvg as defined by Eq. 2; never includes private/gate params."""
     if not states:
         raise ValueError("No states to aggregate")
     names = list(states[0])

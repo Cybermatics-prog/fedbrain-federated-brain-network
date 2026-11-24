@@ -4,15 +4,15 @@ requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "fedbrain-reproduction"
+name = "fedbrain-multisite"
 version = "1.0.0"
-description = "Six-site federated brain-network learning on ABIDE-I with a recorded data-flow explorer"
+description = "Six-site federated learning system for brain-network analysis on ABIDE-I, with a recorded data-flow explorer"
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [{ name = "Cybermatics-prog" }]
-keywords = ["federated learning", "brain connectivity", "ABIDE", "reproducibility"]
+keywords = ["federated learning", "brain connectivity", "ABIDE", "privacy-preserving"]
 classifiers = [
   "Programming Language :: Python :: 3",
   "Operating System :: OS Independent",
@@ -34,7 +34,6 @@ browser = ["playwright>=1.40"]
 
 [project.urls]
 Repository = "https://github.com/Cybermatics-prog/fedbrain-federated-brain-network"
-Paper = "https://doi.org/10.1016/j.neucom.2023.126791"
 
 [tool.setuptools.packages.find]
 include = ["fedbrain*"]

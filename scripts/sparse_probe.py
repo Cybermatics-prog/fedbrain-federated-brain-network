@@ -129,7 +129,7 @@ def cached_training_data(data_dir, source_run, samples):
         client['segments'].extend(np.arange(len(indices)).tolist())
         client['subjects'].append(str(subject['id']))
     for client in clients.values():
-        # Reproduce original float32 train standardization before solver float64.
+        # Apply the original float32 train standardization before the solver float64 step.
         client['X'] = (np.concatenate(client['X']) - mean) / std
         client['y'] = np.asarray(client['y'], dtype=np.int64)
         client['segments'] = np.asarray(client['segments'], dtype=np.int64)

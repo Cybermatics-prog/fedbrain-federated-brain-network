@@ -503,7 +503,7 @@
 <div>
 <label for="rounds">Communication rounds</label>
 <input id="rounds" name="rounds" type="number" value="50" min="1" max="500" required>
-<small>The paper uses 50 rounds</small>
+<small>Default configuration: 50 rounds</small>
 </div>
 <div>
 <label for="seed">Random seed</label>
@@ -698,38 +698,21 @@
 </div>
       </section>
       <section id="view-protocol" class="view" aria-label="Study Protocol" hidden>
-        <article class="paper-reference">
-<div class="paper-reference-main">
-<div class="eyebrow">PAPER REFERENCE · Not local experiment results</div>
-<h2>FedBrain: A robust multi-site brain network analysis framework based on federated learning for brain disease diagnosis</h2>
-<p>Chang Zhang et al. · Neurocomputing 559 (2023), 126791</p>
-<a id="paper-link" href="https://doi.org/10.1016/j.neucom.2023.126791" target="_blank" rel="noopener noreferrer">Read the Paper <svg>
-<use href="#i-arrow"/>
-</svg>
-</a>
-</div>
-<div class="reference-number">
-<span>Published mean accuracy</span>
-<strong id="paper-accuracy">79<span>%</span>
-</strong>
-<small>Reference result ≠ this reproduction</small>
-</div>
-</article>
-        <div class="protocol-grid">
+                <div class="protocol-grid">
 <article class="card">
 <div class="card-heading">
 <div>
-<div class="section-kicker">REPRODUCTION RECIPE</div>
+<div class="section-kicker">EXECUTION RECIPE</div>
 <h2>Data processing and evaluation</h2>
 </div>
-<span class="badge neutral">Based on paper §5</span>
+<span class="badge neutral">Implementation summary</span>
 </div>
 <ol class="recipe">
 <li>
 <span>01</span>
 <div>
 <h3>Data and site selection</h3>
-<p>ABIDE I preprocessed data: KKI, NYU, UCLA_1, UM_1, USM, and YALE. Paper Table 1 counts are references; actual cohorts follow local data and run manifests.</p>
+<p>ABIDE I preprocessed data: KKI, NYU, UCLA_1, UM_1, USM, and YALE. Published per-site counts are references; actual cohorts follow local data and the run manifest.</p>
 </div>
 </li>
 <li>
@@ -773,12 +756,12 @@
 <div id="protocol-details">
 </div>
 </article>
-<article class="card paper-note">
+<article class="card protocol-note">
 <svg>
 <use href="#i-book"/>
 </svg>
-<h3>A hyperparameter inconsistency in the paper</h3>
-<p>The noise analysis in §5.5.1 uses λ<sub>M</sub> = 0.01, while a later summary uses 0.1. The local default is 0.01; saved run configurations are authoritative.</p>
+<h3>A hyperparameter inconsistency in published descriptions</h3>
+<p>Published descriptions disagree: the method description uses λ<sub>M</sub> = 0.01, while a later summary uses 0.1. The local default is 0.01; saved run configurations are authoritative.</p>
 </article>
 </div>
 </div>

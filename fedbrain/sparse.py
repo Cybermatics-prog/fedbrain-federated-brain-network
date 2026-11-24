@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Train-only shared/segment sparse logistic selection from paper Eq.11.
+"""Train-only shared/segment sparse logistic selection following the Eq. 11 formulation.
 
 For each site we minimize summed logistic losses + l1*sum|theta_t| +
 coupling*sum|theta_t-theta|. Alternation uses a coordinate-wise median shared

@@ -10,7 +10,7 @@ from torch import Tensor, nn
 
 
 class FedBrainModel(nn.Module):
-    """One hidden layer (paper default8) with globally shared and private heads.
+    """One hidden layer (default 8) with globally shared and private heads.
 
     The sigmoid gate mixes *logits*, exactly as the binary formulation in Eq.15;
     sigmoid is applied only for prediction, not before BCEWithLogitsLoss.

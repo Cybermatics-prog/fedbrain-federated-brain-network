@@ -20,7 +20,7 @@ class ComplianceTests(unittest.TestCase):
 
     def test_source_files_declare_an_spdx_identifier(self):
         for relative in ('fedbrain/runner.py', 'fedbrain/server.py', 'web/app.js', 'web/index.html',
-                         'scripts/reproduce.py', 'scripts/check_compliance.py', 'tests/test_compliance.py',
+                         'scripts/pipeline.py', 'scripts/check_compliance.py', 'tests/test_compliance.py',
                          'Makefile', 'setup.sh', 'setup.ps1', 'requirements.txt', 'README.md'):
             text = (ROOT / relative).read_text(encoding='utf-8')
             self.assertIn('SPDX-License-Identifier: MIT', '\n'.join(text.splitlines()[:6]), relative)
@@ -56,8 +56,8 @@ class ComplianceTests(unittest.TestCase):
         self.assertTrue((ROOT / 'LICENSES' / 'MIT.txt').is_file())
         self.assertIn('license = "MIT"', (ROOT / 'pyproject.toml').read_text(encoding='utf-8'))
 
-    def test_single_reproduction_entry_point_is_available(self):
-        completed = subprocess.run([sys.executable, str(ROOT / 'scripts' / 'reproduce.py'), '--help'],
+    def test_single_pipeline_entry_point_is_available(self):
+        completed = subprocess.run([sys.executable, str(ROOT / 'scripts' / 'pipeline.py'), '--help'],
                                    cwd=str(ROOT), capture_output=True, text=True)
         self.assertEqual(completed.returncode, 0, completed.stderr)
         for command in ('setup', 'data', 'features', 'demo', 'test', 'verify', 'serve', 'all'):
@@ -67,7 +67,7 @@ class ComplianceTests(unittest.TestCase):
 
     def test_powershell_wrappers_are_optional_not_required(self):
         readme = (ROOT / 'README.md').read_text(encoding='utf-8')
-        self.assertIn('scripts/reproduce.py', readme)
+        self.assertIn('scripts/pipeline.py', readme)
         self.assertNotIn('must run setup.ps1', readme)
 
 

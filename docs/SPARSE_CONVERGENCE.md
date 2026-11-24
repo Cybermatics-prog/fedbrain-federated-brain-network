@@ -7,11 +7,11 @@ Only two implementation-level propositions are examined; no validation/test metr
 1. The time-segment-grouped float64 BLAS implementation and the original `einsum + add.at` implementation agree to within absolute error `1e-10` on the summed logistic loss, the gradients, the proximal updates, and the 40-step trajectory, and the support set must be exactly identical on the deterministic test cases.
 2. With the original main experiment's training subjects, training mean/std, 8 equally spaced relative time segments per subject, `lambda_aug=.01`, and `coupling=1` fixed, the 400-step objective value must not exceed the 40-step objective value (tolerance `1e-8`). Exact zero coefficients, support-set Jaccard, Jaccard after 512 truncation, and the original stopping criterion are also reported; convergence at 400 steps is not presupposed.
 
-As source data, only the `train` list of the [original training split](<../runs/full-fedbrain-s42/split.json>), the saved training preprocessing arrays, and the validated FC cache of these training subjects may be read; no predictions, result metrics, or checkpoints are read. All probes cap the CPU thread pool at 4.
+As source data, only the `train` list of the `../runs/full-fedbrain-s42/split.json`, the saved training preprocessing arrays, and the validated FC cache of these training subjects may be read; no predictions, result metrics, or checkpoints are read. All probes cap the CPU thread pool at 4.
 
-## The paper and the semantics that stay unchanged
+## The reference formulation and the semantics that stay unchanged
 
-[The paper's Eq. 11 and Algorithm 1](<paper.txt#L310-L369>) use the sum of classification losses over each time segment, an L1 penalty on the time-segment coefficients, and an L1 coupling between the shared and time-segment coefficients. This speedup preserves:
+- The Eq. 11 formulation and the Algorithm 1 semantics used here are described in [RELATED_WORK.md](RELATED_WORK.md). They use the sum of classification losses over each time segment, an L1 penalty on the time-segment coefficients, and an L1 coupling between the shared and time-segment coefficients. This speedup preserves:
 
 - **sum BCE, not mean BCE**; defaults `lambda_aug=.01`, `coupling=1`, learning-rate cap `.1`;
 - the initial 8-step independent L1 warm start, the exact shared-coordinate median, and the exact dual-L1 proximal map;
@@ -30,7 +30,7 @@ The original diagnostic's `converged` is a parameter-change stopping rule, not a
 - duplicating training rows doubles the loss and the gradient, preventing an accidental change to a mean loss;
 - large-magnitude logits remain finite, the 400-step trajectory does not increase, and true zero coefficients are preserved.
 
-## Reproducible training-set probe
+## Repeatable training-set probe
 
 Run the [probe script](<../scripts/sparse_probe.py>):
 
@@ -38,7 +38,7 @@ Run the [probe script](<../scripts/sparse_probe.py>):
 .\.venv\Scripts\python.exe scripts/sparse_probe.py --threads 4
 ```
 
-It always reads the original full training split and the training standardization; it compares 40/400 steps only on the same 8-segment grid. The script verifies that the FC cache corresponds to the original time series by SHA256, and records input-file hashes and training-ID hashes; it does not recompute/rewrite the FC cache. The completed artifacts are the [full JSON](<../artifacts/sparse_probe.json>) and the [compact summary JSON](<../artifacts/sparse_probe_summary.json>).
+It always reads the original full training split and the training standardization; it compares 40/400 steps only on the same 8-segment grid. The script verifies that the FC cache corresponds to the original time series by SHA256, and records input-file hashes and training-ID hashes; it does not recompute/rewrite the FC cache. The completed artifacts are the `../artifacts/sparse_probe.json` and the `../artifacts/sparse_probe_summary.json`.
 
 ## Real training-set results: faster, but 400 steps still do not converge
 
@@ -62,7 +62,7 @@ Conclusion: what this round fixes is computational cost and diagnostic visibilit
 
 ## Analytic counterexample: blockwise proximal stagnation is not joint optimality
 
-[Raw evidence for the analytic counterexample](<../artifacts/sparse_probe_counterexample.json>) is also available, and it uses no ABIDE or held-out data at all:
+`../artifacts/sparse_probe_counterexample.json` is also available, and it uses no ABIDE or held-out data at all:
 
 - Two exactly identical time segments, 20 samples each; the one-dimensional input alternates between `-1,+1`, `y=1[x>0]`, the two classes are balanced, and the initial bias is 0.
 - With `lambda=.01, coupling=1, max_steps=400` fixed, along the direction in which all segments and the shared parameters jointly take `w>0`, the coupling penalty is always 0.

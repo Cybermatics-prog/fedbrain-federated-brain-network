@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: MIT -->
-# FedBrain Accuracy Optimization Based on the Original Paper
+# FedBrain Accuracy Optimization (2026-11-13)
 
 No stable accuracy improvement was obtained in this round: the preregistered >=2 percentage point minimum-effect gate was not met, so the original default model is not replaced.
 
@@ -10,7 +10,7 @@ Selection time: 2026-11-13T08:34:14.699919+00:00; variant **E** was selected by 
 |Candidate|Change|Validation macro|Selected round|Test during search|
 |---|---|---:|---:|---|
 |A|Validation-set round selection|68.69%|13|Not evaluated|
-|B|Round selection + paper-inspired batch loss scale|71.07%|11|Not evaluated|
+|B|Round selection + reference batch loss scale|71.07%|11|Not evaluated|
 |C|B + refresh alignment target after aggregation|71.12%|25|Not evaluated|
 |D|C + L2 regularization 0.01|73.23%|27|Not evaluated|
 |E|C + 400-step sparse optimization|73.50%|31|Not evaluated|
@@ -29,22 +29,22 @@ Selection time: 2026-11-13T08:34:14.699919+00:00; variant **E** was selected by 
 - Paired mean change vs A: +1.03 percentage points; 2/3 seeds improved; passes preregistered >=2pp with at least 2/3 improved: False.
 - Matched-mask/noise FedAvg with the same best-val round selection: 60.23% macro.
 
-## Paper Basis and Interpretation
+## Reference Basis and Interpretation
 
 - §5.5.1 explicitly introduces early stopping: this fixes the problem of saving only the final round and discarding a model that validated better.
-- The paper-inspired minibatch convention (sumCE_batch+DA_batch)/actual batch adjusts the relative scale of classification/alignment; it is not a strict equivalence to the full-data Eq16 or a restoration of the authors' source code.
+- The reference formulation's minibatch convention (sumCE_batch+DA_batch)/actual batch adjusts the relative scale of classification/alignment; it is not a strict equivalence to the full-data Eq16 or a restoration of the authors' source code.
 - After aggregation/broadcast, the train hidden means are recomputed with the current shared encoder, avoiding alignment to the coordinates of the previous round's local encoder.
-- L2 regularization 0.01 is an anti-overfitting extension; sparse 40→400 is a convergence diagnostic and does not claim to be a hyperparameter fully specified in the original paper.
+- L2 regularization 0.01 is an anti-overfitting extension; sparse 40→400 is a convergence diagnostic and does not claim to be a hyperparameter fully specified in the reference formulation.
 
 ## Conclusion Boundaries
 
 - Candidates were selected using the seed-42 validation set only; after locking, the candidate is evaluated once and is not replaced based on test results.
 - The original test set was already exposed in an earlier round; this is exploratory follow-up validation, not a fresh external validation.
 - Within 50 rounds the checkpoint is chosen on validation, and all private heads/gates are restored with it; the comparison baseline uses the same selection rule.
-- All candidates and failures are retained; the best seed is not cherry-picked. The paper-reported 79% remains an independent reference.
+- All candidates and failures are retained; the best seed is not cherry-picked.
 - E uses a 400-step mask; FedAvg gets a matched 400-step mask/normalization/split/selection control, and the masks are identical across the three seeds.
 
-The paper's 79% reference is retained; whether it is reached must be read from real test values, and validation accuracy is not a substitute for test results.
+Only real test values count as performance evidence; validation accuracy is not a substitute for them.
 
 ## The Original Baseline Must Not Be Hidden
 

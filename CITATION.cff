@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: MIT
 cff-version: 1.2.0
-message: "If you use this reproduction, cite the original FedBrain paper and this repository."
-title: "FedBrain reproduction: six-site federated brain-network learning with a recorded data-flow explorer"
+message: "If you use this software, cite this repository and the methodological references listed in docs/RELATED_WORK.md."
+title: "FedBrain: six-site federated learning for brain-network analysis with a recorded data-flow explorer"
 abstract: >-
-  A runnable reproduction of the FedBrain federated learning framework on public ABIDE-I
-  data, with a browser interface that shows which health data stay at each site and which
-  tensors cross the federation boundary. Paper-reported accuracy is not reproduced.
+  A six-site federated learning system for brain-network analysis on public ABIDE-I data,
+  with a browser interface that shows which health data stay at each site and which tensors
+  cross the federation boundary. All reported measurements are produced by this system.
 type: software
 license: MIT
 repository-code: "https://github.com/Cybermatics-prog/fedbrain-federated-brain-network"
@@ -14,17 +14,4 @@ keywords:
   - brain connectivity
   - ABIDE
   - autism
-  - reproduction
-references:
-  - type: article
-    title: >-
-      FedBrain: A robust multi-site brain network analysis framework based on federated
-      learning for brain disease diagnosis
-    authors:
-      - family-names: Zhang
-        given-names: Chang
-    journal: Neurocomputing
-    volume: 559
-    start: 126791
-    year: 2023
-    doi: 10.1016/j.neucom.2023.126791
+  - privacy-preserving

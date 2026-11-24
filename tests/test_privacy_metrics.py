@@ -45,7 +45,7 @@ class PrivacyTests(unittest.TestCase):
         result = average_shared_states(states)
         torch.testing.assert_close(result['encoder.weight'], torch.tensor([2.,3.]))
 
-    def test_parameter_perturbation_reproducible(self):
+    def test_parameter_perturbation_repeatable(self):
         state = {'weight':torch.ones(4)}
         a = perturb_shared_state(state,.01,generator=np.random.default_rng(42))
         b = perturb_shared_state(state,.01,generator=np.random.default_rng(42))
