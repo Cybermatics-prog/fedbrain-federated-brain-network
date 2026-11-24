@@ -2,7 +2,7 @@
 """ABIDE-I CPAC/AAL116 acquisition and leakage-safe subject preprocessing.
 
 The default cohort is every available non-FAIL quality-rated subject across the
-six acquisition sites; counts are not truncated to any published subset.
+six acquisition sites; counts are not truncated to any reference subset.
 Phenotype labels DX_GROUP=1/2 map to ASD=1/HC=0. Subject splits always precede
 sliding-window augmentation. Network access occurs only in ``ensure_data``.
 """
@@ -25,7 +25,7 @@ PHENOTYPE_URL = "https://s3.amazonaws.com/fcp-indi/data/Projects/ABIDE_Initiativ
 TIMESERIES_URL = "https://s3.amazonaws.com/fcp-indi/data/Projects/ABIDE_Initiative/Outputs/cpac/filt_noglobal/rois_aal/{file_id}_rois_aal.1D"
 SITE_CODES = {"NYU": "NYU", "UM_1": "UM", "USM": "USM", "UCLA_1": "UCLA", "KKI": "KKI", "YALE": "Yale"}
 SITE_ORDER = ("NYU", "UM", "USM", "UCLA", "KKI", "Yale")
-# Published per-site cohort sizes, kept only as provenance for the cohort note.
+# Reference per-site cohort sizes, kept only as provenance for the cohort note.
 REFERENCE_COUNTS = dict(zip(SITE_ORDER, (167, 88, 52, 63, 48, 56)))
 QC_FIELDS = ("qc_rater_1", "qc_anat_rater_2", "qc_func_rater_2", "qc_anat_rater_3", "qc_func_rater_3")
 N_ROIS = 116
@@ -208,7 +208,7 @@ def ensure_data(data_dir, max_per_site=None, workers=6, progress: Callable | Non
         "selection": {"site_codes": SITE_CODES, "max_per_site": max_per_site,
                       "sort": "site_order,subject_id,file_id", **audit},
         "reference_subject_counts": REFERENCE_COUNTS,
-        "cohort_note": "Public quality-filtered availability. Published subject identifiers and quality thresholds are not available, so counts are not forced to match any prior report.",
+        "cohort_note": "Public quality-filtered availability. Reference subject identifiers and quality thresholds are not available, so counts are not forced to match any reference list.",
     }
     manifest_path = root / "manifest.json"
     _atomic_json(manifest_path, manifest)

@@ -15,15 +15,18 @@ entry relates to the code.
 - Add the BibTeX entry to [references.bib](references.bib) first, then add the row here so
   the key and the table stay in sync.
 
-## Methodological and evaluation references
+## Methodological formulation
+
+The formulation used by this system is documented in the group's own publication. That entry
+is intentionally not listed yet: it will be added here, together with its BibTeX record in
+`references.bib`, once the group uploads and organises the publication.
 
 | Key | Publication | Role | Where it appears |
 |---|---|---|---|
-| `zhang2023fedbrain` | FedBrain: a robust multi-site brain-network analysis framework based on federated learning for brain disease diagnosis (full record in `references.bib`) | Method reference: the formulation followed by the sparse selection, alignment, mixture-of-experts and perturbation modules; the reported mean accuracy is kept only as an orientation figure | `fedbrain/sparse.py`, `fedbrain/model.py`, `fedbrain/privacy.py`, `docs/RESULTS.md` |
+| _to be added_ | _Group publication describing the formulation used here_ | Method reference: sparse selection, alignment, mixture-of-experts and perturbation modules | `fedbrain/sparse.py`, `fedbrain/model.py`, `fedbrain/privacy.py` |
 
-The system is an independent implementation maintained by this group. It is not a
-redistribution of another code base, and measured results are reported as this system's own
-numbers; see [RESULTS.md](RESULTS.md).
+The system is an independent implementation maintained by this group. Measured results are
+reported as this system's own numbers; see [RESULTS.md](RESULTS.md).
 
 ## Data references
 

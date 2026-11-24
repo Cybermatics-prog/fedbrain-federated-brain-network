@@ -8,7 +8,7 @@ On the six sites of the public ABIDE-I / PCP / CPAC `filt_noglobal` / AAL116 dat
 1. Evaluator gold-label and random-label self-checks; unit tests for dynamic FC, grouped splits, MoE, sparsity, and encrypted aggregation.
 2. Real six-site small-sample smoke test with 2 communication rounds. WIN: end-to-end completion, finite loss and predictions, independent train/test subjects at all six sites. KILL: any cross-set overlap or non-finite value; full training is forbidden until fixed.
 3. All six-site subjects that downloaded successfully and are valid; first run a fixed-seed-42 50-round held-out experiment and save the full config, split, probabilities, model, and per-round metrics. Split by subject first, sliding windows afterward; average the predicted probabilities of a subject's windows.
-4. A FedAvg control on the same split; run repeated stratified 5-fold if the budget allows (prior reports use 5 repeats×5 folds). Call a difference stable only with at least 3 seeds; otherwise call it an observation under the current configuration.
+4. A FedAvg control on the same split; run repeated stratified 5-fold if the budget allows (the reference protocol uses 5 repeats × 5 folds). Call a difference stable only with at least 3 seeds; otherwise call it an observation under the current configuration.
 
 ## Validity Gates (not adjustable after the fact)
 - When the scorer is given gold labels, accuracy=1.0; with 10000 fixed balanced random labels, the control accuracy is within [0.47,0.53].
@@ -18,7 +18,7 @@ On the six sites of the public ABIDE-I / PCP / CPAC `filt_noglobal` / AAL116 dat
 - Comparing FedBrain with FedAvg must use the same subject split, windows, hidden width, sparse mask, and number of communication rounds; FedAvg does not enable domain alignment/private experts. Test sets must not be used to select hyperparameters or rounds.
 
 ## Verified Reference Settings and Implementation Gaps
-- Six sites: NYU, UM_1, USM, UCLA_1, KKI, YALE; prior reports give 167/88/52/63/48/56, and the currently valid public download counts will be recorded separately.
+- Six sites: NYU, UM_1, USM, UCLA_1, KKI, YALE; the reference counts are 167/88/52/63/48/56, and the currently valid public download counts will be recorded separately.
 - AAL116, Pearson→Fisher-z, upper triangle 6670 dimensions, window 32, stride 1, MLP hidden width 8, 50 communication rounds.
 - Eq11 sparse global/time-segment coefficients use alternating proximal/gradient optimization; masks are merged across sites. The reference formulation does not specify complete optimization hyperparameters, site-merging rules, training batch size, or DP budget accounting.
 - Eq12–14 alignment uses linear-kernel MMD marginal and per-class hidden-representation means; it exchanges aggregate statistics from the training set and does not pool raw windows across sites.

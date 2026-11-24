@@ -10,7 +10,7 @@ This report is generated automatically by `scripts/report.py` from real `result.
 - Subjects are split into train/val/test first; sparsification and standardization use training data only; each subject's window predicted probabilities are averaged.
 - macro-site is the equal-weight mean of the six site accuracies; pooled is the accuracy over all test subjects combined. The two must not be conflated.
 
-|Site|Actual subjects|Prior reports: subjects|
+|Site|Actual subjects|Reference counts|
 |---|---:|---:|
 |KKI|33|48|
 |NYU|172|167|
@@ -79,7 +79,7 @@ Original failures and low-scoring results are kept; no tuning on the test set or
 ## Acceleration Approximations and Privacy Settings
 
 - In the main configuration, the sparse stage uses 8 relative time segments per training subject, 40 iterations, and at most 512 connections; the classification stage uses all windows.
-- Optimization/merging/batching details that the published method does not specify are explicitly fixed in the configuration; the original subject list is unknown.
+- Optimization/merging/batching details that the group's formulation does not specify are explicitly fixed in the configuration; the original subject list is unknown.
 - The main configuration clips shared parameters and then adds Laplace noise with noise_scale=0.01; this is not epsilon-DP with a budget-accounting proof.
 - Homomorphic aggregation is optional real Paillier 2048-bit arithmetic; holding the key in the same process on one machine is not equivalent to a deployment across independent hospitals.
 

@@ -62,7 +62,7 @@ The tracked tree should stay around 5 MB. If `git status` lists anything under `
 
 ## 4. Current status
 
-Published at <https://github.com/Cybermatics-prog/fedbrain-federated-brain-network>.
+Hosted at <https://github.com/Cybermatics-prog/fedbrain-federated-brain-network>.
 `CITATION.cff` and the README clone command already use that URL, so nothing needs
 replacing before the next push:
 

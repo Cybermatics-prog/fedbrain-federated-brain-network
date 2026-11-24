@@ -93,7 +93,7 @@ def status():
             'protocol': {'window': 32, 'stride': 1, 'atlas': 'AAL116', 'features': 6670,
                          'hidden_dim': 8, 'rounds': 50, 'split': 'subject-level stratified per site; held-out validation and test',
                          'reference_evaluation': '5 repeats × 5 folds (25 runs), not inferred from a single hold-out',
-                         'noise_discrepancy': 'Published descriptions of the noise scale disagree (lambda_M=0.01 in the method description, 0.1 in the summary); this implementation defaults to 0.01 and records the actual configuration.',
+                         'noise_discrepancy': 'Earlier descriptions of the noise scale disagree (lambda_M=0.01 in the method description, 0.1 in the summary); this implementation defaults to 0.01 and records the actual configuration.',
                          'privacy_note': 'Parameter noise is not a proven epsilon-DP guarantee; Paillier is an optional real homomorphic aggregation, disabled by default.',
                          'implementation_note': 'Implementation choices such as sparse-optimization sampling and feature caps are disclosed in every run configuration.',
                          'clinical_note': 'Research and teaching demonstration only; not for clinical diagnosis.'}}

@@ -74,7 +74,7 @@ USM 67, UCLA 64, KKI 33 and YALE 41. Data are downloaded at runtime into `data/a
 2 GB, and are never committed; the downloader records a SHA-256 for every downloaded
 time-series file.
 
-The cohort is every available subject that passes the public quality filter. Published
+The cohort is every available subject that passes the public quality filter. Reference
 per-site counts differ because subject identifiers and quality thresholds are not available,
 so counts are not forced to match them; see [docs/RESULTS.md](docs/RESULTS.md).
 
@@ -335,7 +335,7 @@ how to add a publication and which module or document it belongs to.
   plaintext.
 - **Alignment statistics are plaintext.** Marginal means, class means and class-window
   counts are not covered by the parameter noise or by the Paillier path.
-- **Cohort size is a local decision.** 465 subjects pass the public quality filter; published
+- **Cohort size is a local decision.** 465 subjects pass the public quality filter; reference
   per-site counts differ and are not forced to match.
 - **The eight-round demo is a process demonstration.** It exists to show the recorded
   client/upload/aggregate/broadcast sequence and is not the 50-round performance experiment.

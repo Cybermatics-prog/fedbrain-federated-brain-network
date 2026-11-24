@@ -292,16 +292,16 @@
       protocolItem('Selected model',state.run ? methodName(state.run.config?.method) : 'Select a run'),
       protocolItem('Data source','ABIDE I · real locally cached data'),
       protocolItem('Cached subjects',datasetCount(state.status?.dataset) !== null ? `${fmt(datasetCount(state.status?.dataset))}  subjects (Actually cached)` : 'Awaiting the data service'),
-      protocolItem('Cohort versus published counts','The locally available cohort may differ from published per-site counts'),
+      protocolItem('Cohort versus reference counts','The locally available cohort may differ from the reference per-site counts'),
       protocolItem('Subject-level split',p.split ?? p.split_strategy ?? p.splitting ?? 'See the saved run protocol and service records'),
       protocolItem('Homomorphic encryption',homomorphic === true ? 'Paillier enabled for this run' : homomorphic === false ? 'Disabled for this run (smoke-test configuration)' : 'Awaiting run configuration; not assumed enabled'),
       protocolItem('Privacy statement',privacy.formal_dp === true ? 'The service reports formal DP enabled' : 'Parameter noise is not a formal DP guarantee'),
-      protocolItem('Metric aggregation','Pooled subject accuracy and site macro accuracy are separate; the published reference is a site average'),
+      protocolItem('Metric aggregation','Pooled subject accuracy and site macro accuracy are separate; the reference figure is a site average'),
       protocolItem('Measured results',validationOnly(state.run) ? 'Validation-selection run; no test metrics yet' : state.run ? `pooled ${percentage(metrics().accuracy)}; macro-site ${percentage(metrics().site_mean_accuracy)}` : 'Awaiting measured evaluation'),
       protocolItem('Checkpoint selection',selectedRound()!==null ? `Validation selected round ${fmt(selectedRound())}  rounds; Trained ${fmt(getRunRound())}  rounds` : 'No validation checkpoint reported; no round is assumed'),
       protocolItem('Intended use','Research only; not for clinical diagnosis')
     ];
-    const names = {implementation:'Implementation notes',implementation_note:'Implementation choices',limitations:'Implementation limitations',notes:'Protocol notes',deviations:'Implementation differences',cohort_note:'Cohort notes',reference_evaluation:'Published evaluation protocol',evaluation:'Evaluation definition',feature_selection:'Feature selection',normalization:'Feature scaling',window:'Window length',window_size:'Window length',stride:'Window stride',encryption:'Encryption notes',privacy_note:'Privacy scope'};
+    const names = {implementation:'Implementation notes',implementation_note:'Implementation choices',limitations:'Implementation limitations',notes:'Protocol notes',deviations:'Implementation differences',cohort_note:'Cohort notes',reference_evaluation:'Reference evaluation protocol',evaluation:'Evaluation definition',feature_selection:'Feature selection',normalization:'Feature scaling',window:'Window length',window_size:'Window length',stride:'Window stride',encryption:'Encryption notes',privacy_note:'Privacy scope'};
     Object.entries(names).forEach(([key,label]) => { if (p[key] !== undefined) items.push(protocolItem(label,p[key])); });
     $('protocol-details').innerHTML = items.join('');
     const run = state.run, m = metrics(), h = history();
@@ -309,7 +309,7 @@
       {label:'01 / Data evidence',value:`${fmt(datasetCount(state.status?.dataset))} subjects`,note:state.status?.dataset?.pipeline || 'Local cache manifest is not ready'},
       {label:'02 / Run configuration',value:run?.id || 'No runs',note:run ? `${methodName(run.config?.method)} · seed ${run.config?.seed ?? '—'} · ${fmt(getTotalRounds())} rounds` : 'Parameters and seed are saved when training starts'},
       {label:'03 / Training trace',value:`${h.length} round records`,note:selectedRound()!==null ? `Validation selection R${fmt(selectedRound())}, Trained ${fmt(getRunRound())}  rounds; Rounds are not selected by test performance` : 'Curves come only from history; validation is not testing'},
-      {label:'04 / Final testing',value:validationOnly(run) ? 'Validation selection · not tested' : num(m.accuracy) !== null ? `ACC ${percentage(m.accuracy)}` : 'No measured results',note:num(m.n_test_subjects) !== null ? `Held-out test set ${fmt(m.n_test_subjects)} subjects` : 'Lock the variant and checkpoint on validation first; published references do not populate local metrics'}
+      {label:'04 / Final testing',value:validationOnly(run) ? 'Validation selection · not tested' : num(m.accuracy) !== null ? `ACC ${percentage(m.accuracy)}` : 'No measured results',note:num(m.n_test_subjects) !== null ? `Held-out test set ${fmt(m.n_test_subjects)} subjects` : 'Lock the variant and checkpoint on validation first; reference figures do not populate local metrics'}
     ].map((e) => `<div class="evidence-item"><span>${e.label}</span><strong>${esc(e.value)}</strong><p>${esc(e.note)}</p></div>`).join('');
   }
   function renderOptimization() {

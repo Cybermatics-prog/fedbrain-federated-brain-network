@@ -3,9 +3,9 @@
 
 ## 2026-11-13
 
-- Baseline provenance: the published method (FedBrain); its method, experiment, and hyperparameter sections have been read in full.
+- Baseline provenance: the group's formulation (FedBrain); its method, experiment and hyperparameter sections have been reviewed in full.
 - Hardware: NVIDIA RTX5070Ti, 16303MiB; torch2.11.0+cu128, CUDA12.8; a real CUDA matmul with sum=512.0 passed.
-- Data: public ABIDE-I PCP, CPAC/filt_noglobal/rois_aal; 465/465 valid time series downloaded successfully, 0 failures. Sites NYU172/UM88/USM67/UCLA64/KKI33/Yale41. SHA256 is recorded for every file. The current cohort excludes any subject failing any one of five public QC criteria and is not presented as the subject list used in prior reports.
+- Data: public ABIDE-I PCP, CPAC/filt_noglobal/rois_aal; 465/465 valid time series downloaded successfully, 0 failures. Sites NYU172/UM88/USM67/UCLA64/KKI33/Yale41. SHA256 is recorded for every file. The current cohort excludes any subject failing any one of five public QC criteria and is not presented as the subject list used in earlier descriptions.
 - Environment failure: the original Conda numpy2.5.1 and scipy1.13.1 had an incompatible compiled ABI, causing an import failure. base was left untouched; a project-isolated venv overrides numpy1.26.4, and retests of real CUDA, SciPy, and sklearn imports passed.
 - Offline unit tests: 21/21 passed (0.419s): FC, Fisher-z, the 6670 dimensions, windows, data-cache invalidation, subject-leakage-free grouping, MoE and gradients, alignment, actual proximal sparsity, actual Paillier ciphertext addition and signed packed mean, parameter perturbation, and the evaluator.
 - Evaluator threshold: gold-label accuracy=1.0; with 10000 fixed randomly shuffled labels, accuracy must fall in [0.47,0.53]; passed.

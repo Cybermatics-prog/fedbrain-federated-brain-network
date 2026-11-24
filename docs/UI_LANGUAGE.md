@@ -5,7 +5,7 @@ The whole repository is English: four interface views, chart labels, SVG titles,
 
 There is no translation layer. The backend emits English text directly, so `web/i18n.js` only guards presentation: `EnglishUI.message()` replaces a payload that is not English with an English fallback, and records it in `EnglishUI.untranslated` so the substituted string can be inspected. `EnglishUI.translate()` is the identity function kept for call sites that pass structured API payloads.
 
-`scripts/check_no_chinese.py` fails if any git-tracked text file contains CJK characters, so a future edit cannot silently reintroduce Chinese into the published repository. Binary assets are skipped.
+`scripts/check_no_chinese.py` fails if any git-tracked text file contains CJK characters, so a future edit cannot silently reintroduce Chinese into the repository. Binary assets are skipped.
 
 Validation:
 

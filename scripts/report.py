@@ -31,8 +31,8 @@ def main():
              '- CPAC / filt_noglobal / AAL116; window 32, stride 1, Pearson→Fisher-z, 6670-dimensional upper triangle.',
              '- Subjects are split into train/val/test first; sparsification and standardization use training data only; each subject\'s window predicted probabilities are averaged.',
              '- macro-site is the equal-weight mean of the six site accuracies; pooled is the accuracy over all test subjects combined. The two must not be conflated.',
-             '- The numbers below come from this system only; they are not comparable with published results obtained on a different cohort or a reduced evaluation protocol.', '',
-             '|Site|Actual subjects|Published per-site counts|','|---|---:|---:|']
+             '- The numbers below come from this system only; they are not comparable with results obtained elsewhere on a different cohort or a reduced evaluation protocol.', '',
+             '|Site|Actual subjects|Reference per-site counts|','|---|---:|---:|']
     for site,count in manifest.get('counts',{}).items():
         lines.append(f"|{site}|{count}|{manifest.get('reference_subject_counts',{}).get(site,'—')}|")
     lines += ['', '## Full 50-Round Experiments', '',
@@ -72,7 +72,7 @@ def main():
               f"- Real interface START/STOP: win={controls.get('win')}, HTTP={controls.get('start_http')}/{controls.get('stop_http')}, persisted state={controls.get('persisted_status')}."]
     lines += ['', '## Acceleration Approximations and Privacy Settings', '',
               '- In the main configuration, the sparse stage uses 8 relative time segments per training subject, 40 iterations, and at most 512 connections; the classification stage uses all windows.',
-              '- Optimization, merging and batching details that the reference description leaves open are fixed explicitly in the configuration; the published subject list is unavailable.',
+              '- Optimization, merging and batching details that the reference description leaves open are fixed explicitly in the configuration; the reference subject list is unavailable.',
               '- The main configuration clips shared parameters and then adds Laplace noise with noise_scale=0.01; this is not epsilon-DP with a budget-accounting proof.',
               '- Homomorphic aggregation is optional real Paillier 2048-bit arithmetic; holding the key in the same process on one machine is not equivalent to a deployment across independent hospitals.', '',
               '## Smoke and Homomorphic Runs', '', '|Run|Status|Rounds|Homomorphic aggregation|Test accuracy|','|---|---|---:|---|---:|']

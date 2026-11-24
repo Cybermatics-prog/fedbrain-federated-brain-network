@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Fail if the published tree breaks license or portability requirements.
+"""Fail if the tracked tree breaks license or portability requirements.
 
 Checks, over `git ls-files` only:
   1. every commentable file declares `SPDX-License-Identifier: MIT` near the top;
@@ -25,7 +25,7 @@ BINARY_SUFFIXES = {
     '.png', '.jpg', '.jpeg', '.gif', '.webp', '.ico', '.pdf', '.zip', '.npz', '.npy',
     '.pt', '.pth', '.bin', '.exe', '.woff', '.woff2', '.ttf', '.otf', '.mp4', '.wav',
 }
-# Absolute machine paths that must never appear in a published file.
+# Absolute machine paths that must never appear in a tracked file.
 MACHINE_PATH = re.compile(
     r'(?<![A-Za-z0-9_])[A-Za-z]:[\\/](?:[^\s"\'<>|]*[\\/])?'   # Windows drive
     r'|/Users/[A-Za-z0-9._-]+/'

@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: MIT
-"""Check the published demo and prove its write endpoints are fenced."""
+"""Check the public demo and prove its write endpoints are fenced."""
 import argparse
 import json
 from pathlib import Path
