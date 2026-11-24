@@ -1,10 +1,17 @@
 # SPDX-License-Identifier: MIT
-"""Verify real health plots still work when experiment APIs are unavailable."""
+"""Verify real health plots still work when experiment APIs are unavailable.
+
+Usage: python scripts/check_health_independent.py [base-url]
+The default base URL is http://127.0.0.1:8765; `python scripts/pipeline.py verify`
+starts a temporary server and passes its address here.
+"""
 import json
+import sys
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parent.parent
+BASE_URL=(sys.argv[1] if len(sys.argv) > 1 else BASE_URL).rstrip('/')
 with sync_playwright() as p:
     browser=p.chromium.launch(channel='msedge',headless=True)
     page=browser.new_page(viewport={'width':1440,'height':1080})
@@ -18,7 +25,7 @@ with sync_playwright() as p:
     page.route('**/api/runs',unavailable)
     page.route('**/api/runs/**',unavailable)
     page.route('**/api/optimization',unavailable)
-    page.goto('http://127.0.0.1:8765',wait_until='networkidle')
+    page.goto(BASE_URL,wait_until='networkidle')
     page.wait_for_selector('#health-root[data-ready="true"]')
     page.wait_for_function("document.getElementById('health-root').dataset.subjectId !== ''")
     checks={'classification_apis_unavailable':True,
@@ -33,7 +40,7 @@ with sync_playwright() as p:
     assert checks['real_roi_nodes']==116 and checks['real_signal_series']==3,checks
     assert not errors and not posts,checks
     normal=browser.new_page(viewport={'width':1440,'height':1080})
-    normal.goto('http://127.0.0.1:8765',wait_until='networkidle')
+    normal.goto(BASE_URL,wait_until='networkidle')
     normal.wait_for_function("document.getElementById('health-root').dataset.subjectId !== ''")
     inference_requests=[]
     normal.on('request',lambda r:inference_requests.append(r.url) if '/api/subjects/' in r.url else None)

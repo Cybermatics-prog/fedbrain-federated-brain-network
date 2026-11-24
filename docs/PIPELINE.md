@@ -166,7 +166,11 @@ python scripts/pipeline.py verify
 
 Runs, in order: the license and portability compliance check, the English-only repository
 scan, the offline test suite and, when `data/abide/manifest.json` exists, the health-data
-independence check. When the data are absent, only the last check is skipped, with a message.
+independence check. That last step starts a temporary server on a free port, points a
+headless browser at it with the experiment APIs forced to fail, and stops the server again,
+so no manual `serve` is needed. It is skipped with a message when the data are absent or when
+`playwright` is not installed; install it with `python -m pip install playwright` followed by
+`python -m playwright install msedge`.
 
 ## Serve the interface
 

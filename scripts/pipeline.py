@@ -112,18 +112,68 @@ def cmd_test(dry_run: bool) -> None:
     run([step('offline tests', python(), '-m', 'unittest', 'discover', '-s', 'tests', '-q')], dry_run)
 
 
+def free_port() -> int:
+    import socket
+    with socket.socket() as probe:
+        probe.bind(('127.0.0.1', 0))
+        return probe.getsockname()[1]
+
+
+def browser_available() -> bool:
+    result = subprocess.run([str(python()), '-c', 'import playwright'], capture_output=True)
+    return result.returncode == 0
+
+
+def verify_health_views(dry_run: bool) -> None:
+    """Start a temporary server, run the browser check against it, then stop it."""
+    label = 'health views need no model checkpoint'
+    port = free_port()
+    base = f'http://127.0.0.1:{port}'
+    command = (str(python()), str(ROOT / 'scripts' / 'check_health_independent.py'), base)
+    print(f'\n== {label}\n   $ .venv python scripts/check_health_independent.py {base}', flush=True)
+    if dry_run:
+        return
+    import urllib.error
+    import urllib.request
+    server = subprocess.Popen([str(python()), '-m', 'fedbrain.server', '--port', str(port)],
+                              cwd=str(ROOT), stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        for _ in range(60):
+            if server.poll() is not None:
+                raise SystemExit('temporary server exited before the browser check')
+            try:
+                with urllib.request.urlopen(f'{base}/api/health', timeout=2) as response:
+                    if response.status == 200:
+                        break
+            except (urllib.error.URLError, OSError):
+                time.sleep(1)
+        else:
+            raise SystemExit('temporary server did not become ready')
+        completed = subprocess.run(list(command), cwd=str(ROOT))
+        if completed.returncode != 0:
+            raise SystemExit(f'step failed ({completed.returncode}): {label}')
+    finally:
+        server.terminate()
+        try:
+            server.wait(timeout=15)
+        except subprocess.TimeoutExpired:
+            server.kill()
+            server.wait(timeout=10)
+
+
 def cmd_verify(dry_run: bool) -> None:
     checks = [
         step('license and portability compliance', python(), ROOT / 'scripts' / 'check_compliance.py'),
         step('English-only repository', python(), ROOT / 'scripts' / 'check_no_chinese.py'),
         step('offline tests', python(), '-m', 'unittest', 'discover', '-s', 'tests', '-q'),
     ]
-    if (ROOT / 'data' / 'abide' / 'manifest.json').is_file():
-        checks.append(step('health views need no model checkpoint', python(),
-                           ROOT / 'scripts' / 'check_health_independent.py'))
-    else:
-        print('note: data/abide is absent, skipping the health-data independence check')
     run(checks, dry_run)
+    if not (ROOT / 'data' / 'abide' / 'manifest.json').is_file():
+        print('note: data/abide is absent, skipping the health-data independence check')
+    elif not browser_available():
+        print('note: playwright is not installed, skipping the health-data browser check')
+    else:
+        verify_health_views(dry_run)
 
 
 def cmd_serve(port: int, dry_run: bool) -> None:
